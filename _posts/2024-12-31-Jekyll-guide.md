@@ -1,7 +1,7 @@
 ---
 layout: post
 title: a guide to jekyll al-folio
-date: 2024-12-31 11:59:00-0400
+date: 2024-12-30 11:59:00-0400
 description: An example of a blog post with Disqus comments in Jekyll using the al-folio theme
 tags: comments
 categories: guides tutorials
