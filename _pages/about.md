@@ -40,4 +40,5 @@ Here are some of the technologies I work with:
 
 - **Cloud:**
   <img src="https://img.icons8.com/?size=100&id=33039&format=png&color=000000" alt="AWS" width="40" height="40"/> 
+
 ---
