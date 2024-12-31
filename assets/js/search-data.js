@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "news-a-simple-inline-announcement",
+        },{id: "post-a-guide-to-jekyll-al-folio",
+      
+        title: "a guide to jekyll al-folio",
+      
+      description: "An example of a blog post with Disqus comments in Jekyll using the al-folio theme",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2024/Jekyll-guide/";
+        
+      },
+    },{id: "news-a-simple-inline-announcement",
           title: 'A simple inline announcement.',
           description: "",
           section: "News",},{id: "news-a-long-announcement-with-details",
@@ -77,14 +88,7 @@ ninja.data = [{
         title: 'email',
         section: 'Socials',
         handler: () => {
-          window.open("mailto:%79%6F%75@%65%78%61%6D%70%6C%65.%63%6F%6D", "_blank");
-        },
-      },{
-        id: 'social-inspire',
-        title: 'Inspire HEP',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://inspirehep.net/authors/1010907", "_blank");
+          window.open("mailto:%6D%61%69%6C@%63%68%69%6E%6D%61%79%73%69%6E%67%68.%6D%65", "_blank");
         },
       },{
         id: 'social-rss',
@@ -94,18 +98,18 @@ ninja.data = [{
           window.open("/feed.xml", "_blank");
         },
       },{
-        id: 'social-scholar',
-        title: 'Google Scholar',
+        id: 'social-telegram',
+        title: 'telegram',
         section: 'Socials',
         handler: () => {
-          window.open("https://scholar.google.com/citations?user=qc6CJjYAAAAJ", "_blank");
+          window.open("https://telegram.me/SinghChinmay", "_blank");
         },
       },{
-        id: 'social-custom_social',
-        title: 'Custom_social',
+        id: 'social-x',
+        title: 'X',
         section: 'Socials',
         handler: () => {
-          window.open("https://www.alberteinstein.com/", "_blank");
+          window.open("https://twitter.com/SinghChinmayy", "_blank");
         },
       },{
       id: 'light-theme',
