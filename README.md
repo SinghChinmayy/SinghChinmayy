@@ -1,5 +1,4 @@
-# Chinmay Singh's GitHub Landing Page
-
+# Chinmay Singh
 Welcome to my GitHub landing page! This repository serves as the source code for my personal website, which showcases my projects, blog posts, and more.
 
 ## About Me
