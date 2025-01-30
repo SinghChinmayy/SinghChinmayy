@@ -148,6 +148,9 @@ collections:
   projects:
     output: true
     permalink: /:collection/:title/
+  notes:
+    output: true
+    permalink: /:collection/:title/
 
 announcements:
   enabled: true
