@@ -16,6 +16,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "A growing collection of your cool projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
         },{id: "post-a-guide-to-jekyll-al-folio",
       
         title: "a guide to jekyll al-folio",
@@ -84,25 +91,11 @@ ninja.data = [{
           section: "Projects",handler: () => {
               window.location.href = "/projects/9_project/";
             },},{
-        id: 'social-email',
-        title: 'email',
-        section: 'Socials',
-        handler: () => {
-          window.open("mailto:%6D%61%69%6C@%63%68%69%6E%6D%61%79%73%69%6E%67%68.%6D%65", "_blank");
-        },
-      },{
         id: 'social-rss',
         title: 'RSS Feed',
         section: 'Socials',
         handler: () => {
           window.open("/feed.xml", "_blank");
-        },
-      },{
-        id: 'social-telegram',
-        title: 'telegram',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://telegram.me/SinghChinmay", "_blank");
         },
       },{
         id: 'social-x',
