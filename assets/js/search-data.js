@@ -23,7 +23,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
-        },{id: "post-a-guide-to-jekyll-al-folio",
+        },{id: "post-docker-introduction-guide",
+      
+        title: "Docker Introduction Guide",
+      
+      description: "This blog covers essential Docker concepts, including networks, volumes, and Docker Compose. Learn how to manage containers efficiently using practical examples and commands.",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/Docker-Introduction-Guide/";
+        
+      },
+    },{id: "post-a-guide-to-jekyll-al-folio",
       
         title: "a guide to jekyll al-folio",
       
