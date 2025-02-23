@@ -11,7 +11,7 @@ related_posts: true
 
 # DevOps with Docker
 
-## TL;DR
+## TLDR
 This blog covers essential Docker concepts, including networks, volumes, and Docker Compose. Learn how to manage containers efficiently using practical examples and commands.
 
 ---
