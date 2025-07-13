@@ -56,4 +56,4 @@ timezone: Asia/Kolkata
 collections:
   til:
     output: true
-    permalink: /til/:title/
+    permalink: /til/:year/:month/:day/
