@@ -6,7 +6,7 @@ description: "Student developer from Bangalore specializing in AI, exploring bac
 
 <div class="hero-section">
   <div class="profile-image">
-    <img src="/assets/images/profile.png" alt="Chinmay Singh" class="profile-photo">
+    <img src="/assets/images/dp.webp" alt="Chinmay Singh" class="profile-photo">
   </div>
   
   <h1 class="hero-title">Hi, I'm Chinmay Singh</h1>
