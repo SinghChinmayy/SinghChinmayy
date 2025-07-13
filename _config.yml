@@ -1,0 +1,48 @@
+# Site settings
+title: "Chinmay Singh"
+email: "hello@chinmaysingh.me"
+description: "Student developer from Bangalore specializing in AI, exploring backend development and DevOps."
+author: "Chinmay Singh"
+name: "Chinmay Singh"
+
+# Site URL configuration
+url: "https://singhchinmayy.github.io"
+baseurl: ""
+
+# Social media profiles
+social:
+  github: "SinghChinmayy"
+  linkedin: "singhchinmay"
+  email: "hello@chinmaysingh.me"
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Chinmay Singh"
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - Gemfile
+  - Gemfile.lock
+  - .git/
+  - .github/
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Timezone
+timezone: Asia/Kolkata
