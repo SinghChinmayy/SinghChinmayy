@@ -5,7 +5,7 @@ description: "Learn more about Chinmay Singh - Student Developer specializing in
 permalink: /about/
 ---
 
-# About Me
+
 
 Hello! I'm Chinmay Singh, a student developer from Bangalore, India. I'm currently specializing in AI at university, but my real passion lies in backend development and cloud infrastructure.
 

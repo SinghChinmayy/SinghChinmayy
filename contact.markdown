@@ -5,7 +5,6 @@ description: "Get in touch with Chinmay Singh"
 permalink: /contact/
 ---
 
-# Contact
 
 I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.
 
