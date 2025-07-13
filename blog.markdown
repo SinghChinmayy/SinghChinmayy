@@ -1,15 +1,9 @@
 ---
 layout: page
-title: "Blog"
+title: "Blog Posts"
 description: "Thoughts and learnings by Chinmay Singh"
 permalink: /blog/
 ---
-
-
-
-Thoughts on technology, learning, and personal growth.
-
-## All Posts
 
 {% for post in site.posts %}
 ### [{{ post.title }}]({{ post.url }})
