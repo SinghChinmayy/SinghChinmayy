@@ -6,6 +6,7 @@ categories: [projects, python, cli]
 tags: [python, cli, text-analysis, open-source]
 author: Chinmay Singh
 description: "Introducing BookBot, a command-line tool to analyze book text, count words and characters, and generate simple reports. Built for learning and fun!"
+published: false
 ---
 
 ## BookBot: Analyze Your Books with Python
