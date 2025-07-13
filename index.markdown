@@ -37,7 +37,11 @@ A command-line tool to analyze book text, calculate word counts, and generate ch
 ### ESSH - CLI Utility Tool
 A custom command-line utility for SSH management and automation.
 
-## Recent Blog Posts
+---
+
+<br>
+
+# Recent Blog Posts
 
 {% assign posts = site.posts | slice: 0, 3 %}
 {% for post in posts %}
