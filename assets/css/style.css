@@ -245,6 +245,23 @@ a:visited {
     margin: 0;
 }
 
+.visitor-stats {
+    margin-top: 1rem;
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.visitor-counter, .last-updated {
+    display: inline-block;
+    margin: 0 1rem;
+}
+
+.visitor-counter span {
+    font-weight: bold;
+    color: #333;
+}
+
 .validation-badges {
     margin-top: 1rem;
     text-align: center;
@@ -492,6 +509,15 @@ th {
         margin: 0 0.3rem;
     }
     
+    .visitor-stats {
+        margin-top: 0.8rem;
+    }
+    
+    .visitor-counter, .last-updated {
+        margin: 0 0.5rem;
+        font-size: 0.8rem;
+    }
+    
     /* Ensure tables are scrollable */
     table {
         font-size: 0.8rem;
@@ -629,6 +655,15 @@ th {
     
     .validation-badge {
         margin: 0 0.2rem;
+    }
+    
+    .visitor-stats {
+        margin-top: 0.6rem;
+    }
+    
+    .visitor-counter, .last-updated {
+        margin: 0 0.3rem;
+        font-size: 0.75rem;
     }
     
     /* Enhanced table responsiveness */

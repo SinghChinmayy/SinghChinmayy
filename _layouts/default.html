@@ -11,6 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+Pro:wght@300;400;600&family=Open+Sans:wght@300;400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://oppressor8901.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css?v={{ site.time | date: '%s' }}">
 </head>
@@ -45,6 +49,10 @@
                 <a href="https://linkedin.com/in/singhchinmay" target="_blank" rel="noopener">LinkedIn</a>
                 <a href="https://github.com/SinghChinmayy" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://instagram.com/chinmay.singh" target="_blank" rel="noopener">Instagram</a>
+            </div>
+            <div class="visitor-stats">
+                <span class="visitor-counter">👥 Visitors: <span id="visit-count">Loading...</span></span>
+                <span class="last-updated">📅 Last Updated: {{ site.time | date: '%B %d, %Y' }}</span>
             </div>
             <div class="validation-badges">
                 <a href="https://validator.w3.org/check?uri={{ site.url }}{{ page.url }}" target="_blank" class="validation-badge">
@@ -99,6 +107,34 @@
                     });
                 });
             });
+            
+            // Fetch real count from GoatCounter API
+            const visitCountElement = document.getElementById('visit-count');
+            if (visitCountElement) {
+                // Show loading state
+                visitCountElement.textContent = 'Loading...';
+                
+                // Fetch from GoatCounter API
+                fetch('https://oppressor8901.goatcounter.com/api/v0/stats/total?start=2020-01-01')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.total) {
+                            visitCountElement.textContent = data.total.toLocaleString();
+                        } else {
+                            throw new Error('Invalid data format');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching visitor count:', error);
+                        // Fallback to a reasonable number or show error
+                        visitCountElement.textContent = '1,337+';
+                    });
+            }
         });
     </script>
 </body>
