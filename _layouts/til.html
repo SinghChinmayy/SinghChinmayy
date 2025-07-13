@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | TIL | {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  {% if site.seo_tag %}{% seo %}{% endif %}
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <span class="nav-separator">|</span>
+        <a href="/about" class="nav-link">About</a>
+        <span class="nav-separator">|</span>
+        <a href="/projects" class="nav-link">Projects</a>
+        <span class="nav-separator">|</span>
+        <a href="/blog" class="nav-link">Blog</a>
+        <span class="nav-separator">|</span>
+        <a href="/til" class="nav-link">TIL</a>
+      </div>
+    </div>
+  </nav>
+  <main class="main-content">
+    <div class="container">
+      <div class="content-wrapper vintage-section">
+        <header class="til-header">
+          <h1 class="til-title" style="font-family: 'Source Serif Pro', serif; color: #3b2f1c;">{{ page.title }}</h1>
+          {% if page.date %}
+          <div class="til-meta" style="color: #8b4513; font-size: 1.05em; margin-bottom: 1em;">
+            <span>📅 {{ page.date | date: "%B %d, %Y" }}</span>
+          </div>
+          {% endif %}
+        </header>
+        <div class="til-content">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="mailto:hello@chinmaysingh.me">Email</a>
+        <a href="https://linkedin.com/in/singhchinmay" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/SinghChinmayy" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://instagram.com/chinmay.singh" target="_blank" rel="noopener">Instagram</a>
+        <a href="/til/" class="nav-link">TIL</a>
+      </div>
+      <div class="visitor-stats">
+        <span class="visitor-counter">👥 Visitors: <span id="visit-count">Loading...</span></span>
+        <span class="last-updated">📅 Last Updated: {{ site.time | date: '%B %d, %Y' }}</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html> 

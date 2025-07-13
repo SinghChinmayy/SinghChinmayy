@@ -1,0 +1,19 @@
+---
+layout: page
+title: "Today I Learned (TIL)"
+description: "Short, frequent learnings and discoveries by Chinmay Singh."
+permalink: /til/
+---
+
+<div class="til-index vintage-section">
+  <h2 style="font-family: 'Source Serif Pro', serif; color: #3b2f1c;">All TILs</h2>
+  <ul style="list-style: square; padding-left: 1.5em;">
+    {% assign tils = site.til | sort: 'date' | reverse %}
+    {% for til in tils %}
+      <li style="margin-bottom: 0.7em;">
+        <a href="{{ til.url }}" style="color: #1565c0; text-decoration: underline; font-weight: 500; font-family: 'Source Serif Pro', serif;">{{ til.title }}</a>
+        <span style="color: #8b4513; font-size: 0.98em;">({{ til.date | date: "%b %d, %Y" }})</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div> 
