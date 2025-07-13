@@ -10,9 +10,8 @@ description: "Student developer from Bangalore specializing in AI, exploring bac
   </div>
   
   <h1 class="hero-title">Hi, I'm Chinmay Singh</h1>
+  AI • Backend • DevOps • Gym • Home Lab
 </div>
-
-Student developer from Bangalore specializing in AI, exploring backend development, DevOps, and cloud infrastructure.
 
 ## About
 
@@ -25,17 +24,6 @@ When I'm not coding or studying, you'll find me at the gym lifting weights or ex
 - **Programming**: Python, C, C++, Java, SQL
 - **DevOps & Cloud**: Docker, Linux, AWS, Home Lab
 - **Academic Focus**: AI/ML, Data Structures, Digital Electronics
-
-## Projects
-
-### Home Lab Infrastructure
-My personal infrastructure playground with Docker containers, Linux servers, and cloud services for learning and experimentation.
-
-### BookBot - Text Analysis Tool
-A command-line tool to analyze book text, calculate word counts, and generate character statistics.
-
-### ESSH - CLI Utility Tool
-A custom command-line utility for SSH management and automation.
 
 ---
 
@@ -56,5 +44,9 @@ A custom command-line utility for SSH management and automation.
 [View all posts →](/blog)
 
 ---
+
+<div style="text-align: center; margin: 1.5em 0 1em 0;">
+  <span style="background: #ff0; color: #000; padding: 0.15em 0.5em; border-radius: 6px; font-weight: bold; box-shadow: 1px 1px 0 #ccc; display: inline-block;">👉 <a href="/projects" style="color: #000; text-decoration: underline;">Check out my projects!</a> 👈</span>
+</div>
 
 *Available for interesting projects and collaborations.*
