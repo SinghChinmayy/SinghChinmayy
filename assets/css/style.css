@@ -905,3 +905,13 @@ th {
 .highlight .vi { color: #19177c } /* Name.Variable.Instance */
 .highlight .vm { color: #19177c } /* Name.Variable.Magic */
 .highlight .il { color: #0000ff } /* Literal.Number.Integer.Long */ 
+
+@media (min-width: 1200px) {
+  .container,
+  .main-content {
+    max-width: 1100px;
+  }
+  .content-wrapper {
+    max-width: 950px;
+  }
+}
