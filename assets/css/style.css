@@ -65,6 +65,13 @@ body {
     color: #333;
 }
 
+.nav-separator {
+    color: #666;
+    margin: 0 0.5rem;
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
 /* Main content */
 .main-content {
     flex: 1;
@@ -373,6 +380,11 @@ th {
         font-size: 0.9rem;
     }
     
+    .nav-separator {
+        margin: 0 0.3rem;
+        font-size: 0.8rem;
+    }
+    
     .hero-title {
         font-size: 2rem;
     }
@@ -439,6 +451,11 @@ th {
     
     .nav-link {
         font-size: 0.85rem;
+    }
+    
+    .nav-separator {
+        margin: 0 0.2rem;
+        font-size: 0.75rem;
     }
     
     .hero-title {

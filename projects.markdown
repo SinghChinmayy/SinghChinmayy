@@ -5,7 +5,6 @@ description: "Projects and work by Chinmay Singh - Student Developer"
 permalink: /projects/
 ---
 
-# Projects
 
 A collection of my academic projects, personal experiments, and learning exercises.
 
