@@ -238,6 +238,31 @@ a:visited {
     margin: 0;
 }
 
+.validation-badges {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.validation-badge {
+    display: inline-block;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    padding: 2px;
+    background: #fff;
+    transition: all 0.2s;
+}
+
+.validation-badge:hover {
+    border-color: #999;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.validation-badge img {
+    display: block;
+    border: none;
+}
+
 /* Lists */
 ul, ol {
     margin-bottom: 1.5rem;
@@ -456,6 +481,14 @@ th {
     
     .footer-copyright {
         font-size: 0.8rem;
+    }
+    
+    .validation-badges {
+        margin-top: 0.8rem;
+    }
+    
+    .validation-badge {
+        margin: 0 0.3rem;
     }
     
     pre, code {
