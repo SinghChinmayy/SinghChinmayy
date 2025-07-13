@@ -356,7 +356,8 @@ th {
     }
     
     .content-wrapper {
-        padding: 0 15px;
+        padding: 15px;
+        margin: 0 10px;
     }
     
     .navbar {
@@ -374,10 +375,14 @@ th {
         gap: 1.5rem;
         width: 100%;
         justify-content: center;
+        flex-wrap: wrap;
     }
     
     .nav-link {
         font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        min-width: 60px;
+        text-align: center;
     }
     
     .nav-separator {
@@ -387,6 +392,7 @@ th {
     
     .hero-title {
         font-size: 2rem;
+        word-wrap: break-word;
     }
     
     .profile-photo {
@@ -400,9 +406,19 @@ th {
         font-size: 1.5rem;
     }
     
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.6rem; }
-    h3 { font-size: 1.3rem; }
+    h1 { 
+        font-size: 2rem; 
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+    h2 { 
+        font-size: 1.6rem; 
+        word-wrap: break-word;
+    }
+    h3 { 
+        font-size: 1.3rem; 
+        word-wrap: break-word;
+    }
     
     .main-content {
         padding: 0 0 1.5rem 0;
@@ -413,6 +429,7 @@ th {
         width: 100%;
         margin-bottom: 0.5rem;
         padding: 0.75rem 1rem;
+        font-size: 0.9rem;
     }
     
     .footer {
@@ -420,9 +437,48 @@ th {
         padding: 1.5rem 0;
     }
     
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
     .footer-links a {
-        margin: 0 0.5rem;
+        margin: 0;
         font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .validation-badges {
+        margin-top: 0.8rem;
+    }
+    
+    .validation-badge {
+        margin: 0 0.3rem;
+    }
+    
+    /* Ensure tables are scrollable */
+    table {
+        font-size: 0.8rem;
+    }
+    
+    th, td {
+        padding: 0.5rem 0.3rem;
+        word-wrap: break-word;
+    }
+    
+    /* Ensure code blocks are readable */
+    pre {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+        overflow-x: auto;
+    }
+    
+    code {
+        font-size: 0.75rem;
     }
 }
 
@@ -436,7 +492,8 @@ th {
     }
     
     .content-wrapper {
-        padding: 0 12px;
+        padding: 12px;
+        margin: 0 8px;
     }
     
     .navbar {
@@ -444,13 +501,21 @@ th {
         margin-bottom: 1rem;
     }
     
+    .navbar .container {
+        gap: 0.8rem;
+    }
+    
     .nav-menu {
-        gap: 1rem;
+        gap: 0.8rem;
         justify-content: center;
+        flex-wrap: wrap;
     }
     
     .nav-link {
         font-size: 0.85rem;
+        padding: 0.25rem 0.5rem;
+        min-width: 50px;
+        text-align: center;
     }
     
     .nav-separator {
@@ -460,6 +525,8 @@ th {
     
     .hero-title {
         font-size: 1.8rem;
+        word-wrap: break-word;
+        line-height: 1.2;
     }
     
     .profile-photo {
@@ -473,9 +540,19 @@ th {
         font-size: 1.2rem;
     }
     
-    h1 { font-size: 1.8rem; }
-    h2 { font-size: 1.4rem; }
-    h3 { font-size: 1.2rem; }
+    h1 { 
+        font-size: 1.8rem; 
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+    h2 { 
+        font-size: 1.4rem; 
+        word-wrap: break-word;
+    }
+    h3 { 
+        font-size: 1.2rem; 
+        word-wrap: break-word;
+    }
     
     .main-content {
         padding: 0 0 1rem 0;
@@ -484,6 +561,7 @@ th {
     .btn {
         padding: 0.8rem 1rem;
         font-size: 0.9rem;
+        width: 100%;
     }
     
     .footer {
@@ -491,9 +569,16 @@ th {
         padding: 1rem 0;
     }
     
+    .footer-links {
+        gap: 0.3rem;
+    }
+    
     .footer-links a {
-        margin: 0 0.3rem;
+        margin: 0;
         font-size: 0.85rem;
+        padding: 0.25rem 0.5rem;
+        min-width: 50px;
+        text-align: center;
     }
     
     .footer-copyright {
@@ -505,15 +590,44 @@ th {
     }
     
     .validation-badge {
-        margin: 0 0.3rem;
+        margin: 0 0.2rem;
     }
     
-    pre, code {
-        font-size: 0.8rem;
+    /* Enhanced table responsiveness */
+    table {
+        font-size: 0.75rem;
     }
     
+    th, td {
+        padding: 0.4rem 0.2rem;
+        word-wrap: break-word;
+    }
+    
+    /* Enhanced code readability */
     pre {
-        padding: 0.75rem;
+        font-size: 0.7rem;
+        padding: 0.6rem;
+        overflow-x: auto;
+    }
+    
+    code {
+        font-size: 0.7rem;
+    }
+    
+    /* Ensure lists are readable */
+    ul, ol {
+        padding-left: 1.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.6rem;
+    }
+    
+    /* Ensure blockquotes are readable */
+    blockquote {
+        padding: 0.8rem 1rem;
+        margin: 1rem 0;
+        font-size: 0.9rem;
     }
 }
 
