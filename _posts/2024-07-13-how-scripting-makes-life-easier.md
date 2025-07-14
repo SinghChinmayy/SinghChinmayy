@@ -2,10 +2,10 @@
 layout: post
 title: "How scripting affects my workflow"
 date: 2025-07-13 10:00:00
-categories: []
-tags: []
+categories: [automation, productivity, scripting, workflow]
+tags: [bash, git, automation,cli]
 author: Chinmay Singh
-description: ""
+description: "Learning and utilizing bash scripting"
 published: true
 ---
 ## Automating My Git Backups with a Simple Bash Script
