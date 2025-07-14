@@ -1,12 +1,12 @@
 ---
 layout: post
 title: "Why Have I Started a Blog in the Time of AI"
-date: 2024-07-16 10:00:00
+date: 2025-07-13 10:00:00
 categories: [learning, personal]
 tags: [ai-ml, blogging, learning-journey]
 author: Chinmay Singh
 description: "Exploring my motivations for starting a personal blog in an era dominated by AI-generated content."
-published: false
+published: true
 ---
 
 ## Introduction
