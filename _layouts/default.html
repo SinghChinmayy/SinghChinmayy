@@ -73,9 +73,24 @@ if (dropdown) {
                     <span style="font-size: 1.3em; color: #8b4513; margin-right: 0.5em;">&#128269;</span>
                     <input type="text" id="footer-search-input" placeholder="Search (Ctrl+K) | tag:python | category:learning" style="width: 100%; background: #f5ecd7; border: none; outline: none; font-size: 1.08em; color: #3b2f1c; font-family: 'Source Serif Pro', serif; padding: 0.3em 2.2em 0.3em 0.5em; border-radius: 4px;" aria-label="Footer search" autocomplete="off">
                     <button id="footer-search-clear" type="button" aria-label="Clear search" style="position: absolute; right: 0.5em; background: none; border: none; font-size: 1.2em; color: #b8860b; cursor: pointer; display: none;">&times;</button>
+                    <ul id="footer-autocomplete" style="position: absolute; left: 2.2em; right: 0.5em; top: 2.5em; z-index: 100; background: #fffbe9; border: 1px solid #d1bfa3; border-radius: 6px; box-shadow: 1px 2px 0 #e0d3b8; font-family: 'Source Serif Pro', serif; font-size: 1.01em; text-align: left; list-style: none; margin: 0; padding: 0; display: none; max-height: 180px; overflow-y: auto;"></ul>
                 </form>
                 <ul id="footer-results-container" style="list-style: none; padding: 0; margin-top: 0.7em; background: #fffbe9; border: 1px solid #d1bfa3; border-radius: 6px; box-shadow: 1px 2px 0 #e0d3b8; font-family: 'Source Serif Pro', serif; font-size: 1.01em; text-align: left; max-height: 320px; overflow-y: auto;"></ul>
             </div>
+            <!-- Mobile Search Modal Overlay -->
+            <div id="mobile-search-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(245,236,215,0.97); z-index:10000; align-items:flex-start; justify-content:center;">
+              <div style="max-width:500px; width:94vw; margin:4vh auto 0 auto; background:#fffbe9; border:2px solid #d1bfa3; border-radius:8px; box-shadow:0 4px 24px #bfae8e; padding:1.2em 1em 1em 1em; position:relative;">
+                <button id="mobile-search-close" aria-label="Close search" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:1.5em; color:#8b4513; cursor:pointer;">&times;</button>
+                <form onsubmit="return false;" style="display: flex; align-items: center; background: #f5ecd7; border: 2px inset #bfae8e; border-radius: 6px; box-shadow: 1px 2px 0 #e0d3b8; padding: 0.3em 0.5em; font-family: 'Source Serif Pro', serif;">
+                  <span style="font-size: 1.3em; color: #8b4513; margin-right: 0.5em;">&#128269;</span>
+                  <input type="text" id="mobile-search-input" placeholder="Search (Ctrl+K) | tag:python | category:learning" style="width: 100%; background: #f5ecd7; border: none; outline: none; font-size: 1.08em; color: #3b2f1c; font-family: 'Source Serif Pro', serif; padding: 0.3em 2.2em 0.3em 0.5em; border-radius: 4px;" aria-label="Mobile search" autocomplete="off">
+                  <button id="mobile-search-clear" type="button" aria-label="Clear search" style="background: none; border: none; font-size: 1.2em; color: #b8860b; cursor: pointer; display: none;">&times;</button>
+                </form>
+                <ul id="mobile-autocomplete" style="background: #fffbe9; border: 1px solid #d1bfa3; border-radius: 6px; box-shadow: 1px 2px 0 #e0d3b8; font-family: 'Source Serif Pro', serif; font-size: 1.01em; text-align: left; list-style: none; margin: 0.7em 0 0 0; padding: 0; max-height: 180px; overflow-y: auto;"></ul>
+                <ul id="mobile-results-container" style="list-style: none; padding: 0; margin-top: 0.7em; background: #fffbe9; border: 1px solid #d1bfa3; border-radius: 6px; box-shadow: 1px 2px 0 #e0d3b8; font-family: 'Source Serif Pro', serif; font-size: 1.01em; text-align: left; max-height: 320px; overflow-y: auto;"></ul>
+              </div>
+            </div>
+            <!-- End Mobile Search Modal -->
             <div class="visitor-stats">
                 <span class="visitor-counter">👥 Visitors: <span id="visit-count">Loading...</span></span>
                 <span class="last-updated">📅 Last Updated: {{ site.time | date: '%B %d, %Y' }}</span>
@@ -299,6 +314,164 @@ if (dropdown) {
       if (clearBtn) {
         clearBtn.style.touchAction = 'manipulation';
       }
+      // Mobile modal logic
+      var isMobile = window.matchMedia('(max-width: 900px)').matches;
+      var footerInput = document.getElementById('footer-search-input');
+      var footerClear = document.getElementById('footer-search-clear');
+      var footerAutocomplete = document.getElementById('footer-autocomplete');
+      var footerResults = document.getElementById('footer-results-container');
+      var modal = document.getElementById('mobile-search-modal');
+      var modalInput = document.getElementById('mobile-search-input');
+      var modalClear = document.getElementById('mobile-search-clear');
+      var modalAutocomplete = document.getElementById('mobile-autocomplete');
+      var modalResults = document.getElementById('mobile-results-container');
+      var modalClose = document.getElementById('mobile-search-close');
+      // Show modal on mobile focus
+      if (footerInput && isMobile) {
+        footerInput.addEventListener('focus', function(e) {
+          setTimeout(function() {
+            modal.style.display = 'flex';
+            modalInput.value = '';
+            modalResults.innerHTML = '';
+            modalAutocomplete.innerHTML = '';
+            modalInput.focus();
+          }, 100);
+          setTimeout(function() { footerInput.blur(); }, 200);
+        });
+      }
+      // Modal close logic
+      if (modalClose) {
+        modalClose.addEventListener('click', function() {
+          modal.style.display = 'none';
+          footerInput.blur();
+        });
+      }
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+            footerInput.blur();
+          }
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (modal.style.display === 'flex' && e.key === 'Escape') {
+          modal.style.display = 'none';
+          footerInput.blur();
+        }
+      });
+      // Mobile search logic (reuse desktop logic, but for modal elements)
+      function renderMobileResults(results) {
+        modalResults.innerHTML = '';
+        if (!results || results.length === 0) {
+          modalResults.innerHTML = '<li style="color:#888; padding:0.5em;">No results found.</li>';
+          return;
+        }
+        results.slice(0, 7).forEach((result, i) => {
+          const doc = documents.find(d => d.url === result.ref);
+          let typeLabel = '';
+          if (doc.type === 'TIL') typeLabel = '<span style="color:#1565c0; font-size:0.95em;">[TIL]</span>';
+          else if (doc.type === 'Blog') typeLabel = '<span style="color:#8b4513; font-size:0.95em;">[Blog]</span>';
+          else if (doc.type === 'SNS') typeLabel = '<span style="color:#b8860b; font-size:0.95em;">[SNS]</span>';
+          const snippet = doc.content.length > 60 ? doc.content.substring(0, 60) + '...' : doc.content;
+          modalResults.innerHTML += `<li class="footer-search-result" tabindex="-1" style="padding:0.5em 0.7em; border-bottom:1px dotted #d1bfa3;"><a href="${doc.url}" style="font-weight:600; color:#1565c0; text-decoration:underline;">${doc.title}</a> ${typeLabel}<br><span style="color:#555; font-size:0.98em;">${snippet}</span></li>`;
+        });
+      }
+      function showMobileAutocomplete(query) {
+        if (!query || !documents.length) {
+          modalAutocomplete.style.display = 'none';
+          modalAutocomplete.innerHTML = '';
+          return;
+        }
+        const q = query.toLowerCase();
+        const startsWith = documents.filter(d => d.title && d.title.toLowerCase().startsWith(q));
+        const contains = documents.filter(d => d.title && !d.title.toLowerCase().startsWith(q) && d.title.toLowerCase().includes(q));
+        const suggestions = startsWith.concat(contains).slice(0, 5);
+        if (!suggestions.length) {
+          modalAutocomplete.style.display = 'none';
+          modalAutocomplete.innerHTML = '';
+          return;
+        }
+        modalAutocomplete.innerHTML = suggestions.map((d, i) => `<li class="footer-autocomplete-item" data-title="${d.title.replace(/"/g, '&quot;')}" tabindex="0" style="padding:0.4em 0.7em; border-bottom:1px dotted #d1bfa3; background:#f5ecd7; cursor:pointer;${i===0?'font-weight:bold;':''}">${d.title}</li>`).join('');
+        modalAutocomplete.style.display = 'block';
+      }
+      function doMobileSearch(query) {
+        if (!idx || !query) {
+          modalResults.innerHTML = '';
+          return;
+        }
+        let searchQuery = query;
+        let tagMatch = query.match(/tag:([\w-]+)/i);
+        let catMatch = query.match(/category:([\w-]+)/i);
+        if (tagMatch) {
+          searchQuery = tagMatch[1] + '~1';
+          let filteredDocs = documents.filter(d => (d.tags && d.tags.includes(tagMatch[1])) || (d.content && d.content.toLowerCase().includes(tagMatch[1].toLowerCase())));
+          renderMobileResults(filteredDocs.map(d => ({ ref: d.url })));
+          return;
+        }
+        if (catMatch) {
+          searchQuery = catMatch[1] + '~1';
+          let filteredDocs = documents.filter(d => (d.categories && d.categories.includes(catMatch[1])) || (d.content && d.content.toLowerCase().includes(catMatch[1].toLowerCase())));
+          renderMobileResults(filteredDocs.map(d => ({ ref: d.url })));
+          return;
+        }
+        const fuzzyQuery = query.split(/\s+/).map(w => w + '~1').join(' ');
+        const results = idx.search(fuzzyQuery);
+        renderMobileResults(results);
+      }
+      if (modalInput) {
+        modalInput.addEventListener('input', function(e) {
+          doMobileSearch(e.target.value);
+          modalClear.style.display = e.target.value ? 'block' : 'none';
+          showMobileAutocomplete(e.target.value);
+        });
+        modalInput.addEventListener('focus', function() {
+          if (modalInput.value) modalClear.style.display = 'block';
+          showMobileAutocomplete(modalInput.value);
+        });
+        modalInput.addEventListener('blur', function() {
+          setTimeout(() => { modalClear.style.display = 'none'; modalAutocomplete.style.display = 'none'; }, 200);
+        });
+        modalClear.addEventListener('click', function() {
+          modalInput.value = '';
+          modalClear.style.display = 'none';
+          modalResults.innerHTML = '';
+          modalAutocomplete.style.display = 'none';
+          modalInput.focus();
+        });
+        // Keyboard navigation for autocomplete
+        modalInput.addEventListener('keydown', function(e) {
+          const acItems = modalAutocomplete.querySelectorAll('.footer-autocomplete-item');
+          if (modalAutocomplete.style.display === 'block' && acItems.length) {
+            let idx = Array.from(acItems).findIndex(item => item === document.activeElement);
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              if (idx < acItems.length - 1) acItems[idx+1].focus();
+              else acItems[0].focus();
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              if (idx > 0) acItems[idx-1].focus();
+              else acItems[acItems.length-1].focus();
+            } else if (e.key === 'Enter') {
+              if (idx >= 0) {
+                modalInput.value = acItems[idx].dataset.title;
+                modalAutocomplete.style.display = 'none';
+                doMobileSearch(modalInput.value);
+                modalInput.focus();
+              }
+            }
+          }
+        });
+        modalAutocomplete.addEventListener('mousedown', function(e) {
+          if (e.target.classList.contains('footer-autocomplete-item')) {
+            modalInput.value = e.target.dataset.title;
+            modalAutocomplete.style.display = 'none';
+            doMobileSearch(modalInput.value);
+            modalInput.focus();
+          }
+        });
+      }
+      // End mobile modal logic
     })();
     </script>
 </body>
