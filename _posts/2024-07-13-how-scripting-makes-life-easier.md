@@ -36,6 +36,7 @@ I wrote a **basic Bash script** that wraps this process into a single command: `
 
 Here's the full script:
 
+Check out my github fou latest script: [scripts/gitbackup](https://github.com/SinghChinmayy/workspace/blob/main/scripts/gitbackup)
 ```bash
 #!/bin/bash
 
