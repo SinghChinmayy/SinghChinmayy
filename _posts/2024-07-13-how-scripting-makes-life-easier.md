@@ -105,12 +105,13 @@ The script is by no means very fancy or anything but it is perfect for me and wo
 # Few Screenshots
 
 - Here as you can see when I type git, it gives me option to autofill with gitbackup
+
 ![](/assets/attachments/Screenshot%20from%202025-07-14%2016-47-22.png)
 
 - After running the script it will show you what commit message you want to write
+
 ![](/assets/attachments/Pasted%20image%2020250714165004.png)
 
 - Then you get a confirmation dialogue, where the default option (when hit enter) is yes to make lives even easier.
+
 ![](/assets/attachments/Pasted%20image%2020250714165040.png)
-
-
