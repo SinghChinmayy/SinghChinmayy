@@ -23,8 +23,54 @@
         <img src="https://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" width="88" height="31">
       </a>
     </div>
-  </div>
-  <div class="footer-credit" style="margin-top:1.5em; color:#8b4513; font-size:1em; font-family:'Source Serif Pro',serif;">
-    Handcrafted with ☕, code & curiosity in Bangalore by <strong>Chinmay Singh</strong>.
+    <div class="footer-credit" style="margin-top:1.5em; color:#8b4513; font-size:1em; font-family:'Source Serif Pro',serif;">
+      <span style="display:block; font-family: 'Georgia', 'Times New Roman', serif; font-size:1.18em; font-style:italic; letter-spacing:0.01em; margin-bottom:0.2em;">Per aspera ad astra.</span>
+      <span style="font-size:0.98em; color:#8b4513;">— Through hardships to the stars.</span><br>
+      <span style="font-size:0.95em; color:#b8860b;">Fueled by <a href="https://jekyllrb.com" target="_blank" rel="noopener" style="color:#1565c0; text-decoration:underline;">Jekyll</a></span>
+    </div>
+    <div class="footer-oss-credit" style="margin-top:1em; color:#b8860b; font-size:0.95em;">
+      Built with <a href="https://jekyllrb.com" target="_blank" rel="noopener" style="color:#1565c0;">Jekyll</a>,
+      <a href="https://www.ruby-lang.org/" target="_blank" rel="noopener" style="color:#1565c0;">Ruby</a>,
+      <a href="https://lunrjs.com/" target="_blank" rel="noopener" style="color:#1565c0;">Lunr.js</a>,
+      and more <a href="/credits" style="color:#1565c0; text-decoration:underline;">❤️ More</a>
+    </div>
+    <div class="footer-oss-hail" style="margin-top:1.2em; color:#8b4513; font-size:0.98em; font-family:'Source Serif Pro',serif;">
+      Long live open source. Cheers to all the makers, dreamers, and contributors.
+    </div>
+    <style>
+      @keyframes gentle-bounce {
+        0%, 100% { transform: translateY(0) scale(1); }
+        20% { transform: translateY(-8px) scale(1.07); }
+        40% { transform: translateY(0) scale(1.04); }
+        60% { transform: translateY(-5px) scale(1.08); }
+        80% { transform: translateY(0) scale(1.03); }
+      }
+      .crazy-backtotop {
+        background: linear-gradient(90deg, #fffa65 0%, #ff69b4 100%);
+        color: #000;
+        font-weight: bold;
+        font-size: 1.15em;
+        border: 3px solid #ff69b4;
+        border-radius: 12px;
+        box-shadow: 0 0 8px #fffa65, 0 0 4px #ff69b4;
+        padding: 0.6em 2em;
+        cursor: pointer;
+        text-shadow: 1px 1px 0 #fff, 1px 1px 0 #ff69b4;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5em;
+        animation: gentle-bounce 1.4s infinite cubic-bezier(.36,.07,.19,.97);
+        transition: filter 0.15s, transform 0.1s;
+        position: relative;
+      }
+      .crazy-backtotop:hover {
+        filter: brightness(1.15) saturate(1.5);
+        animation-duration: 0.7s;
+      }
+    </style>
+    <div style="margin-top:1.8em; text-align:center;">
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'});" class="crazy-backtotop">
+        ⬆️ BACK TO TOP! ⬆️
+      </button>
+    </div>
   </div>
 </footer> 
