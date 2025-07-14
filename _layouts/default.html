@@ -240,23 +240,7 @@ if (dropdown) {
           selectedIdx = -1;
           return;
         }
-        let searchQuery = query;
-        // tag: and category: filtering
-        let tagMatch = query.match(/tag:([\w-]+)/i);
-        let catMatch = query.match(/category:([\w-]+)/i);
-        if (tagMatch) {
-          searchQuery = tagMatch[1] + '~1';
-          filteredDocs = documents.filter(d => (d.tags && d.tags.includes(tagMatch[1])) || (d.content && d.content.toLowerCase().includes(tagMatch[1].toLowerCase())));
-          renderResults(filteredDocs.map(d => ({ ref: d.url })));
-          return;
-        }
-        if (catMatch) {
-          searchQuery = catMatch[1] + '~1';
-          filteredDocs = documents.filter(d => (d.categories && d.categories.includes(catMatch[1])) || (d.content && d.content.toLowerCase().includes(catMatch[1].toLowerCase())));
-          renderResults(filteredDocs.map(d => ({ ref: d.url })));
-          return;
-        }
-        // Fuzzy search: add ~1 to each word
+        // Always do fuzzy search, even for single character
         const fuzzyQuery = query.split(/\s+/).map(w => w + '~1').join(' ');
         const results = idx.search(fuzzyQuery);
         filteredDocs = results;
@@ -384,6 +368,9 @@ if (dropdown) {
           return;
         }
         const q = query.toLowerCase();
+        // Debug logging
+        console.log('Query:', q, 'Documents:', documents.map(d => d.title));
+        // Prefix matches first, then substring matches
         const startsWith = documents.filter(d => d.title && d.title.toLowerCase().startsWith(q));
         const contains = documents.filter(d => d.title && !d.title.toLowerCase().startsWith(q) && d.title.toLowerCase().includes(q));
         const suggestions = startsWith.concat(contains).slice(0, 5);
@@ -400,21 +387,7 @@ if (dropdown) {
           modalResults.innerHTML = '';
           return;
         }
-        let searchQuery = query;
-        let tagMatch = query.match(/tag:([\w-]+)/i);
-        let catMatch = query.match(/category:([\w-]+)/i);
-        if (tagMatch) {
-          searchQuery = tagMatch[1] + '~1';
-          let filteredDocs = documents.filter(d => (d.tags && d.tags.includes(tagMatch[1])) || (d.content && d.content.toLowerCase().includes(tagMatch[1].toLowerCase())));
-          renderMobileResults(filteredDocs.map(d => ({ ref: d.url })));
-          return;
-        }
-        if (catMatch) {
-          searchQuery = catMatch[1] + '~1';
-          let filteredDocs = documents.filter(d => (d.categories && d.categories.includes(catMatch[1])) || (d.content && d.content.toLowerCase().includes(catMatch[1].toLowerCase())));
-          renderMobileResults(filteredDocs.map(d => ({ ref: d.url })));
-          return;
-        }
+        // Always do fuzzy search, even for single character
         const fuzzyQuery = query.split(/\s+/).map(w => w + '~1').join(' ');
         const results = idx.search(fuzzyQuery);
         renderMobileResults(results);
