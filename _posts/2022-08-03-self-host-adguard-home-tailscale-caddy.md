@@ -6,7 +6,7 @@ categories: [self-hosting, networking, privacy, home-lab]
 tags: [adguard-home, tailscale, caddy, dns, ad-blocking, reverse-proxy, privacy, self-hosting, docker, vpn, infrastructure, home-lab, networking, security, automation]
 author: Chinmay Singh
 description: "Learn how to build a privacy-first DNS infrastructure by self-hosting AdGuard Home with Tailscale VPN and Caddy reverse proxy. This comprehensive guide covers everything from Docker deployment to global DNS configuration for enterprise-grade ad-blocking and privacy protection."
-published: true
+published: false
 ---
 
 ## Why Self-Host AdGuard Home?
