@@ -23,7 +23,7 @@ When I'm not coding or studying, you'll find me at the gym lifting weights or ex
 
 - **Programming**: Python, C, C++, Java, SQL
 - **DevOps & Cloud**: Docker, Linux, AWS, Home Lab
-- **Academic Focus**: AI/ML, Data Structures, Digital Electronics
+- **Academic Focus**: AI/ML, Data Structures 
 
 ---
 

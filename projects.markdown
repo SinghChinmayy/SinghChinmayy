@@ -4,9 +4,6 @@ title: "Projects"
 description: "Projects and work by Chinmay Singh - Student Developer specializing in AI, DevOps, and infrastructure"
 permalink: /projects/
 ---
-
-# 🚀 Projects & Experiments
-
 A curated collection of my academic projects, personal experiments, and learning exercises. From CLI tools to infrastructure automation, here's what I've been building and learning.
 
 ---
@@ -15,7 +12,7 @@ A curated collection of my academic projects, personal experiments, and learning
 
 | Section | Status | Projects |
 |---------|--------|----------|
-| [🏗️ Infrastructure & DevOps](#-infrastructure--devops) | 🔄 Active | 2 |
+| [🏗️ Infrastructure & DevOps](#-infrastructure--devops) | 🔄 Active | 3 |
 | [🛠️ CLI Tools & Automation](#️-cli-tools--automation) | ✅ Complete | 2 |
 
 **Jump to:** [Current Focus](#-current-focus) • [Skills](#-skills-demonstrated) • [Statistics](#-project-statistics)
@@ -23,6 +20,24 @@ A curated collection of my academic projects, personal experiments, and learning
 ---
 
 ## 🏗️ Infrastructure & DevOps
+
+### Infrastructure Autoscaling & Provisioning System
+*An intelligent infrastructure management system that uses machine learning to automatically scale and provision resources based on demand patterns and performance metrics.*
+
+**Features**: 
+- ML-powered demand prediction and resource optimization
+- Automated scaling based on real-time performance metrics
+- Intelligent resource provisioning and allocation
+- Cost optimization through predictive analytics
+- Dynamic load balancing and capacity planning
+- Performance monitoring and anomaly detection
+
+**Technologies**: Python, Machine Learning, Docker, Kubernetes, Cloud APIs, Monitoring Tools  
+**Status**: 🔄 In Progress  
+**Repository**: [GitHub](#)  
+**Started**: July 2025
+
+---
 
 ### Home Lab Infrastructure
 *Personal infrastructure playground with Docker containers, Linux servers, and cloud services for learning and experimentation.*
@@ -46,7 +61,7 @@ A curated collection of my academic projects, personal experiments, and learning
 
 **Technologies**: AdGuard Home, Tailscale, Caddy, Docker, DNS, VPN  
 **Status**: ✅ Complete  
-**Article**: [Self-Hosting AdGuard Home with Tailscale & Caddy](/2025/08/03/self-host-adguard-home-tailscale-caddy.html)  
+**Article**: [Self-Hosting AdGuard Home with Tailscale & Caddy](https://chinmaysingh.me/self-hosting/networking/privacy/home-lab/2025/08/03/self-host-adguard-home-tailscale-caddy)  
 **Completed**: August 2025
 
 ---
@@ -95,6 +110,7 @@ A curated collection of my academic projects, personal experiments, and learning
 - **Cloud Services**: AWS, Google Cloud, Azure integration
 - **Security**: Network security, encryption, privacy tools
 - **DevOps**: Monitoring, logging, and automation workflows
+- **Machine Learning**: ML for infrastructure optimization and automation
 
 ### Upcoming Projects
 - **Container Orchestration**: Multi-node Docker Swarm setup
