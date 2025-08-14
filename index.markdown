@@ -41,9 +41,7 @@ When I'm not coding or studying, you'll find me at the gym lifting weights or ex
       {% assign post_age = now | minus: post_time | divided_by: 86400 %}
     <div style="margin-bottom: 1.2em;">
       <a href="{{ post.url }}" style="font-weight:600; color:#1565c0; text-decoration:underline; font-size:1.08em;">{{ post.title }}</a>
-      {% if post_age < 7 %}
-        <img src="/assets/images/gifs/graphics-new-buttons-632660.gif" alt="NEW!" style="vertical-align:middle; height:1.5em; margin-left:0.3em;" />
-      {% endif %}
+
       <br>
       <span style="color:#888; font-size:0.98em;">{{ post.date | date: "%B %d, %Y" }}</span>
       <div style="color:#333; font-size:0.98em; margin-top:0.2em;">{{ post.excerpt | strip_html | truncatewords: 22 }}</div>
@@ -59,9 +57,7 @@ When I'm not coding or studying, you'll find me at the gym lifting weights or ex
       {% assign til_age = now | minus: til_time | divided_by: 86400 %}
     <div style="margin-bottom: 1.2em;">
       <a href="{{ til.url }}" style="font-weight:600; color:#8b4513; text-decoration:underline; font-size:1.08em;">{{ til.title }}</a>
-      {% if til_age < 7 %}
-        <img src="/assets/images/gifs/graphics-new-buttons-632660.gif" alt="NEW!" style="vertical-align:middle; height:1.5em; margin-left:0.3em;" />
-      {% endif %}
+
       <br>
       <span style="color:#888; font-size:0.98em;">{{ til.date | date: "%B %d, %Y" }}</span>
       <div style="color:#333; font-size:0.98em; margin-top:0.2em;">{{ til.excerpt | strip_html | truncatewords: 22 }}</div>
