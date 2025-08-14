@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Auto-Start Syncthing on Linux Boot with systemd"
-date: 2025-08-15 10:00:00
+date: 2025-08-14 10:00:00
 categories: [linux, automation, file-sync, systemd]
 tags: [syncthing, systemd, linux, automation, boot, service]
 author: Chinmay Singh
