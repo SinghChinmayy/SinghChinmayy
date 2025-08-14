@@ -11,6 +11,10 @@ description: "Student developer from Bangalore specializing in AI, exploring bac
   
   <h1 class="hero-title">Hi, I'm Chinmay Singh</h1>
   AI • Backend • DevOps • Gym • Home Lab
+  
+  <div style="margin-top: 1.5rem;">
+    <a href="/contact" style="display: inline-block; background: #8b4513; color: white; padding: 0.6rem 1.2rem; text-decoration: none; border-radius: 5px; font-weight: 500; transition: background 0.3s ease;">Say Hello!</a>
+  </div>
 </div>
 
 ## About
