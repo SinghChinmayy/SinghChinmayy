@@ -35,8 +35,8 @@ body {
 
 /* Navigation */
 .navbar {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.6);
     margin-bottom: 1rem;
     position: sticky;
     top: 0;
@@ -44,62 +44,114 @@ body {
     backdrop-filter: blur(10px);
     z-index: 100;
     width: 100%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .navbar .container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .nav-menu {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .nav-link {
     text-decoration: none;
     color: #666;
-    transition: all 0.1s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
     font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    position: relative;
+    display: inline-block;
 }
 
 .nav-link:hover {
-    color: #cc0000;
-    background-color: #ffff00;
-    padding: 1px 2px;
-    border-radius: 2px;
+    color: #1565c0;
+    background-color: rgba(21, 101, 192, 0.1);
+    text-decoration: none;
 }
 
 .nav-link:active {
-    color: #ff0000;
-    background-color: #ffcccc;
-    text-decoration: line-through;
-    transform: scale(0.98);
+    color: #1565c0;
+    background-color: rgba(21, 101, 192, 0.15);
 }
 
 .nav-link:visited {
-    color: #000080;
+    color: #666;
 }
 
 .nav-link:visited:hover {
-    color: #cc0000;
-    background-color: #ffff00;
-}
-
-.nav-link:visited:active {
-    color: #ff0000;
-    background-color: #ffcccc;
+    color: #1565c0;
+    background-color: rgba(21, 101, 192, 0.1);
 }
 
 .nav-separator {
-    color: #666;
-    margin: 0 0.5rem;
+    color: #ccc;
+    margin: 0 0.3rem;
     font-weight: normal;
+    font-size: 0.8rem;
+}
+
+/* Resume Button */
+.nav-resume {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 140px;
+    justify-content: flex-end;
+}
+
+.resume-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background: #1565c0 !important;
+    border: 1px solid #1565c0 !important;
+    border-radius: 6px;
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: 500;
     font-size: 0.9rem;
+    min-width: 140px;
+    width: 140px;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.resume-btn:hover {
+    background: #1565c0 !important;
+    border-color: #1565c0 !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.7rem 1.2rem !important;
+}
+
+.resume-btn:active {
+    background: #1565c0 !important;
+    border-color: #1565c0 !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.7rem 1.2rem !important;
+    transform: none !important;
+}
+
+.resume-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    min-width: 1.2rem;
 }
 
 /* Main content */
@@ -267,99 +319,58 @@ a:visited:active {
 
 /* Footer */
 .footer {
-    margin-top: 4rem;
+    margin-top: 3rem;
     padding: 2rem 0;
-    border-top: 1px solid #eee;
-    text-align: center;
+    border-top: 1px solid rgba(221, 221, 221, 0.6);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
     color: #666;
     width: 100%;
 }
 
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .footer-links {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .footer-links a {
     color: #666;
     text-decoration: none;
     margin: 0 1rem;
-    transition: all 0.1s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
 }
 
 .footer-links a:hover {
-    color: #cc0000;
-    background-color: #ffff00;
-    padding: 1px 2px;
-    border-radius: 2px;
+    color: #1565c0;
+    background-color: rgba(21, 101, 192, 0.1);
 }
 
-.footer-links a:active {
-    color: #ff0000;
-    background-color: #ffcccc;
-    text-decoration: line-through;
-    transform: scale(0.98);
-}
-
-.footer-links a:visited {
-    color: #000080;
-}
-
-.footer-links a:visited:hover {
-    color: #cc0000;
-    background-color: #ffff00;
-}
-
-.footer-links a:visited:active {
-    color: #ff0000;
-    background-color: #ffcccc;
-}
-
-.footer-copyright {
+.footer-text {
     color: #888;
     font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-quote {
+    font-family: 'Source Serif Pro', serif;
+    font-style: italic;
+    color: #8b4513;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.footer-built {
     margin: 0;
-}
-
-.visitor-stats {
-    margin-top: 1rem;
-    text-align: center;
-    color: #888;
-    font-size: 0.9rem;
-}
-
-.visitor-counter, .last-updated {
-    display: inline-block;
-    margin: 0 1rem;
-}
-
-.visitor-counter span {
-    font-weight: bold;
-    color: #333;
-}
-
-.validation-badges {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.validation-badge {
-    display: inline-block;
-    margin: 0 0.5rem;
-    text-decoration: none;
-    border: 1px solid #ddd;
-    padding: 2px;
-    background: #fff;
-    transition: all 0.2s;
-}
-
-.validation-badge:hover {
-    border-color: #999;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.validation-badge img {
-    display: block;
-    border: none;
+    color: #666;
 }
 
 /* Lists */
@@ -508,6 +519,32 @@ th {
         gap: 1rem;
     }
     
+    .nav-resume {
+        order: -1;
+        margin-bottom: 0.5rem;
+        min-width: 140px;
+        width: 140px;
+    }
+    
+    .resume-btn {
+        padding: 0.7rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        min-width: 140px !important;
+        width: 140px !important;
+        justify-content: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        background: #1565c0 !important;
+        border-color: #1565c0 !important;
+        color: white !important;
+    }
+    
+    .resume-icon {
+        width: 1.1rem;
+        height: 1.1rem;
+        min-width: 1.1rem;
+    }
+    
     .nav-menu {
         gap: 1.5rem;
         width: 100%;
@@ -517,9 +554,10 @@ th {
     
     .nav-link {
         font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        padding: 0.5rem 0.8rem;
         min-width: 60px;
         text-align: center;
+        display: inline-block;
     }
     
     .nav-separator {
@@ -570,7 +608,7 @@ th {
     }
     
     .footer {
-        margin-top: 3rem;
+        margin-top: 2rem;
         padding: 1.5rem 0;
     }
     
@@ -579,31 +617,23 @@ th {
         flex-wrap: wrap;
         justify-content: center;
         gap: 0.5rem;
+        margin-bottom: 1rem;
     }
     
     .footer-links a {
         margin: 0;
         font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        padding: 0.4rem 0.6rem;
         min-width: 60px;
         text-align: center;
     }
     
-    .validation-badges {
-        margin-top: 0.8rem;
+    .footer-text {
+        font-size: 0.85rem;
     }
     
-    .validation-badge {
-        margin: 0 0.3rem;
-    }
-    
-    .visitor-stats {
-        margin-top: 0.8rem;
-    }
-    
-    .visitor-counter, .last-updated {
-        margin: 0 0.5rem;
-        font-size: 0.8rem;
+    .footer-quote {
+        font-size: 0.95rem;
     }
     
     /* Ensure tables are scrollable */
@@ -665,9 +695,10 @@ th {
     
     .nav-link {
         font-size: 0.85rem;
-        padding: 0.25rem 0.5rem;
+        padding: 0.4rem 0.6rem;
         min-width: 50px;
         text-align: center;
+        display: inline-block;
     }
     
     .nav-separator {
@@ -731,6 +762,30 @@ th {
         padding: 0.25rem 0.5rem;
         min-width: 50px;
         text-align: center;
+    }
+    
+    .nav-resume {
+        min-width: 140px;
+        width: 140px;
+    }
+    
+    .resume-btn {
+        padding: 0.7rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        min-width: 140px !important;
+        width: 140px !important;
+        justify-content: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        background: #1565c0 !important;
+        border-color: #1565c0 !important;
+        color: white !important;
+    }
+    
+    .resume-icon {
+        width: 1rem;
+        height: 1rem;
+        min-width: 1rem;
     }
     
     .footer-copyright {
