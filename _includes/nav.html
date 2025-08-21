@@ -3,7 +3,7 @@
     <div class="nav-menu">
       {% assign nav_items = site.data.navigation %}
       {% for item in nav_items %}
-        {% if item.title == 'Blog' or item.title == 'TIL' %}
+        {% if item.title == 'Blog' %}
           {% continue %}
         {% endif %}
         <a href="{{ item.url }}" class="nav-link">{{ item.title }}</a>
@@ -13,7 +13,7 @@
         <button class="nav-link nav-dropdown-toggle" style="background:none; border:none; font:inherit; cursor:pointer; color:inherit; padding:0;">More ▼</button>
         <div class="nav-dropdown-menu" style="display:none; position:absolute; left:0; top:100%; background:#f5ecd7; border:1px solid #d1bfa3; border-radius:4px; min-width:120px; z-index:10; box-shadow:1px 2px 6px #e0d3b8;">
           {% for item in nav_items %}
-            {% if item.title == 'Blog' or item.title == 'TIL' %}
+            {% if item.title == 'Blog' %}
               <a href="{{ item.url }}" class="nav-link" style="display:block; padding:0.4em 1em; color:#1565c0; text-decoration:underline;">{{ item.title }}</a>
             {% endif %}
           {% endfor %}

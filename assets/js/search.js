@@ -41,8 +41,7 @@
     results.slice(0, 7).forEach((result, i) => {
       const doc = documents.find(d => d.url === result.ref);
       let typeLabel = '';
-      if (doc.type === 'TIL') typeLabel = '<span style="color:#1565c0; font-size:0.95em;">[TIL]</span>';
-      else if (doc.type === 'Blog') typeLabel = '<span style="color:#8b4513; font-size:0.95em;">[Blog]</span>';
+      if (doc.type === 'Blog') typeLabel = '<span style="color:#8b4513; font-size:0.95em;">[Blog]</span>';
       else if (doc.type === 'SNS') typeLabel = '<span style="color:#b8860b; font-size:0.95em;">[SNS]</span>';
       const snippet = doc.content.length > 60 ? doc.content.substring(0, 60) + '...' : doc.content;
       resultsContainer.innerHTML += `<li class="footer-search-result${i === selectedIdx ? ' selected' : ''}" tabindex="-1" style="padding:0.5em 0.7em; border-bottom:1px dotted #d1bfa3; background:${i === selectedIdx ? '#f5ecd7' : 'none'};"><a href="${doc.url}" style="font-weight:600; color:#1565c0; text-decoration:underline;">${doc.title}</a> ${typeLabel}<br><span style="color:#555; font-size:0.98em;">${snippet}</span></li>`;
@@ -169,8 +168,7 @@
     results.slice(0, 7).forEach((result, i) => {
       const doc = documents.find(d => d.url === result.ref);
       let typeLabel = '';
-      if (doc.type === 'TIL') typeLabel = '<span style="color:#1565c0; font-size:0.95em;">[TIL]</span>';
-      else if (doc.type === 'Blog') typeLabel = '<span style="color:#8b4513; font-size:0.95em;">[Blog]</span>';
+      if (doc.type === 'Blog') typeLabel = '<span style="color:#8b4513; font-size:0.95em;">[Blog]</span>';
       else if (doc.type === 'SNS') typeLabel = '<span style="color:#b8860b; font-size:0.95em;">[SNS]</span>';
       const snippet = doc.content.length > 60 ? doc.content.substring(0, 60) + '...' : doc.content;
       modalResults.innerHTML += `<li class="footer-search-result" tabindex="-1" style="padding:0.5em 0.7em; border-bottom:1px dotted #d1bfa3;"><a href="${doc.url}" style="font-weight:600; color:#1565c0; text-decoration:underline;">${doc.title}</a> ${typeLabel}<br><span style="color:#555; font-size:0.98em;">${snippet}</span></li>`;

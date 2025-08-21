@@ -54,6 +54,4 @@ kramdown:
 timezone: Asia/Kolkata
 
 collections:
-  til:
-    output: true
-    permalink: /til/:year/:month/:day/
+  
