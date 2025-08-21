@@ -69,19 +69,7 @@
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="container">
-      <div class="nav-menu">
-        <a href="/" class="nav-link">Home</a>
-        <span class="nav-separator">|</span>
-        <a href="/about" class="nav-link">About</a>
-        <span class="nav-separator">|</span>
-        <a href="/projects" class="nav-link">Projects</a>
-        <span class="nav-separator">|</span>
-        <a href="/blog" class="nav-link">Blog</a>
-      </div>
-    </div>
-  </nav>
+  {% include nav.html %}
   <header class="cat-header">
     <h1 class="cat-title">Category: {{ page.title }}</h1>
     <a href="/categories/" class="back-link">← Back to all categories</a>
@@ -104,5 +92,6 @@
       {% endif %}
     {% endfor %}
   </section>
+  {% include footer.html %}
 </body>
 </html> 
