@@ -9,12 +9,11 @@ description: "Student developer from Bangalore specializing in AI, backend, and 
   <h1>Chinmay Singh</h1>
   <p style="text-align:center;"><em>Developer • Networking • Backend • DevOps</em></p>
   
-  <p style="text-align:center;">
-    <a href="mailto:mail@chinmaysingh.me">Email</a> • 
+  <p style="text-align:center; margin-top:2rem;">   
     <a href="https://www.linkedin.com/in/singhchinmay/" target="_blank">LinkedIn</a> • 
     <a href="https://github.com/SinghChinmayy" target="_blank">GitHub</a> • 
     <a href="https://x.com/SinghChinmayy" target="_blank">X</a> • 
-    <a href="https://t.me/singhchinmayy" target="_blank">Telegram</a>
+    <a href="https://substack.com/@chinmays" target="_blank">Substack</a>
   </p>
   
   <div style="margin-top:2em;">
