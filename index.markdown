@@ -18,6 +18,6 @@ description: "Student developer from Bangalore specializing in AI, backend, and 
   
   <div style="margin-top:2em;">
     <h3>Subscribe to my Substack</h3>
-    <iframe src="https://chinmays.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+    <iframe src="https://0xchinmayy.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
   </div>
 </div>
