@@ -9,6 +9,7 @@
 
 html, body {
   height: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
 }
 
 body {
@@ -26,12 +27,13 @@ body {
 /* Container for centering content */
 .container {
   width: 100%;
-  max-width: 98vw;
+  max-width: 100vw; /* Fix for mobile overflow */
   margin: 0 auto;
-  padding: 0 12px;
+  padding: 0 8px;   /* Slightly less padding for mobile */
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* Navbar */
@@ -49,6 +51,8 @@ body {
   gap: 0.7rem;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto; /* Prevent overflow on small screens */
 }
 
 .nav-link,
@@ -95,12 +99,13 @@ body {
 .main-content {
   flex: 1 0 auto;
   width: 100%;
-  max-width: 98vw;
+  max-width: 100vw; /* Fix for mobile overflow */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 1rem;
+  box-sizing: border-box;
 }
 
 /* Hero Section */
