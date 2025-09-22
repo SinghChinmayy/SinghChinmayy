@@ -48,8 +48,8 @@
 
 
 ---
-<p align="center">
-    <img src="https://api.boot.dev/v1/users/public/2b744741-fef9-4481-b32e-b14a5533a343/thumbnail" width="170" height="150" />
+<p align="left">
+    <img src="https://api.boot.dev/v1/users/public/2b744741-fef9-4481-b32e-b14a5533a343/thumbnail" width="250" height="150" />
 </p>
 
 ---
