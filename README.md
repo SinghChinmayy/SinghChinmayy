@@ -2,16 +2,22 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Student-Developer-blue" alt="Student Developer Badge" />
-  <img src="https://img.shields.io/badge/Backend-Go%2C%20C%2B%2B%2C%20Python-green" alt="Backend Badge" />
-  <img src="https://img.shields.io/badge/Cloud-AWS%2C%20Docker-yellow" alt="Cloud Badge" />
+  <img src="https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white" alt="Go Badge" />
+  <img src="https://img.shields.io/badge/C-00599C?logo=c&logoColor=white" alt="C Badge" />
+  <img src="https://img.shields.io/badge/C++-00599C?logo=c%2B%2B&logoColor=white" alt="C++ Badge" />
+  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python Badge" />
+  <img src="https://img.shields.io/badge/SQL-4479A1?logo=mysql&logoColor=white" alt="SQL Badge" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker Badge" />
+  <img src="https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white" alt="AWS Badge" />
+  <img src="https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black" alt="Linux Badge" />
+  <img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white" alt="Git Badge" />
+  <img src="https://img.shields.io/badge/Bash-4EAA25?logo=gnubash&logoColor=white" alt="Bash Badge" />
 </p>
 
 ---
 
 ## 👨‍💻 About Me
 
-I'm Chinmay, a student and passionate developer who loves building things that run fast and scale well.  
-I enjoy exploring backend systems, servers, and computer vision, and I'm always working on personal projects to learn and grow.
 
 ---
 
@@ -25,31 +31,14 @@ I enjoy exploring backend systems, servers, and computer vision, and I'm always 
 
 ## 🚀 Current Interests
 
-- Backend development & distributed systems
+- Backend development 
 - Server architecture & cloud infrastructure
-- Computer vision & AI
-- Building personal projects and learning new tech
 
 ---
 
 ## 📂 Projects
 
-- **[Portfolio Website](https://singhchinmayy.github.io/):** My personal site, built from scratch
-- **Server-side Apps:** RESTful APIs and microservices in Go & Python
-- **Computer Vision:** Image processing and ML experiments
-- **More coming soon...**
-
 ---
-
-## 🏀 Fun Facts
-
-- Basketball enthusiast 🏀
-- Fitness & calisthenics 💪
-- Learning new languages (spoken & programming!) 🌏
-
----
-
-## 🌐 Connect with Me
 
 <p>
   <a href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a>
@@ -58,5 +47,3 @@ I enjoy exploring backend systems, servers, and computer vision, and I'm always 
 </p>
 
 ---
-
-<p align="center">Thanks for
