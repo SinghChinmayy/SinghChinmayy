@@ -44,10 +44,10 @@
 ---
 
 <p>
-  <a href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a> href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a>
-  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>
-  <a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>
-</p></p>
+  <a href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a>
+  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>
+  <a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>
+</p>
 
 
 
