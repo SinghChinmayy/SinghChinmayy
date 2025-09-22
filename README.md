@@ -1,6 +1,10 @@
 <h1 align="center">Hi, I'm Chinmay Singh 👋</h1>
 
 <p align="center">
+  <img src="https://api.boot.dev/v1/users/public/2b744741-fef9-4481-b32e-b14a5533a343/thumbnail" >
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Student-Developer-blue" alt="Student Developer Badge" />
   <img src="https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white" alt="Go Badge" />
   <img src="https://img.shields.io/badge/C-00599C?logo=c&logoColor=white" alt="C Badge" />
@@ -18,7 +22,6 @@
 
 ## 👨‍💻 About Me
 
-
 ---
 
 ## 🛠️ Skills
@@ -34,16 +37,19 @@
 - Backend development 
 - Server architecture & cloud infrastructure
 
----
+------
 
-## 📂 Projects
+## 📂 Projects## 📂 Projects
 
 ---
 
 <p>
-  <a href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a>
-  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>
-  <a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>
-</p>
+  <a href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a> href="https://www.linkedin.com/in/singhchinmayy/"><img src="https://img.shields.io/badge/LinkedIn-blue?logo=linkedin" alt="LinkedIn" /></a>
+  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>  <a href="https://twitter.com/SinghChinmayy"><img src="https://img.shields.io/badge/Twitter-1DA1F2?logo=twitter" alt="Twitter" /></a>
+  <a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>a href="https://singhchinmayy.github.io/"><img src="https://img.shields.io/badge/Portfolio-1565c0?logo=github" alt="Portfolio" /></a>
+</p></p>
 
+
+
+---
 ---
