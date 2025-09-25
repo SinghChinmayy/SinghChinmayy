@@ -6,8 +6,9 @@ Tech Stack:
 <p align="left">
   <img src="https://img.shields.io/badge/C-00599C?logo=c&logoColor=white" alt="C" style="margin-right: 8px;">
   <img src="https://img.shields.io/badge/SQL-4479A1?logo=postgresql&logoColor=white" alt="SQL" style="margin-right: 8px;">
-
-</p>
+  
+  <img src="https://badges.aleen42.com/src/golang.svg" alt="golang" style="margin-right: 8px;">
+  </p>
 
 
 ---
