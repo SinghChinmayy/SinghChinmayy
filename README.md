@@ -47,6 +47,10 @@
 ### IAM System for College Project
 > Designed and built secure backend systems for user authentication and access control, supporting the full development lifecycle from coding to debugging and issue resolution.
 
+# Badges
+>   <img src="https://api.boot.dev/v1/users/public/2b744741-fef9-4481-b32e-b14a5533a343/thumbnail" >
+
+
 ---
 
 ## 📊 GitHub Stats
