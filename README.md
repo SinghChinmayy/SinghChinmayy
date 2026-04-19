@@ -5,11 +5,8 @@
     <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=4000&pause=1000&color=58A6FF&center=true&vCenter=true&multiline=true&repeat=true&width=650&height=100&lines=Hi+there%2C+I'm+Chinmay+Singh+%F0%9F%91%8B;CS+Undergrad+%7C+Systems+%26+Cloud+%7C+Self-Hoster" alt="Typing SVG" />
   </a>
 
+
   <br/>
-
-  <img src="https://komarev.com/ghpvc/?username=SinghChinmayy&style=for-the-badge&color=58A6FF" alt="Profile Views" />
-
-  <br/><br/>
 
   <!-- Social Badges -->
   <a href="https://chinmaysingh.me"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=About.me&logoColor=white" alt="Website" /></a>
