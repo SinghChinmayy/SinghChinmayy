@@ -13,7 +13,7 @@
 
 <br/>
 
-- 🎓 &nbsp;B.Sc Computer Science @ **Manipal Academy of Higher Education** *(2023–2027)*
+- 🎓 &nbsp;B.Tech Computer Science @ **Manipal Academy of Higher Education** *(2023–2027)*
 - 🔭 &nbsp;Building self-hosted infrastructure, streaming overlay tools & solving DSA problems
 - 🌱 &nbsp;Exploring cloud-native systems, container orchestration & computer networking
 - ⚡ &nbsp;Interests: Homelabs, Cybersecurity, Financial Markets, Geopolitics
