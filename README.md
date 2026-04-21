@@ -1,20 +1,22 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d001a,40:1e0040,100:E879F9&height=140&section=header&fontSize=0" />
+<br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=18&duration=2500&pause=1000&color=E879F9&center=true&vCenter=true&repeat=true&width=620&lines=CS+%40+MAHE+%2723%E2%80%9327;Currently+grinding+algorithms...;Self-hosting+everything+I+can;Container+orchestration+enjoyer" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=36&duration=1&pause=1000000&color=C9A84C&center=true&vCenter=true&repeat=false&width=500&lines=Chinmay+Singh" alt="Chinmay Singh" />
+
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=400&size=14&duration=2500&pause=1200&color=5EAAA8&center=true&vCenter=true&repeat=true&width=620&lines=Systems+%26+Cloud+Engineer;Self-Hoster+%7C+Builder;CS+%40+MAHE+%2723%E2%80%9327;Currently+grinding+algorithms..." alt="Typing SVG" />
 
 <br/>
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-1e0040?style=flat-square&logo=About.me&logoColor=E879F9)](https://chinmaysingh.me)
+[![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=flat-square&logo=About.me&logoColor=C9A84C)](https://chinmaysingh.me)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/singhchinmay/)
-[![X](https://img.shields.io/badge/@0xchinmayy-1e0040?style=flat-square&logo=x&logoColor=E879F9)](https://x.com/0xchinmayy)
+[![X](https://img.shields.io/badge/@0xchinmayy-111111?style=flat-square&logo=x&logoColor=C9A84C)](https://x.com/0xchinmayy)
 [![Substack](https://img.shields.io/badge/Substack-FF6719?style=flat-square&logo=substack&logoColor=white)](https://0xchinmayy.substack.com/)
-[![Email](https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:singhchinmayy@gmail.com)
+[![Email](https://img.shields.io/badge/Email-C0392B?style=flat-square&logo=gmail&logoColor=white)](mailto:singhchinmayy@gmail.com)
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:1e0040,100:E879F9&height=2&section=header" width="100%" />
+---
 
 CS undergrad at Manipal `2023–27`. I build things that run 24/7 — container orchestration, self-hosted infra, and systems that don't break under pressure. Currently grinding Kubernetes internals, networking, and competitive programming.
 
@@ -22,11 +24,9 @@ CS undergrad at Manipal `2023–27`. I build things that run 24/7 — container 
 bash <(curl -fsSL https://raw.githubusercontent.com/SinghChinmayy/dotfiles/main/install.sh)
 ```
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:E879F9,100:1e0040&height=2&section=header" width="100%" />
+---
 
-<br/>
-
-## 『 Skill Tree 』
+## 【 Skill Tree 】
 
 <div align="center">
 
@@ -44,11 +44,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/SinghChinmayy/dotfiles/main/
 
 </div>
 
-<br/>
+---
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:1e0040,100:E879F9&height=2&section=header" width="100%" />
-
-## 『 Project Log 』
+## 【 Project Log 】
 
 <table>
 <tr>
@@ -60,7 +58,7 @@ Self-hosted media platform running 24/7 — *arr suite (Sonarr, Radarr, Prowlarr
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
-![Tailscale](https://img.shields.io/badge/Tailscale-1e0040?style=flat-square&logo=tailscale&logoColor=E879F9)
+![Tailscale](https://img.shields.io/badge/Tailscale-111111?style=flat-square&logo=tailscale&logoColor=C9A84C)
 
 </td>
 <td width="50%" valign="top">
@@ -70,8 +68,8 @@ Self-hosted media platform running 24/7 — *arr suite (Sonarr, Radarr, Prowlarr
 Modular search pipeline from scratch — document ingestion, tokenization, inverted index, and relevance ranking. No external search libs.
 
 ![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
-![NLP](https://img.shields.io/badge/NLP-E879F9?style=flat-square)
-![Data Structures](https://img.shields.io/badge/Data%20Structures-A855F7?style=flat-square)
+![NLP](https://img.shields.io/badge/NLP-C9A84C?style=flat-square)
+![Data Structures](https://img.shields.io/badge/Data%20Structures-5EAAA8?style=flat-square)
 
 </td>
 </tr>
@@ -82,7 +80,7 @@ Modular search pipeline from scratch — document ingestion, tokenization, inver
 
 Browser-based streaming overlay editor for live broadcast graphics and scorecards — fully client-side, no backend required.
 
-![Next.js](https://img.shields.io/badge/Next.js-1e0040?style=flat-square&logo=nextdotjs&logoColor=E879F9)
+![Next.js](https://img.shields.io/badge/Next.js-111111?style=flat-square&logo=nextdotjs&logoColor=C9A84C)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
 
@@ -94,8 +92,8 @@ Browser-based streaming overlay editor for live broadcast graphics and scorecard
 Multi-model AI orchestration system built in 48h at Rakuten Hackathon. Coordinates multiple LLMs to solve complex reasoning tasks.
 
 ![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
-![Multi-agent](https://img.shields.io/badge/Multi--agent-E879F9?style=flat-square)
-![AI](https://img.shields.io/badge/LLMs-A855F7?style=flat-square)
+![Multi-agent](https://img.shields.io/badge/Multi--agent-C9A84C?style=flat-square)
+![LLMs](https://img.shields.io/badge/LLMs-5EAAA8?style=flat-square)
 
 </td>
 </tr>
@@ -119,28 +117,28 @@ Secure auth and access control backend — role-based permissions, JWT sessions,
 
 ![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
-![IAM](https://img.shields.io/badge/IAM-A855F7?style=flat-square)
+![IAM](https://img.shields.io/badge/IAM-5EAAA8?style=flat-square)
 
 </td>
 </tr>
 </table>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:E879F9,100:1e0040&height=2&section=header" width="100%" />
+---
 
-## 『 Status 』
+## 【 Status 】
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=SinghChinmayy&show_icons=true&theme=transparent&hide_border=true&title_color=E879F9&icon_color=22D3EE&text_color=e2d9f3&count_private=true" height="160" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=SinghChinmayy&theme=transparent&hide_border=true&ring=E879F9&fire=A855F7&currStreakLabel=E879F9&sideLabels=e2d9f3&sideNums=22D3EE&currStreakNum=E879F9&dates=8b5cf6" height="160" />
+  <img src="https://github-readme-stats.vercel.app/api?username=SinghChinmayy&show_icons=true&theme=transparent&hide_border=true&title_color=C9A84C&icon_color=5EAAA8&text_color=E8DCC8&count_private=true" height="160" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=SinghChinmayy&theme=transparent&hide_border=true&ring=C9A84C&fire=D4A843&currStreakLabel=C9A84C&sideLabels=E8DCC8&sideNums=5EAAA8&currStreakNum=C9A84C&dates=8b7355" height="160" />
 </div>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=SinghChinmayy&theme=github-compact&hide_border=true&bg_color=00000000&color=E879F9&line=A855F7&point=22D3EE&area=true&area_color=2d0060" width="98%" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=SinghChinmayy&theme=github-compact&hide_border=true&bg_color=00000000&color=C9A84C&line=D4A843&point=5EAAA8&area=true&area_color=2a1a00" width="98%" />
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:1e0040,100:E879F9&height=2&section=header" width="100%" />
+---
 
-## 『 LeetCode Arena 』
+## 【 LeetCode 】
 
 <div align="center">
   <a href="https://leetcode.com/u/SinghChinmayy/">
@@ -151,7 +149,3 @@ Secure auth and access control backend — role-based permissions, JWT sessions,
 </div>
 
 <br/>
-
-<div align="center">
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:E879F9,60:1e0040,100:0d001a&height=110&section=footer&fontSize=0" />
-</div>
