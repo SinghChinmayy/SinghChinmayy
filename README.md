@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d001a,40:1e0040,100:E879F9&height=150&section=header&text=Chinmay%20Singh&fontColor=ffffff&fontSize=42&fontAlignY=60&desc=Systems%20%26%20Cloud%20%7C%20Self-Hoster%20%7C%20Builder&descAlignY=80&descSize=15&descFontColor=C084FC" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d001a,40:1e0040,100:E879F9&height=140&section=header&fontSize=0" />
 
 <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=18&duration=2500&pause=1000&color=E879F9&center=true&vCenter=true&repeat=true&width=620&lines=CS+%40+MAHE+%2723%E2%80%9327;Currently+grinding+algorithms...;Self-hosting+everything+I+can;Container+orchestration+enjoyer" alt="Typing SVG" />
 
@@ -17,6 +17,10 @@
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:1e0040,100:E879F9&height=2&section=header" width="100%" />
 
 CS undergrad at Manipal `2023–27`. I build things that run 24/7 — container orchestration, self-hosted infra, and systems that don't break under pressure. Currently grinding Kubernetes internals, networking, and competitive programming.
+
+```sh
+bash <(curl -fsSL https://raw.githubusercontent.com/SinghChinmayy/dotfiles/main/install.sh)
+```
 
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E879F9,100:1e0040&height=2&section=header" width="100%" />
 
