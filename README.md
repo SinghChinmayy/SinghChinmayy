@@ -1,151 +1,70 @@
-<div align="center">
+# Chinmay Singh
 
-<br/>
+I build software that has to keep working after the demo: self-hosted infrastructure, backend systems, and tooling for observable, controlled operations. I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, graduating in June 2027, with ~2 years of freelance development experience and a completed Software Engineering internship at QTech India.
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=36&duration=1&pause=1000000&color=C9A84C&center=true&vCenter=true&repeat=false&width=500&lines=Chinmay+Singh" alt="Chinmay Singh" />
+Everything featured below is publicly verifiable—each project links directly to its GitHub repository so you can read the code.
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=400&size=14&duration=2500&pause=1200&color=5EAAA8&center=true&vCenter=true&repeat=true&width=620&lines=Systems+%26+Cloud+Engineer;Self-Hoster+%7C+Builder;CS+%40+MAHE+%2723%E2%80%9327;Currently+grinding+algorithms..." alt="Typing SVG" />
+## What I'm building now
 
-<br/>
+**[Aegis — Observability & Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)**
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-111111?style=flat-square&logo=About.me&logoColor=C9A84C)](https://chinmaysingh.me)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/singhchinmay/)
-[![X](https://img.shields.io/badge/@0xchinmayy-111111?style=flat-square&logo=x&logoColor=C9A84C)](https://x.com/0xchinmayy)
-[![Substack](https://img.shields.io/badge/Substack-FF6719?style=flat-square&logo=substack&logoColor=white)](https://0xchinmayy.substack.com/)
-[![Email](https://img.shields.io/badge/Email-C0392B?style=flat-square&logo=gmail&logoColor=white)](mailto:singhchinmayy@gmail.com)
+A self-hosted operations platform for turning service failures into auditable incidents, proposing safe remediation, requiring human approval, and verifying recovery. The current backend slice is designed around Go, PostgreSQL/`pgx`, REST over HTTP, background remediation workers, structured logs, Prometheus metrics, and OpenTelemetry traces.
 
-</div>
+## Featured project
 
----
+### Aegis
 
-CS undergrad at Manipal `2023–27`. I build things that run 24/7 — container orchestration, self-hosted infra, and systems that don't break under pressure. Currently grinding Kubernetes internals, networking, and competitive programming.
+Controlled remediation for self-hosted services, with a deliberately small REST surface and an incident lifecycle built around approval and recovery checks. The first vertical slice covers `/health`, service registration, signal ingestion, and incident creation/retrieval—with storage, tests, logs, metrics, and reproducible `curl` examples.
 
-```sh
-bash <(curl -fsSL https://raw.githubusercontent.com/SinghChinmayy/dotfiles/main/install.sh)
-```
+`Go` `PostgreSQL` `REST` `Prometheus` `OpenTelemetry`
 
----
+[Read the repository →](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
 
-## 【 Skill Tree 】
+> Private or client-owned work is intentionally excluded. Featured projects are limited to repositories that are public and clickable from this profile.
 
-<div align="center">
+## Skills
 
-**Languages**
+### Languages
 
-[![Skills](https://skillicons.dev/icons?i=cpp,c,python,ts,js,bash&perline=6)](https://skillicons.dev)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-336791?style=flat-square&logo=postgresql&logoColor=white)
 
-**Infrastructure**
-
-[![Skills](https://skillicons.dev/icons?i=linux,docker,kubernetes,aws,cloudflare,nginx&perline=6)](https://skillicons.dev)
-
-**Web & Databases**
-
-[![Skills](https://skillicons.dev/icons?i=nextjs,react,fastapi,tailwind,postgres,mysql&perline=6)](https://skillicons.dev)
-
-</div>
-
----
-
-## 【 Project Log 】
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-**[Homelab](https://github.com/SinghChinmayy/homelab)**
-
-Self-hosted media platform running 24/7 — *arr suite (Sonarr, Radarr, Prowlarr), Jellyfin, and Portainer, tunneled over Tailscale VPN.
-
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
-![Tailscale](https://img.shields.io/badge/Tailscale-111111?style=flat-square&logo=tailscale&logoColor=C9A84C)
-
-</td>
-<td width="50%" valign="top">
-
-**[NLP Search Engine](https://github.com/SinghChinmayy/search-engine)**
-
-Modular search pipeline from scratch — document ingestion, tokenization, inverted index, and relevance ranking. No external search libs.
-
-![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
-![NLP](https://img.shields.io/badge/NLP-C9A84C?style=flat-square)
-![Data Structures](https://img.shields.io/badge/Data%20Structures-5EAAA8?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**[Overlay Editor](https://github.com/SinghChinmayy/overlay)**
-
-Browser-based streaming overlay editor for live broadcast graphics and scorecards — fully client-side, no backend required.
-
-![Next.js](https://img.shields.io/badge/Next.js-111111?style=flat-square&logo=nextdotjs&logoColor=C9A84C)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-
-</td>
-<td width="50%" valign="top">
-
-**[Agentic AI](https://chinmaysingh.me/projects/rakuten-hackathon-ai/)**
-
-Multi-model AI orchestration system built in 48h at Rakuten Hackathon. Coordinates multiple LLMs to solve complex reasoning tasks.
-
-![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
-![Multi-agent](https://img.shields.io/badge/Multi--agent-C9A84C?style=flat-square)
-![LLMs](https://img.shields.io/badge/LLMs-5EAAA8?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**[VPS Infrastructure](https://chinmaysingh.me/projects/vps-infrastructure-self-hosted/)**
-
-Production-grade self-managed Linux VPS — Docker, Caddy reverse proxy, custom domain, and automated SSL.
+### Infra & Cloud
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Caddy](https://img.shields.io/badge/Caddy-1F88C0?style=flat-square&logo=caddy&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white)
+![WireGuard](https://img.shields.io/badge/WireGuard-88171A?style=flat-square&logo=wireguard&logoColor=white)
 
-</td>
-<td width="50%" valign="top">
+### Data & Backend
 
-**IAM System**
-
-Secure auth and access control backend — role-based permissions, JWT sessions, audit logging, built for a college-scale system.
-
-![Python](https://img.shields.io/badge/Python-3670A0?style=flat-square&logo=python&logoColor=ffdd54)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
-![IAM](https://img.shields.io/badge/IAM-5EAAA8?style=flat-square)
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=111111)
 
-</td>
-</tr>
-</table>
+### AI & Agents
 
----
+![LangGraph](https://img.shields.io/badge/LangGraph-1C1C1C?style=flat-square&logo=langchain&logoColor=white)
+![Agentic systems](https://img.shields.io/badge/Agentic%20systems-6E56CF?style=flat-square)
+![Observability](https://img.shields.io/badge/Observability-5E5CE6?style=flat-square)
 
-## 【 Status 】
+## Certifications
 
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=SinghChinmayy&show_icons=true&theme=transparent&hide_border=true&title_color=C9A84C&icon_color=5EAAA8&text_color=E8DCC8&count_private=true" height="160" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=SinghChinmayy&theme=transparent&hide_border=true&ring=C9A84C&fire=D4A843&currStreakLabel=C9A84C&sideLabels=E8DCC8&sideNums=5EAAA8&currStreakNum=C9A84C&dates=8b7355" height="160" />
-</div>
+AWS Academy Cloud Foundations · Boot.dev Systems & DevOps · Programming in Python (University of Pennsylvania) · NISM Series V-A (Mutual Fund Distributors)
 
-<div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=SinghChinmayy&theme=github-compact&hide_border=true&bg_color=00000000&color=C9A84C&line=D4A843&point=5EAAA8&area=true&area_color=2a1a00" width="98%" />
-</div>
-
----
-
-## 【 LeetCode 】
+## GitHub activity
 
 <div align="center">
-  <a href="https://leetcode.com/u/SinghChinmayy/">
-    <img src="https://leetcard.jacoblin.cool/SinghChinmayy?theme=dark&font=JetBrains+Mono&ext=heatmap" width="500" />
-  </a>
-  <br/>
-  <sub><a href="https://github.com/SinghChinmayy/leetcode">solutions & notes →</a></sub>
+  <img src="https://github-readme-stats.vercel.app/api?username=SinghChinmayy&show_icons=true&hide_border=true&theme=transparent&count_private=false" height="165" alt="Chinmay's GitHub stats" />
+  <img src="https://streak-stats.demolab.com?user=SinghChinmayy&theme=transparent&hide_border=true" height="165" alt="Chinmay's GitHub streak" />
 </div>
 
-<br/>
+## Contact
+
+[![Email](https://img.shields.io/badge/Email-dev%40chinmaysingh.me-8B0000?style=flat-square&logo=gmail&logoColor=white)](mailto:dev@chinmaysingh.me)
+[![Website](https://img.shields.io/badge/Website-chinmaysingh.me-111111?style=flat-square&logo=googlechrome&logoColor=white)](https://chinmaysingh.me)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-singhchinmay-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/singhchinmay/)
+
+Based in Bengaluru · Technical Head, RADAR Robotics Club, MIT Manipal · Regional Robo Wars championship winner
