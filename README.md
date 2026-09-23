@@ -1,60 +1,59 @@
-# Chinmay Singh — Portfolio
+# Chinmay Singh
 
-A personal portfolio for Chinmay Singh, an early-career software engineer focused on backend development, infrastructure, and systems engineering. It is built with [Astro](https://astro.build), TypeScript, MDX, and native CSS, and deployed to [Cloudflare Pages](https://pages.cloudflare.com).
+Early-career software engineer focused on backend development, infrastructure, and systems engineering.
 
-The site is intentionally engineering-focused. Its project case studies link to public repositories and describe current scope and limitations honestly, including the ongoing Kidney Care engineering prototype.
+I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, learning by building public projects and writing about the decisions, trade-offs, and unfinished parts behind them.
 
-## Prerequisites
+[Website](https://chinmaysingh.me) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
 
-- [Node.js](https://nodejs.org) v18+
-- npm (comes with Node.js)
+## What I’m working on
 
-## Getting Started
+- Backend services with clear APIs, persistence, and operational boundaries
+- Infrastructure that is understandable, observable, and safe to change
+- Systems projects that make fundamentals visible instead of hiding them behind abstractions
+- Technical writing about architecture, search, and lessons from building
 
-### 1. Install dependencies
+## Selected projects
+
+### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
+
+An ongoing Go backend project exploring incident detection, auditable remediation proposals, human approval, and recovery verification for self-hosted services.
+
+`Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
+
+### [Kidney Care](https://github.com/SinghChinmayy/kidney-care-health-tracker)
+
+An offline-first Flutter engineering prototype exploring local SQLite persistence and synchronization with Supabase/Postgres. This is a learning project, not a production medical system.
+
+`Flutter` `Dart` `Drift` `SQLite` `Supabase` `PostgreSQL`
+
+### [Searchy — NLP Search Engine Pipeline](https://github.com/SinghChinmayy/search-engine)
+
+A modular Python pipeline for document ingestion, Unicode normalization, tokenization, and inverted-index experiments.
+
+`Python` `Regex` `NLP` `Information Retrieval`
+
+## Writing
+
+I write about the engineering ideas I’m actively learning:
+
+- [Stage 1: Building an NLP Search Pipeline](https://chinmaysingh.me/blogs/search-engine-stage-1)
+- [Monoliths or Microservices? Choosing an Architecture](https://chinmaysingh.me/blogs/monolith-or-microservices-choosing-the-right-architecture-for-scale)
+- [More articles](https://chinmaysingh.me/blogs)
+
+## This repository
+
+This repository is the source for my personal portfolio website. It uses Astro, TypeScript, MDX, and native CSS, and is deployed through Cloudflare Pages.
 
 ```bash
 npm install
-```
-
-> **Why?** `npm run dev` runs `astro dev`, which requires the `astro` binary from `node_modules`. If you see `astro: command not found`, this step was missed.
-
-### 2. Start the dev server
-
-```bash
 npm run dev
 ```
 
-The site will be available at **http://localhost:4321**.
+The production build runs with:
 
-## Available Scripts
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Start local dev server at `localhost:4321` |
-| `npm run build` | Type-check and build for production |
-| `npm run preview` | Preview the production build locally |
-
-## Project Structure
-
-```
-/
-├── public/          # Static assets (favicon, fonts, images)
-├── src/
-│   ├── data/        # Site config (site.json loaded by astro.config.mjs)
-│   ├── content/     # MDX content (case studies, blogs, etc.)
-│   ├── layouts/     # Page layouts
-│   ├── pages/       # Astro pages & routes
-│   └── components/  # Reusable Astro components
-└── astro.config.mjs # Astro configuration
+```bash
+npm run build
 ```
 
-## Content Management
-
-Site content lives in `src/content` as MDX and site configuration lives in `src/data/site.json`.
-
-Generated routes include `/`, `/projects`, `/projects/[slug]`, `/blogs`, `/blogs/[slug]`, `/contact`, `/404`, `/robots.txt`, and `/rss.xml`. The legacy `/rss` and `/writing` paths redirect to their canonical routes.
-
-## Deployment
-
-This site targets **Cloudflare Pages** via the `@astrojs/cloudflare` adapter. Push to your connected branch to trigger a production build.
+I’m early in my career and still learning. The project pages are deliberately specific about what is implemented, what is planned, and what has not been validated yet.
