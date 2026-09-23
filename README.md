@@ -1,20 +1,30 @@
 # Chinmay Singh
 
-I build software that has to keep working after the demo: self-hosted infrastructure, backend systems, and tooling for observable, controlled operations. I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, graduating in June 2027, with ~2 years of freelance development experience and a completed Software Engineering internship at QTech India.
+I build software that has to keep working after the demo: offline-first applications, self-hosted infrastructure, backend systems, and tooling for observable, controlled operations. I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, graduating in June 2027, with ~2 years of freelance development experience and a completed Software Engineering internship at QTech India.
 
 Everything featured below is publicly verifiable—each project links directly to its GitHub repository so you can read the code.
 
 ## What I'm building now
 
-**[Aegis — Observability & Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)**
+**[Kidney Care — Offline-First Patient Health Tracker](https://github.com/SinghChinmayy/kidney-care-health-tracker)**
 
-A self-hosted operations platform for turning service failures into auditable incidents, proposing safe remediation, requiring human approval, and verifying recovery. The current backend slice is designed around Go, PostgreSQL/`pgx`, REST over HTTP, background remediation workers, structured logs, Prometheus metrics, and OpenTelemetry traces.
+A Flutter mobile app for recording patient vitals, fluid intake, dialysis context, profile preferences, and medication schedules. It treats local Drift/SQLite storage as the source of truth, then synchronizes changes with Supabase Auth/Postgres when connectivity is available.
 
 ## Featured project
 
+### Kidney Care
+
+An offline-first Flutter health tracker focused on durable patient data: local-first writes, bidirectional sync, soft deletes, conflict handling, patient-scoped RLS, versioned migrations, and testable repository boundaries. The current prototype covers authentication, patient onboarding, blood pressure, glucose, weight, fluid intake, medication schedules, history, summaries, and charts.
+
+`Flutter` `Dart` `Drift` `SQLite` `Supabase` `PostgreSQL`
+
+[Read the repository →](https://github.com/SinghChinmayy/kidney-care-health-tracker)
+
+> This is an engineering prototype, not a production medical system. The repository documents its current limitations, including foreground-only sync and remaining test and analysis issues.
+
 ### Aegis
 
-Controlled remediation for self-hosted services, with a deliberately small REST surface and an incident lifecycle built around approval and recovery checks. The first vertical slice covers `/health`, service registration, signal ingestion, and incident creation/retrieval—with storage, tests, logs, metrics, and reproducible `curl` examples.
+Controlled remediation for self-hosted services, with an auditable incident lifecycle built around approval and recovery checks.
 
 `Go` `PostgreSQL` `REST` `Prometheus` `OpenTelemetry`
 
@@ -43,6 +53,7 @@ Controlled remediation for self-hosted services, with a deliberately small REST 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=111111)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
 
 ### AI & Agents
 
