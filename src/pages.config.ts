@@ -57,9 +57,9 @@ export const pagesConfig = {
    * Blog listing page (/blogs)
    */
   writing: {
-    title: 'Blogs',
+    title: 'Blog',
     description: 'Technical articles, notes, and things I\'ve learned from building software and studying computer science.',
-    heading: 'Blogs',
+    heading: 'Blog',
     intro: 'Notes from building software and studying computer science: architecture trade-offs, infrastructure, search, and the lessons behind unfinished systems.',
   },
 

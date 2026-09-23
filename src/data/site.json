@@ -58,15 +58,15 @@
       "children": []
     },
     {
-      "label": "Blogs",
+      "label": "Blog",
       "href": "/blogs",
       "show": true,
       "children": []
     },
     {
-      "label": "Hello!",
-      "href": "contact",
-      "show": false,
+      "label": "Contact",
+      "href": "/contact",
+      "show": true,
       "children": []
     }
   ]

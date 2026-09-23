@@ -66,7 +66,12 @@ const isActive = (href: string) => {
 ---
 
 <nav class="site-nav" aria-label="Main navigation">
-  <div class="nav-scroll">
+  <a class="nav-brand" href="/" aria-label={`${siteConfig.author.name} home`}>CS<span aria-hidden="true">/</span></a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+    <span class="visually-hidden">Open navigation</span>
+    <span aria-hidden="true">Menu</span>
+  </button>
+  <div class="nav-scroll" id="primary-navigation">
     <ul class="nav-list">
       {
         navItems.map((item) => (
@@ -140,6 +145,17 @@ const isActive = (href: string) => {
 </nav>
 
 <script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.site-nav');
+  menuToggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('nav-open') ?? false;
+    menuToggle.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('click', () => {
+    nav?.classList.remove('nav-open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+  }));
+
   function updateActiveNav() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll(".nav-link");
@@ -169,14 +185,18 @@ const isActive = (href: string) => {
 
 <style>
   .site-nav {
+    position: relative;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--color-border);
     background: var(--color-bg);
-    padding: var(--space-md) 1.5rem;
-    margin-bottom: var(--space-md);
+    padding: 1rem 1.5rem;
     gap: 2rem;
+    min-height: 4.5rem;
   }
+  .nav-brand { color: var(--color-text); font-weight: 700; letter-spacing: -.04em; font-size: 1.05rem; }
+  .nav-brand span { color: var(--color-accent); margin-left: .1rem; }
 
   .nav-logo {
     flex-shrink: 0;
@@ -216,7 +236,7 @@ const isActive = (href: string) => {
   .nav-list {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 2rem;
     list-style: none;
     margin: 0;
@@ -244,8 +264,7 @@ const isActive = (href: string) => {
     color: var(--color-text-secondary);
     font-size: 0.8125rem;
     font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.01em;
     text-decoration: none;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -265,7 +284,9 @@ const isActive = (href: string) => {
 
   .nav-link--active {
     color: var(--color-text);
+    font-weight: 600;
   }
+  .nav-link--active::after { content: ""; display: block; width: .3rem; height: .3rem; border-radius: 50%; background: var(--color-accent); margin-left: .15rem; }
 
   /* Dropdown Menu Styles */
   .dropdown-menu {
@@ -333,40 +354,17 @@ const isActive = (href: string) => {
     position: relative;
   }
 
-  .nav-end::before {
-    content: "";
-    position: absolute;
-    left: -24px;
-    top: 0;
-    bottom: 0;
-    width: 24px;
-    background: linear-gradient(to right, transparent, var(--color-bg));
-    pointer-events: none;
-  }
+  .menu-toggle { display: none; }
 
   @media (max-width: 768px) {
-    .nav-scroll {
-      overflow-x: auto;
-      overflow-y: visible; /* Allow vertical overflow for dropdowns if they exist */
-    }
-
-    .nav-list {
-      justify-content: flex-start;
-      gap: 1.5rem;
-      padding: 0.5rem 1rem;
-    }
-
-    .nav-link {
-      font-size: 0.75rem;
-    }
-
-    .nav-end {
-      padding: 0 0.5rem;
-    }
-
-    .nav-end::before {
-      left: -16px;
-      width: 16px;
-    }
+    .site-nav { padding: .9rem 1rem; justify-content: space-between; border-bottom: 1px solid var(--color-border); }
+    .menu-toggle { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); background: var(--color-bg-secondary); color: var(--color-text-secondary); cursor: pointer; font-size: .8125rem; }
+    .nav-scroll { display: none; position: absolute; left: 1rem; right: 1rem; top: 4.25rem; padding: .5rem; border: 1px solid var(--color-border); background: var(--color-bg-secondary); box-shadow: var(--shadow-sm); }
+    .nav-open .nav-scroll { display: block; }
+    .nav-list { flex-direction: column; align-items: stretch; gap: 0; padding: 0; min-width: 0; }
+    .nav-link { padding: .75rem; font-size: .9375rem; }
+    .nav-link--active::after { display: none; }
+    .nav-end { margin-left: auto; padding: 0; border-left: 0; }
+    .nav-item { width: 100%; }
   }
 </style>
