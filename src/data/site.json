@@ -36,6 +36,11 @@
         "platform": "instagram",
         "url": "https://www.instagram.com/singhchinmayy/",
         "label": "Instagram"
+      },
+      {
+        "platform": "leetcode",
+        "url": "https://leetcode.com/u/SinghChinmayy/",
+        "label": "LeetCode"
       }
     ]
   },
