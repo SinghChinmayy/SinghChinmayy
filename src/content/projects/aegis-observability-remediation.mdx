@@ -1,0 +1,103 @@
+---
+title: Aegis — Controlled Remediation Platform
+role: Solo Developer
+year: 2026
+duration: Ongoing
+teamSize: 1
+outcomeSummary: >-
+  Designing an auditable workflow for detecting service failures, proposing safe
+  remediation, requiring human approval, and verifying recovery.
+overview: >-
+  Aegis is a learning project about the backend boundaries around operational
+  automation. The public repository currently documents the first Go and REST
+  backend slice, its planned storage and observability, and a rule that each
+  feature needs code, tests or a reproducible failure case, operational signals,
+  and a short learning note.
+problem: >-
+  Automated recovery can make an incident worse when the system cannot explain
+  what it detected, what it plans to change, or whether the service recovered.
+  Aegis explores a controlled lifecycle that keeps detection, approval,
+  remediation, and recovery verification explicit.
+constraints:
+  - Solo learning project with a deliberately small first backend slice
+  - Remediation safety rules belong in the backend, not only in a future UI
+  - Every feature should have a test or reproducible failure case and evidence that it ran
+  - The public repository is still in active design and implementation
+approach: >-
+  I started by defining the incident lifecycle and the first vertical API slice:
+  health, service registration, signals, incident creation, and incident lookup.
+  The planned backend uses Go, a REST API, PostgreSQL, background workers, and
+  structured observability through logs, Prometheus metrics, and OpenTelemetry.
+keyDecisions:
+  - decision: Require human approval before remediation
+    reasoning: >-
+      Operational automation should be inspectable and reversible. Approval is
+      an explicit boundary between a proposed action and a potentially harmful change.
+    alternatives:
+      - Fully automatic remediation
+      - Manual operations with no recorded proposal
+  - decision: Build the backend vertical slice before the UI
+    reasoning: >-
+      The safety model and API contract should be exercised independently of a
+      presentation layer. A later UI can remain API-facing while the backend
+      owns the rules.
+    alternatives:
+      - Start with a dashboard and add the backend later
+      - Put remediation rules in the client
+  - decision: Treat operational evidence as part of feature completion
+    reasoning: >-
+      Tests alone do not show how an operational workflow behaves. Logs, metrics,
+      and short explanations make the system easier to inspect while learning.
+    alternatives:
+      - Add observability after all features are complete
+techStack:
+  - Go
+  - REST / JSON
+  - PostgreSQL
+  - Prometheus
+  - OpenTelemetry
+  - Background workers
+impact:
+  metrics:
+    - label: Initial API slice
+      value: '6 planned endpoints across health, services, signals, and incidents'
+    - label: Safety boundary
+      value: Human approval before remediation
+    - label: Public status
+      value: Active learning project; implementation is ongoing
+  qualitative: >-
+    Aegis is helping me practice backend design for failure-prone systems: clear
+    state transitions, explicit approval, recovery checks, and operational evidence.
+    Its current value is in making those boundaries concrete and reviewable, not
+    in claiming a production-ready incident platform.
+learnings:
+  - >-
+    Reliability workflows need explicit state and ownership rather than a single
+    retry loop
+  - >-
+    Safety constraints should be visible in the API and data model
+  - >-
+    Observability is part of the implementation contract for operational tooling
+  - >-
+    Small vertical slices make it easier to validate architecture before adding UI
+featured: true
+status: ongoing
+order: 1
+relatedProjects: []
+---
+
+🔗 **[View the public repository on GitHub](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)**
+
+## Current direction
+
+The repository starts with a small, explicit API surface and grows toward an
+auditable incident lifecycle:
+
+1. Detect a service signal.
+2. Record an incident.
+3. Propose a remediation.
+4. Require approval.
+5. Run the action and verify recovery.
+
+The project is intentionally presented as ongoing work. The repository README
+tracks the first backend slice and the evidence expected for each feature.

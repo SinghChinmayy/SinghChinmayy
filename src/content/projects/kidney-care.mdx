@@ -1,0 +1,170 @@
+---
+title: Kidney Care
+role: Solo Developer
+year: 2026
+duration: Ongoing
+teamSize: 1
+outcomeSummary: >-
+  Built an offline-first Flutter engineering prototype for logging blood pressure,
+  glucose, and weight — with drift as the local source of truth, a registry-driven
+  sync engine for Supabase reconciliation, and 20+ unit tests covering repositories
+  and sync logic.
+overview: >-
+  An engineering prototype exploring how a mobile app can track structured data
+  reliably, even without connectivity. The app combines a Flutter UI, Supabase
+  Auth and Postgres on the backend, and a local drift (SQLite) database that acts
+  as the single source of truth for all reads and writes. A separate SyncEngine
+  layer reconciles dirty local rows with the remote database using last-write-wins
+  conflict resolution. Stage-1 offline architecture is implemented; end-to-end
+  manual validation is the remaining step before moving on to additional entities
+  and UI polish.
+problem: >-
+  CKD patients must log vitals consistently, but clinic visits and daily life do
+  not guarantee network access. A cloud-only app fails the moment connectivity
+  drops. The challenge was designing a system where logging vitals always succeeds
+  locally, sync happens transparently when online, and the architecture can grow
+  to cover the full planned schema without rewriting the sync engine.
+constraints:
+  - Solo project — all architecture, backend schema, and app code are self-directed
+  - Must work fully offline for vitals CRUD; profile writes require network
+  - Local schema mirrors remote Postgres 1:1 plus sync metadata columns
+  - Repositories must never import Supabase — sync is an orthogonal layer
+  - Stage-1 scope limited to patient profile plus three vitals tables
+  - No sync status UI or native background execution in this stage
+approach: >-
+  Started with schema design and Supabase migrations (RLS, soft deletes,
+  updated_at triggers, patient bootstrap on signup). Built the Flutter app with
+  Provider-based ViewModels and feature modules for auth, onboarding, home, and
+  vitals logging. Replaced the in-memory mock repository with drift tables, DAOs,
+  and local-only repositories that mark rows dirty on write. Implemented a generic
+  SyncEngine driven by a SyncableTable registry — each table registers push and
+  pull handlers, so future entities plug in without engine changes. Wired sync
+  triggers on app lifecycle events and debounced post-write hooks, with an
+  InitialSyncGate that blocks the UI until the first online pull completes.
+keyDecisions:
+  - decision: drift (SQLite) as the single source of truth
+    reasoning: >-
+      All UI reads and writes go through drift synchronously. The app never waits
+      on network for vitals logging. Sync is best-effort background reconciliation,
+      not part of the write path's success criteria.
+    alternatives:
+      - Direct Supabase reads/writes (fails offline, couples UI to network)
+      - Hive or Isar (less SQL expressiveness for mirroring Postgres schema)
+  - decision: Registry-driven SyncEngine instead of per-table hardcoding
+    reasoning: >-
+      The full schema plan includes 10+ entities beyond stage-1. A registry of
+      SyncableTable configs means adding lab results or medications later is a
+      registration step, not an engine rewrite.
+    alternatives:
+      - Hardcoded sync per table (works short-term, does not scale)
+      - Third-party sync library (less control over LWW and dirty tracking)
+  - decision: Last-write-wins conflict resolution, silent in stage-1
+    reasoning: >-
+      For personal vitals data owned by a single patient, timestamp-based LWW is
+      sufficient. Silent resolution keeps the UX simple while the sync layer is
+      still being validated.
+    alternatives:
+      - Manual conflict UI (premature for single-user vitals)
+      - Server-always-wins (loses valid offline edits)
+  - decision: Block app on first login until initial online pull
+    reasoning: >-
+      A valid auth session with an empty local DB and no network would show stale
+      or empty data. Blocking until the first pull ensures the local store is
+      seeded before the user interacts with vitals.
+    alternatives:
+      - Allow empty local state (risk of duplicate or missing data)
+      - Cache last session indefinitely (stale data after long offline periods)
+  - decision: Wipe entire drift DB on sign-out
+    reasoning: >-
+      Health data is sensitive. Clearing local state on sign-out prevents the
+      next user on a shared device from seeing previous patient data.
+    alternatives:
+      - Keep local cache across sessions (privacy risk)
+      - Selective wipe (more complex, easy to miss tables)
+techStack:
+  - Flutter
+  - Dart
+  - drift / SQLite
+  - Supabase (Auth + Postgres)
+  - Provider
+  - PostgreSQL
+  - Row Level Security
+impact:
+  metrics:
+    - label: Local Tables
+      value: '5 drift tables (patients, 3 vitals, sync_state)'
+    - label: Sync Registry
+      value: '4 SyncableTable handlers with push/pull + LWW'
+    - label: Unit Tests
+      value: '20+ tests across DAOs, repositories, and sync'
+    - label: Vitals Supported
+      value: 'Blood pressure, blood glucose, and weight'
+    - label: Architecture Stages
+      value: '5 of 6 complete — manual validation remaining'
+  qualitative: >-
+    This project pushed me beyond CRUD into real distributed systems thinking:
+    dirty flags, sync cursors, conflict resolution, and strict layer boundaries
+    between UI, repositories, local DB, and remote sync. The registry pattern
+    proved its value immediately — adding a new vitals table meant implementing
+    one SyncableTable class, not touching the engine. The hardest design choices
+    were product-level (block on first sync, wipe on sign-out, profile writes
+    require network) rather than technical, which reinforced that offline-first
+    architecture is as much about user trust as about data structures.
+learnings:
+  - >-
+    Offline-first is an architectural invariant, not a feature flag — repositories
+    must never know about the network
+  - >-
+    Sync engines benefit from registry patterns early; retrofitting genericity
+    later is painful
+  - >-
+    Schema parity between local SQLite and remote Postgres reduces mapper bugs
+    and simplifies conflict resolution
+  - >-
+    Health apps need explicit sign-out data policies — convenience and privacy
+    trade off sharply
+  - >-
+    Debounced post-write sync triggers balance promptness with request batching
+    without a connectivity listener
+  - >-
+    Writing tests for sync logic (LWW, dirty tracking, initial sync gate) catches
+    edge cases that manual testing misses
+featured: true
+status: ongoing
+order: 0
+relatedProjects: []
+---
+
+🔗 **[View the public repository on GitHub](https://github.com/SinghChinmayy/kidney-care-health-tracker)**
+
+This is an engineering prototype, not a production medical system or patient-facing
+service. The case study focuses on offline-first storage, synchronization boundaries,
+and the limits that still need validation.
+
+## Architecture Overview
+
+The app follows a strict three-layer data model:
+
+```text
+UI (ViewModels) → Repositories → drift SQLite
+                                      ↑
+                                 SyncEngine → Supabase Postgres
+```
+
+ViewModels and repositories never import `supabase_flutter`. All vitals logging completes against drift immediately. The SyncEngine observes dirty rows and remote deltas, then writes reconciliation results back into drift.
+
+## What's Built
+
+- **Auth & onboarding**: Supabase Auth with patient and caretaker signup flows
+- **Vitals logging**: Blood pressure, blood glucose, and weight with a home dashboard showing latest readings
+- **Remote schema**: Postgres tables with RLS, soft deletes, and `updated_at` triggers
+- **Local persistence**: drift database mirroring remote schema plus `is_dirty` flags and a `sync_state` cursor table
+- **Sync engine**: Generic push-then-pull with last-write-wins, triggered on app startup, resume, and debounced post-write
+- **Sync gates**: InitialSyncGate blocks the UI until first online pull; sign-out wipes the entire local database
+
+## What's Next
+
+- **Manual validation**: End-to-end testing of offline CRUD, reconnect sync, LWW conflicts, and drift migrations with dirty rows
+- **UI for edit/delete**: Repository layer supports full vitals CRUD; UI for editing and deleting entries is deferred
+- **Additional entities**: Lab results, medications, and other tables from the broader schema plan — each registers with the existing SyncEngine
+- **Sync status UI**: Visibility into pending dirty rows and last sync time

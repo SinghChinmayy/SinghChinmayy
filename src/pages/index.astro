@@ -1,0 +1,479 @@
+---
+/**
+ * Home Page
+ * 
+ * Portfolio homepage showcasing projects, blogs, and a clear call-to-action.
+ * Features a hero section with featured project snapshots and recent posts.
+ * 
+ * Sections:
+ * 1. Hero - Bio, CTAs, and featured case study snapshots
+ * 2. Recent Blogs - Latest published articles
+ * 3. CTA - Call-to-action for collaboration/contact
+ * 
+ * Features:
+ * - Featured projects showcase (top 2-3)
+ * - Recent blog preview (top 3)
+ * - Structured data for SEO (WebSite and Person)
+ * - Responsive grid layout
+ * 
+ * Route: /
+ * 
+ * @page
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import StructuredData from '../components/StructuredData.astro';
+import ForwardLink from '../components/ForwardLink.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../data/index';
+
+/**
+ * Queries and filters featured projects for hero section
+ * 
+ * Retrieves all projects, filters for featured ones, sorts by custom order
+ * (if specified), and limits to top 2 for the hero snapshots.
+ */
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter(project => project.data.featured === true)
+  .sort((a, b) => (a.data.order || 999) - (b.data.order || 999))
+  .slice(0, 2);
+
+/**
+ * Case snapshots for hero display
+ * 
+ * Takes up to 3 featured projects to showcase in the hero section,
+ * providing immediate evidence of impact and outcomes.
+ */
+const caseSnapshots = featuredProjects.slice(0, 3);
+
+
+
+/**
+ * Queries and filters blog posts for recent posts section
+ */
+const allPosts = await getCollection('writing', ({ data }) => {
+  return data.draft !== true;
+});
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout>
+  <SEO 
+    slot="head"
+    title={`${siteConfig.author.name} — ${siteConfig.author.title}`}
+    description={siteConfig.description}
+    type="website"
+    noSuffix
+  />
+
+  <!-- Structured Data for Homepage -->
+  <StructuredData type="WebSite" />
+  <StructuredData type="Person" />
+
+  <main class="home-page">
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-grid">
+        <!-- Left: Bio & Actions -->
+        <div class="hero-left">
+          <div class="profile-header">
+            <img 
+              src={siteConfig.author.profilePic || "https://github.com/SinghChinmayy.png"} 
+              alt={siteConfig.author.name}
+              class="profile-pic"
+            />
+          </div>
+
+          <h1 class="hero-title">
+            Hi, I'm {siteConfig.author.name}.<br/>
+            <span class="hero-title-emphasis">{siteConfig.author.title}</span>
+          </h1>
+          
+          <p class="hero-sub">
+            {siteConfig.author.bio}
+          </p>
+          
+          <div class="hero-cta">
+            <a href="/projects" class="btn-primary">View Projects</a>
+          </div>
+
+          <SocialLinks />
+        </div>
+
+        <!-- Right: Featured Case Studies -->
+        <div class="hero-right">
+           <div class="case-snapshots-header">
+             <span class="header-label">Selected public work</span>
+           </div>
+          <div class="case-snapshots">
+            {caseSnapshots.map((project) => (
+              <a href={`/projects/${project.id}`} class="case-snapshot">
+                <span class="case-label">Case · {project.data.role}</span>
+                <span class="case-title">{project.data.title}</span>
+                <span class="case-outcome">{project.data.outcomeSummary}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    {recentPosts.length > 0 && (
+      <!-- Recent Blogs -->
+      <section class="recent-writing">
+        <div class="section-header">
+          <h2>Recent Blogs</h2>
+          <ForwardLink href="/blogs" text="View all" variant="muted" />
+        </div>
+        
+        <div class="writing-grid">
+          {recentPosts.map((post) => {
+            const date = new Date(post.data.publishDate);
+            const formattedDate = date.toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric',
+              year: 'numeric' 
+            });
+            
+            return (
+              <a href={`/blogs/${post.id}`} class="writing-item">
+                <time class="writing-date" datetime={post.data.publishDate.toISOString()}>
+                  {formattedDate}
+                </time>
+                <h3 class="writing-title">{post.data.title}</h3>
+                <p class="writing-description">{post.data.description}</p>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="writing-tags">
+                    {post.data.tags.slice(0, 3).map((tag) => (
+                      <span class="writing-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+
+
+    <!-- What I Think About
+    <section class="thinking">
+      <h2>Problems I Enjoy Solving</h2>
+      <p class="thinking-list">
+        How to scale systems without scaling complexity · When to choose consistency over availability · Making legacy codebases maintainable · Designing APIs that last · Building teams that ship · Turning technical debt into technical investment · Documenting decisions so future-you understands past-you
+      </p>
+    </section>
+ -->
+
+    
+    <!-- CTA -->
+    <section class="cta">
+      <h2>Let's Connect</h2>
+      <p>
+        Open to early-career software engineering opportunities, collaborations, and thoughtful conversations about systems.
+      </p>
+      <div class="cta-buttons">
+        <a href="/projects" class="btn-primary">View Projects</a>
+        <a href="/contact" class="btn-secondary">Say Hello</a>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .home-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .hero {
+      padding: 0 0 5rem;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 4rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .hero-left {
+      padding-right: 2rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .hero-title-emphasis {
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--color-border);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+
+    .hero-right {
+      padding-top: 0.5rem;
+    }
+
+    .case-snapshots {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .case-snapshot {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .case-snapshot:hover {
+      border-color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+    }
+
+    .case-label {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.375rem;
+    }
+
+    .case-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .case-outcome {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .case-snapshots-header {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .header-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: var(--color-text-muted);
+    }
+
+    .recent-writing {
+      margin-bottom: 5rem;
+    }
+
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .writing-item {
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .writing-item:hover {
+      border-color: var(--color-text-muted);
+    }
+
+    .writing-date {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .writing-title {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text);
+      margin: 0 0 0.625rem 0;
+    }
+
+    .writing-description {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin: 0 0 0.875rem 0;
+      flex: 1;
+    }
+
+    .writing-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+    }
+
+    .writing-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      padding: 0.125rem 0.5rem;
+      background: var(--color-bg-secondary);
+      border-radius: 3px;
+    }
+
+    .cta {
+      padding: 3rem 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .cta h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .cta p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .home-page {
+        padding: 0 1rem 3rem;
+      }
+
+      .hero {
+        padding: 2.5rem 0 4rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .hero-left {
+        padding-right: 0;
+      }
+
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .hero-cta {
+        flex-direction: row;
+      }
+
+      .hero-cta :global(.btn-primary),
+      .hero-cta :global(.btn-secondary) {
+        text-align: center;
+        flex: 1;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .case-snapshot {
+        padding: 1rem 1.25rem;
+      }
+
+      .writing-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .writing-item {
+        padding: 1rem;
+      }
+
+      .writing-title {
+        font-size: 0.9375rem;
+      }
+
+      .writing-description {
+        font-size: 0.8125rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .cta-buttons :global(.btn-primary),
+      .cta-buttons :global(.btn-secondary) {
+        width: 100%;
+      }
+    }
+  </style>
+</BaseLayout>

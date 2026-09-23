@@ -1,0 +1,258 @@
+---
+/**
+ * BaseLayout
+ *
+ * Foundation layout component that provides the core HTML structure,
+ * navigation, footer, and global styles for all pages. All other layouts extend
+ * this base layout to ensure consistent site-wide structure.
+ *
+ * Features:
+ * - HTML document structure
+ * - Favicon and manifest configuration
+ * - Theme system with dark/light mode support
+ * - Prevents flash of wrong theme on page load
+ * - Astro View Transitions support with theme persistence
+ * - Sticky navigation header
+ * - Global CSS imports (global, typography, utilities)
+ * - Responsive layout structure
+ *
+ * Note: SEO meta tags (title, description, OG, Twitter) should be handled
+ * by the SEO component in each page, not in this layout.
+ *
+ * @component
+ *
+ * @example
+ * ```astro
+ * ---
+ * import BaseLayout from '../layouts/BaseLayout.astro';
+ * import SEO from '../components/SEO.astro';
+ * ---
+ *
+ * <BaseLayout>
+ *   <SEO
+ *     slot="head"
+ *     title="About Me"
+ *     description="Learn more about my background"
+ *   />
+ *   <div>Page content goes here</div>
+ * </BaseLayout>
+ * ```
+ */
+
+import { ClientRouter } from "astro:transitions";
+import { getImage } from "astro:assets";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig } from "../data/index";
+import "../styles/global.css";
+import "../styles/typography.css";
+import "../styles/utilities.css";
+
+// Process favicon sizes if a custom favicon is provided
+let favicons = null;
+if (siteConfig.favicon) {
+  // Handle both absolute and relative asset paths
+  const faviconPath = siteConfig.favicon.replace(/^~\//, "../");
+
+  // Use a map or a more robust way to resolve these since dynamic imports with variables
+  // can be tricky in Vite if the path is too dynamic
+  const images = import.meta.glob(
+    "../assets/images/**/*.{png,jpg,jpeg,svg,ico}",
+    { eager: true },
+  );
+  const resolvedImage = images[faviconPath] as any;
+  const faviconImage = resolvedImage?.default || resolvedImage;
+
+  if (faviconImage) {
+    favicons = {
+      png16: await getImage({
+        src: faviconImage,
+        width: 16,
+        height: 16,
+        format: "png",
+      }),
+      png32: await getImage({
+        src: faviconImage,
+        width: 32,
+        height: 32,
+        format: "png",
+      }),
+      png48: await getImage({
+        src: faviconImage,
+        width: 48,
+        height: 48,
+        format: "png",
+      }),
+      apple: await getImage({
+        src: faviconImage,
+        width: 180,
+        height: 180,
+        format: "png",
+      }),
+    };
+  }
+}
+---
+
+<!doctype html>
+<html lang={siteConfig.language} data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- SEO tags injected via slot -->
+    <slot name="head" />
+
+    <!-- Favicon -->
+    {
+      favicons ? (
+        <>
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href={favicons.png32.src}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href={favicons.png16.src}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="48x48"
+            href={favicons.png48.src}
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href={favicons.apple.src}
+          />
+        </>
+      ) : (
+        <>
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+          />
+        </>
+      )
+    }
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <ClientRouter />
+
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const theme = stored || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+
+    <!-- Preserve theme during View Transitions -->
+    <script is:inline>
+      document.addEventListener("astro:before-swap", (e) => {
+        const theme = document.documentElement.getAttribute("data-theme");
+        e.newDocument.documentElement.setAttribute("data-theme", theme);
+      });
+    </script>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" transition:persist>
+      <Navigation />
+    </header>
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Copy code button for code blocks -->
+    <script>
+      function initCopyButtons() {
+        document.querySelectorAll("pre.astro-code").forEach((pre) => {
+          // Skip if already wrapped
+          if (pre.parentElement?.classList.contains("code-block-wrapper"))
+            return;
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "code-block-wrapper";
+          pre.parentNode!.insertBefore(wrapper, pre);
+          wrapper.appendChild(pre);
+
+          const btn = document.createElement("button");
+          btn.className = "copy-code-btn";
+          btn.setAttribute("aria-label", "Copy code");
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg><span>Copy</span>`;
+
+          btn.addEventListener("click", async () => {
+            const code = pre.querySelector("code") as HTMLElement | null;
+            const text = code ? code.innerText : (pre as HTMLElement).innerText;
+            try {
+              await navigator.clipboard.writeText(text);
+              btn.classList.add("copied");
+              btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg><span>Copied!</span>`;
+              setTimeout(() => {
+                btn.classList.remove("copied");
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg><span>Copy</span>`;
+              }, 2000);
+            } catch (err) {
+              console.error("Failed to copy:", err);
+            }
+          });
+
+          wrapper.appendChild(btn);
+        });
+      }
+
+      // Run on initial load and on Astro page transitions
+      initCopyButtons();
+      document.addEventListener("astro:page-load", initCopyButtons);
+    </script>
+  </body>
+</html>

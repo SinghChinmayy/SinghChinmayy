@@ -1,0 +1,148 @@
+---
+title: NLP Search Engine
+role: Solo Developer
+year: 2026
+duration: Ongoing
+teamSize: 1
+outcomeSummary: >-
+  Designed and built a modular NLP search pipeline from scratch with clean
+  separation between ingestion, preprocessing, and indexing — resulting in a
+  working inverted index and keyword lookup system ready for future enhancements
+  like ranking and semantic search. It remains a learning project, not a
+  production search service.
+overview: >-
+  Building a search engine from the ground up to deeply understand how
+  information retrieval works. The project focuses on creating a modular
+  pipeline architecture where each stage — loading, normalization, tokenization,
+  and indexing — is isolated and independently extensible. Currently at Stage 1
+  with a functional inverted index and basic keyword lookup.
+problem: >-
+  Most developers use search as a black box. I wanted to understand how search
+  actually works under the hood — from raw text ingestion to query resolution.
+  The challenge was designing a system that is not just functional but
+  architecturally clean enough to grow into a full-featured search engine with
+  ranking, boolean queries, and eventually semantic search.
+constraints:
+  - Solo project — all design and implementation decisions are self-directed
+  - Must be modular enough to support future features without rewriting
+  - >-
+    No external search libraries allowed — the goal is learning, not
+    convenience
+  - Python-only implementation for simplicity and rapid iteration
+  - Dataset starts small (text files) but architecture must support scaling
+approach: >-
+  Started with architecture before code. Designed a pipeline with clear
+  separation of concerns: loaders handle file I/O, processors handle text
+  normalization and tokenization, and the pipeline manager orchestrates the
+  flow. The main entry point acts as a coordinator that assigns document IDs and
+  builds the inverted index. This separation ensures each component can evolve
+  independently.
+keyDecisions:
+  - decision: Pipeline architecture with isolated stages
+    reasoning: >-
+      Separating loaders, processors, and indexing into distinct modules means
+      future upgrades (new file formats, better tokenizers, ranking algorithms)
+      only require changing one component. This is how production search engines
+      are structured.
+    alternatives:
+      - Single script approach (fast to write but impossible to maintain)
+      - Framework-based approach (overkill for learning purposes)
+  - decision: Regex-based tokenization over simple split
+    reasoning: >-
+      Python's str.split() fails on edge cases like hyphenated words and
+      contractions. A regex pattern like \b\w+(?:[-']\w+)*\b handles these
+      correctly and provides consistent tokenization behavior.
+    alternatives:
+      - str.split() (too simplistic)
+      - NLTK tokenizer (external dependency, defeats learning purpose)
+  - decision: Set-based inverted index
+    reasoning: >-
+      Using sets for document ID storage automatically prevents duplicates and
+      provides O(1) membership testing. For the current stage, presence/absence
+      per document is sufficient — term frequency can be added later.
+    alternatives:
+      - List-based index (allows duplicates, needs manual dedup)
+      - Dict with term frequency (premature optimization at this stage)
+  - decision: Unicode NFKC normalization
+    reasoning: >-
+      NFKC standardizes character representations across different encodings,
+      handling edge cases like accented characters in words such as "café" and
+      "naïve" that appear in real-world text.
+    alternatives:
+      - NFC normalization (less aggressive, misses compatibility characters)
+      - No normalization (would cause missed matches)
+  - decision: pathlib for file handling
+    reasoning: >-
+      pathlib provides a modern, expressive API for filesystem operations
+      compared to os.path. It makes the ingestion code more readable and
+      maintains consistency across platforms.
+    alternatives:
+      - os.path (older API, less readable)
+      - glob module (limited functionality)
+techStack:
+  - Python
+  - Regex
+  - pathlib
+  - Unicode (NFKC)
+impact:
+  metrics:
+    - label: Pipeline Stages
+      value: '4 isolated modules (loader, normalizer, tokenizer, manager)'
+    - label: Index Coverage
+      value: Full inverted index across all documents in dataset
+    - label: Architecture
+      value: Modular design ready for 13+ planned enhancements
+    - label: Query Support
+      value: Single keyword lookup with document ID resolution
+  qualitative: >-
+    This project is fundamentally about understanding, not just building. By
+    constructing every component from scratch — text normalization, tokenization,
+    inverted indexing — I gained deep insight into how search engines actually
+    work. The modular architecture proved its value immediately: adding document
+    ID assignment and the inverted index required zero changes to the processing
+    pipeline. The system is now a solid foundation for adding TF-IDF ranking,
+    boolean queries, and eventually semantic search.
+learnings:
+  - >-
+    Architecture-first thinking pays off — designing the pipeline before writing
+    code prevented rewrites
+  - >-
+    Separation of concerns is not theoretical — it directly reduces debugging
+    time when adding features
+  - >-
+    Unicode handling matters immediately in real text, not just in edge cases
+  - >-
+    Regex tokenization reveals tradeoffs (e.g., "don't" splitting into "don"
+    and "t") that every search engine must address
+  - >-
+    Simple data structures (sets for inverted index) are often the right choice
+    before optimizing
+  - >-
+    File iteration order affects reproducibility — sorting paths ensures
+    consistent document IDs across runs
+featured: true
+status: ongoing
+order: 1
+relatedProjects: []
+---
+
+🔗 **[View on GitHub](https://github.com/SinghChinmayy/search-engine)**
+
+---
+
+## Related Blogs
+
+For a detailed walkthrough of the implementation with code examples and architectural diagrams, read the full article series:
+
+- **[Stage 1: Building the Pipeline](/blogs/search-engine-stage-1)** — Designing the modular architecture, implementing text normalization and tokenization, constructing the inverted index, and wiring up basic keyword search.
+
+## What's Next
+
+The foundation is set. The next stages will focus on making search actually intelligent:
+
+- **Stopword removal** — Filtering out common words like "the" and "a" that add noise
+- **Stemming & lemmatization** — Reducing words to their root forms for better recall
+- **TF-IDF / BM25 ranking** — Moving beyond presence/absence to relevance scoring
+- **Boolean queries** — Supporting AND, OR, NOT operators for complex searches
+- **Multi-word queries** — Handling phrases and multi-term searches
+- **Semantic search** — Adding embedding-based similarity for meaning-aware retrieval

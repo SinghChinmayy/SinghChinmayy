@@ -1,0 +1,73 @@
+{
+  "site": {
+    "url": "https://chinmaysingh.me",
+    "language": "en",
+    "title": "Chinmay Singh — Backend & Systems Engineering",
+    "description": "Early-career software engineer building backend systems, infrastructure, and developer tools while learning in public.",
+    "favicon": "~/assets/images/site/site/favicon.png"
+  },
+  "author": {
+    "name": "Chinmay Singh",
+    "title": "Backend & Systems Engineering",
+    "bio": "Early-career software engineer and computer science student interested in backend development, infrastructure, and how systems behave in production. I build small, explainable systems to learn by doing.",
+    "location": "Bangalore, India",
+    "locationLink": "https://www.google.com/maps/place/Bengaluru",
+    "profilePic": "/images/author/author/profilePic.png"
+  },
+  "contact": {
+    "email": "hello@chinmaysingh.me",
+    "social": [
+      {
+        "platform": "github",
+        "url": "https://github.com/singhchinmay",
+        "label": "GitHub"
+      },
+      {
+        "platform": "linkedin",
+        "url": "https://linkedin.com/in/singhchinmayy",
+        "label": "LinkedIn"
+      },
+      {
+        "platform": "twitter",
+        "url": "https://x.com/0xchinmayy",
+        "label": "Twitter"
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/singhchinmayy/",
+        "label": "Instagram"
+      }
+    ]
+  },
+  "contactPage": {
+    "title": "Contact",
+    "description": "Get in touch — happy to chat about projects, opportunities, or anything engineering.",
+    "heading": "Say Hello"
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/",
+      "show": true,
+      "children": []
+    },
+    {
+      "label": "Projects",
+      "href": "/projects",
+      "show": true,
+      "children": []
+    },
+    {
+      "label": "Blogs",
+      "href": "/blogs",
+      "show": true,
+      "children": []
+    },
+    {
+      "label": "Hello!",
+      "href": "contact",
+      "show": false,
+      "children": []
+    }
+  ]
+}
