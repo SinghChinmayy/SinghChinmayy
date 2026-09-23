@@ -327,6 +327,7 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
 
     .case-study-meta {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 0.75rem;
       font-size: 0.9375rem;
@@ -466,7 +467,7 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
 
     @media (max-width: 768px) {
       .case-study {
-        padding: 1.5rem 1rem;
+        padding: 1.25rem 1rem 3rem;
       }
 
       .case-study-header h1 {
@@ -486,7 +487,7 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
       }
 
       .decision-item {
-        padding: 1.25rem;
+        padding: 1rem;
       }
     }
   </style>

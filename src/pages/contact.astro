@@ -104,7 +104,7 @@ const socialLinks = siteConfig.social
       letter-spacing: 0.01em;
     }
 
-    .email-link {
+      .email-link {
       display: block;
       font-size: clamp(1.75rem, 5vw, 2.5rem);
       font-weight: 600;
@@ -162,7 +162,7 @@ const socialLinks = siteConfig.social
       user-select: none;
     }
 
-    @media (max-width: 640px) {
+      @media (max-width: 640px) {
       .contact-page {
         padding: 4rem 1rem 6rem;
       }
@@ -171,9 +171,11 @@ const socialLinks = siteConfig.social
         margin-bottom: 4rem;
       }
 
-      .primary-zone h1 {
-        font-size: 1rem;
-      }
+        .primary-zone h1 {
+          font-size: 1rem;
+        }
+
+        .email-link { overflow-wrap: anywhere; font-size: clamp(1.55rem, 8vw, 2.1rem); }
     }
   </style>
 </BaseLayout>
