@@ -1,0 +1,280 @@
+---
+alwaysApply: true
+---
+
+# Documentation Maintenance Rule
+
+## Overview
+
+The `docs/` folder contains comprehensive documentation for this Astro portfolio template. This rule ensures that documentation stays synchronized with code changes.
+
+## Documentation Structure
+
+```
+docs/
+├── 01-getting-started/
+│   ├── installation.md          # Setup and prerequisites
+│   ├── project-structure.md     # Codebase organization
+│   └── quick-start.md           # 5-minute setup guide
+├── 02-configuration/
+│   └── configuration.md         # Environment variables, config files
+├── 03-content/
+│   ├── content-guide.md         # Content types and schemas
+│   ├── content-strategy.md      # Best practices for content
+│   ├── images.md                # Image handling and optimization
+│   └── templates.md             # Copy-paste content templates
+├── 04-customization/
+│   ├── styling.md               # CSS variables, colors, typography
+│   ├── components.md            # Component modification guide
+│   └── advanced.md              # Layouts, new collections, deep customization
+├── 05-deployment/
+│   ├── deployment.md            # Build and deploy instructions
+│   └── post-deployment.md      # Verification checklist
+└── 06-reference/
+    └── troubleshooting.md      # Common issues and solutions
+```
+
+## Documentation Update Mapping
+
+When making code changes, update the corresponding documentation:
+
+### Configuration Changes
+
+**Files to update: `docs/02-configuration/configuration.md`**
+
+- Adding/removing environment variables in `astro.config.mjs` or `.env`
+- Modifying `src/config.ts` (site config, navigation, social links)
+- Changing `src/pages.config.ts` (page metadata)
+- Updating `src/content.config.ts` (content schemas)
+
+**Example triggers:**
+- New env var added → Document in configuration.md
+- Navigation structure changed → Update nav section
+- Content schema field added → Update content-guide.md AND templates.md
+
+### Content Schema Changes
+
+**Files to update: `docs/03-content/content-guide.md` AND `docs/03-content/templates.md`**
+
+- Adding/removing fields in `src/content.config.ts`
+- Creating new content collections
+- Modifying existing collection schemas
+- Changing required vs optional fields
+
+**Example triggers:**
+- New field added to projects schema → Update content-guide.md schema table AND templates.md project template
+- New collection created → Add to content-guide.md AND create template in templates.md
+
+### Component Changes
+
+**Files to update: `docs/04-customization/components.md`**
+
+- Modifying existing components in `src/components/`
+- Creating new components
+- Changing component props/interfaces
+- Adding new component features
+
+**Example triggers:**
+- ProjectCard.astro modified → Update components.md ProjectCard section
+- New component created → Add to components.md with usage examples
+- Component API changed → Update props/interface documentation
+
+### Styling Changes
+
+**Files to update: `docs/04-customization/styling.md`**
+
+- Modifying CSS variables in `src/styles/global.css`
+- Changing color schemes
+- Updating typography settings
+- Modifying spacing/layout variables
+- Adding new utility classes
+
+**Example triggers:**
+- New CSS variable added → Document in styling.md
+- Color system changed → Update color examples
+- Typography scale modified → Update typography section
+
+### Layout Changes
+
+**Files to update: `docs/04-customization/advanced.md`**
+
+- Modifying layouts in `src/layouts/`
+- Creating new layouts
+- Changing layout structure
+- Adding new layout slots
+
+**Example triggers:**
+- BaseLayout.astro modified → Update advanced.md layout section
+- New layout created → Document in advanced.md
+- Layout slots changed → Update slot documentation
+
+### Page Changes
+
+**Files to update: Multiple docs based on change type**
+
+- Creating new pages → Update `docs/01-getting-started/project-structure.md`
+- Modifying page routes → Update relevant section
+- Adding new features to pages → Update appropriate guide
+- Changing `src/pages.config.ts` → Update `docs/02-configuration/configuration.md` (page metadata section)
+
+### Utility Functions Changes
+
+**Files to update: `docs/04-customization/advanced.md` or create new section**
+
+- Adding/modifying utilities in `src/utils/`
+- Creating helper functions
+- Changing utility APIs
+- Adding new utility modules
+
+**Example triggers:**
+- New utility function added → Document usage in advanced.md
+- Utility API changed → Update examples and usage docs
+- New utility module created → Add to project-structure.md
+
+### Public Assets Changes
+
+**Files to update: `docs/01-getting-started/project-structure.md`**
+
+- Adding/removing files in `public/` folder
+- Changing favicon or OG images
+- Adding new static assets
+- Modifying `site.webmanifest`
+
+**Example triggers:**
+- New favicon added → Document in project-structure.md public assets section
+- OG image changed → Note in configuration.md or deployment.md
+
+### Build/Deployment Changes
+
+**Files to update: `docs/05-deployment/deployment.md`**
+
+- Modifying `astro.config.mjs` build settings
+- Adding new integrations
+- Changing output mode
+- Updating build scripts in `package.json`
+
+**Example triggers:**
+- New Astro integration added → Document setup in deployment.md
+- Build process changed → Update build instructions
+- New deployment platform → Add to deployment.md
+
+### Project Structure Changes
+
+**Files to update: `docs/01-getting-started/project-structure.md`**
+
+- Adding new directories
+- Creating new file types
+- Reorganizing codebase structure
+- Adding new configuration files
+
+## Documentation Update Checklist
+
+When making code changes, follow this checklist:
+
+### High Priority (User-Facing Changes)
+- [ ] **Content schema changes?** → Update `docs/03-content/content-guide.md` AND `docs/03-content/templates.md` (CRITICAL - affects all users)
+- [ ] **Configuration changes?** → Update `docs/02-configuration/configuration.md` (CRITICAL - setup instructions)
+- [ ] **Breaking changes?** → Update `docs/06-reference/troubleshooting.md` with migration notes (CRITICAL)
+
+### Medium Priority (Customization Changes)
+- [ ] **Component changes?** → Update `docs/04-customization/components.md`
+- [ ] **Styling changes?** → Update `docs/04-customization/styling.md`
+- [ ] **Layout changes?** → Update `docs/04-customization/advanced.md`
+- [ ] **Utility functions?** → Update `docs/04-customization/advanced.md` or relevant section
+
+### Lower Priority (Structure/Internal)
+- [ ] **New pages/routes?** → Update `docs/01-getting-started/project-structure.md`
+- [ ] **Build/deployment changes?** → Update `docs/05-deployment/deployment.md`
+- [ ] **Public assets changes?** → Update `docs/01-getting-started/project-structure.md`
+
+## Documentation Standards
+
+### Code Examples
+- Always include complete, working code examples
+- Use proper syntax highlighting
+- Include file paths in comments
+- Show before/after when modifying existing code
+
+### Tables
+- Use markdown tables for structured information
+- Include all relevant columns (Variable, Type, Required, Default, Description)
+- Keep tables aligned and readable
+
+### File Paths
+- Always use relative paths from project root
+- Include file extensions (.astro, .ts, .mdx)
+- Show directory structure when relevant
+
+### Examples
+- Provide real-world, practical examples
+- Include both simple and advanced use cases
+- Show edge cases and gotchas when relevant
+
+## When to Create New Documentation
+
+Create new documentation files when:
+- Adding a major new feature that doesn't fit existing docs
+- Creating a new content type that needs extensive documentation
+- Adding a new integration that requires setup instructions
+- Introducing a new concept that needs explanation
+
+## When NOT to Update Documentation
+
+Don't update documentation for:
+- Minor bug fixes that don't change behavior
+- Internal refactoring that doesn't affect the API
+- Code comments and documentation strings
+- Test files
+
+## Documentation Maintenance Workflow
+
+1. **Make code changes first** - Implement the feature/fix
+2. **Identify affected docs** - Use the mapping above to find all relevant documentation files
+3. **Check for cross-references** - Some changes affect multiple docs (e.g., schema changes affect both content-guide.md AND templates.md)
+4. **Update documentation** - Modify relevant doc files in order of priority:
+   - First: User-facing changes (schemas, configs)
+   - Second: Customization guides (components, styling)
+   - Third: Structure/docs (project structure, deployment)
+5. **Verify examples** - Ensure all code examples still work and match current code
+6. **Update templates** - If content schemas changed, update templates.md with new fields
+7. **Check consistency** - Ensure docs reference correct file paths, APIs, and versions
+8. **Test documentation** - If possible, follow the docs to verify they're accurate
+
+## Quick Reference: File to Documentation Mapping
+
+| Code File | Documentation File(s) | Priority |
+|-----------|----------------------|----------|
+| `src/content.config.ts` | `docs/03-content/content-guide.md`, `docs/03-content/templates.md` | **HIGH** - Both must be updated |
+| `src/config.ts` | `docs/02-configuration/configuration.md` | **HIGH** |
+| `astro.config.mjs` | `docs/02-configuration/configuration.md`, `docs/05-deployment/deployment.md` | **HIGH** |
+| `.env` / env vars | `docs/02-configuration/configuration.md` | **HIGH** |
+| `src/pages.config.ts` | `docs/02-configuration/configuration.md` | **MEDIUM** |
+| `src/components/*.astro` | `docs/04-customization/components.md` | **MEDIUM** |
+| `src/layouts/*.astro` | `docs/04-customization/advanced.md` | **MEDIUM** |
+| `src/styles/*.css` | `docs/04-customization/styling.md` | **MEDIUM** |
+| `src/utils/*.ts` | `docs/04-customization/advanced.md` | **MEDIUM** |
+| `src/pages/*.astro` | `docs/01-getting-started/project-structure.md` | **LOW** |
+| `public/*` | `docs/01-getting-started/project-structure.md` | **LOW** |
+| `package.json` scripts | `docs/05-deployment/deployment.md` | **LOW** |
+
+**Note:** When multiple files are listed, update ALL of them. Some changes (like schema updates) require updating multiple documentation files simultaneously.
+
+## Important Notes
+
+- **Always keep documentation in sync with code** - Outdated docs are worse than no docs
+- **Update examples when APIs change** - Broken examples confuse users and waste their time
+- **Document breaking changes** - Add migration notes in troubleshooting.md with clear upgrade paths
+- **Keep templates current** - Content templates must match current schemas exactly
+- **Verify file paths** - Ensure all file paths in docs are correct and relative to project root
+- **Test code examples** - All code examples should be tested and working before committing
+- **Cross-reference updates** - When schemas change, update BOTH content-guide.md AND templates.md
+- **Priority matters** - User-facing changes (schemas, configs) take precedence over internal structure docs
+- **Consistency is key** - Use the same terminology, formatting, and style across all documentation
+
+## Common Pitfalls to Avoid
+
+- ❌ **Updating only one doc when multiple are affected** - Schema changes need both content-guide.md AND templates.md
+- ❌ **Forgetting to update examples** - Code examples that don't work frustrate users
+- ❌ **Outdated file paths** - Always verify paths are correct after refactoring
+- ❌ **Missing breaking changes** - Users need migration guidance for breaking changes
+- ❌ **Inconsistent formatting** - Keep tables, code blocks, and examples consistent across docs

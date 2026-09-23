@@ -1,0 +1,114 @@
+---
+alwaysApply: true
+---
+# About Chinmay Singh
+
+## Personal Information
+- **Name:** Chinmay Singh
+- **Title:** Computer Science Undergraduate | Systems, Cloud & C++
+- **Location:** Bengaluru, India
+- **Email:** hello@chinmaysingh.me
+- **Phone:** +91 94721 74597
+- **Website:** https://chinmaysingh.me
+- **Languages:** English, Hindi
+
+## Professional Profile
+
+Chinmay Singh is a Computer Science undergraduate with a strong interest in low-level systems, cloud infrastructure, and backend engineering. He enjoys building and operating real-world systems — from self-hosted server platforms to C++ command-line tools — with a focus on reliability, security, and performance.
+
+His strengths lie in systems thinking, Linux environments, containerization, and networking fundamentals. He prefers learning by building and maintaining production-like setups, which has given him hands-on exposure to infrastructure lifecycle management, debugging, and deployment.
+
+## Skills
+
+### Programming Languages
+- C++
+- C
+- Python
+
+### Computer Science Fundamentals
+- Data Structures & Algorithms
+- Operating Systems
+- Computer Networking Fundamentals
+
+### Systems, Platforms & Infrastructure
+- Linux (Debian / Ubuntu – homelab experience)
+- Windows (development exposure)
+- Docker & Docker Compose
+- Portainer
+- Git
+- AWS EC2
+- AWS S3
+- WireGuard
+- Tailscale
+- Caddy (Reverse Proxy)
+- Cloudflare (DNS management)
+
+### Database Systems
+- PostgreSQL (CRUD operations & schema design)
+- MySQL (CRUD operations & schema design)
+
+### Web & Scripting
+- HTML
+- CSS
+- Bash Scripting
+
+## Notable Projects
+
+### VPS Infrastructure & Self-Hosted Services Platform
+Designed, deployed, and maintained a self-managed VPS and ARM-based Linux infrastructure to run multiple self-hosted services using Docker.
+- Implemented secure remote access using WireGuard and Tailscale
+- Configured reverse proxy routing with Caddy and automated HTTPS
+- Exposed services securely using custom domain-based routing
+- Gained hands-on experience in networking, system administration, and containerized application deployment
+**Tech:** Linux, Docker, Reverse Proxy, WireGuard
+
+### C++ CLI Tool – FFmpeg Wrapper
+Developed a modular C++ command-line application to abstract and orchestrate FFmpeg-based media workflows in a Linux environment.
+- Implemented argument parsing and external process execution
+- Designed structured error handling
+- Focused on maintainability and extensibility of the codebase
+**Tech:** C++, FFmpeg, Linux
+
+### Identity and Access Management (IAM) System – College Project
+Designed and implemented backend logic and database schema for a user authentication and access control system.
+- Worked across the complete software lifecycle: development, testing, debugging, and issue resolution
+- Integrated frontend and backend components with database-driven authorization logic
+**Tech:** Python, HTML, CSS, JavaScript, PostgreSQL, MySQL
+
+### Multi-Model Agentic AI Prototype – Rakuten Hackathon
+Collaborated in a team to build a multi-model agentic AI system under competitive time constraints.
+- Integrated multiple AI components into a cohesive system
+- Contributed to coding, debugging, and subsystem integration
+- Advanced to the penultimate round of the hackathon
+**Tech:** Python, AI Frameworks
+
+## Education
+
+**Manipal Academy of Higher Education**  
+Bachelor of Technology in Computer Science  
+2023 – 2027
+
+## Certifications
+
+- Learn Fundamentals of Computer Programming with C Language
+- Digital Systems: From Logic Gates to Processors
+- Introduction to Java and Object-Oriented Programming
+- Docker for Absolute Beginners
+- Ordered Data Structures
+
+## Online Presence
+
+- 🌐 **Website:** https://chinmaysingh.me
+- 💻 **GitHub:** https://github.com/singhchinmay
+- 🔗 **LinkedIn:** https://linkedin.com/in/singhchinmayy
+
+## Usage in Codebase
+
+This portfolio website showcases Chinmay's work, projects, decisions, journey, speaking engagements, and writing. When working on this codebase:
+
+1. **Content Creation:** All content should reflect Chinmay's actual experience, skills, and projects listed above
+2. **Personalization:** Use the correct name, contact information, and professional details
+3. **Technical Focus:** Emphasize systems engineering, cloud infrastructure, C++, and backend development
+4. **Tone:** Professional yet authentic, reflecting a learning-focused undergraduate with hands-on experience
+5. **Projects:** Reference actual projects like the VPS infrastructure, C++ CLI tool, IAM system, and hackathon work
+6. **Skills Representation:** Accurately represent technical skills and experience levels
