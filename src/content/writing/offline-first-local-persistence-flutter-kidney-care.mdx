@@ -1,0 +1,458 @@
+---
+title: Building Offline-First Local Persistence in Flutter with Kidney Care
+description: >-
+  A code-led walkthrough of how Kidney Care uses Drift and SQLite as its local
+  source of truth, then reconciles dirty rows with Supabase through a registry-
+  driven sync engine.
+publishDate: 2026-08-10
+tags:
+  - Flutter
+  - Offline-first
+  - Drift
+  - Supabase
+  - SQLite
+draft: false
+---
+
+## TL;DR
+
+Kidney Care writes blood pressure, glucose, weight, and fluid-intake data to Drift/SQLite first. The UI reads from that local database, so recording a vital does not wait for a network request.
+
+Each synced row carries an `isDirty` flag. A foreground sync coordinator later pushes dirty rows to Supabase, pulls remote changes using per-table cursors, and applies newer server timestamps.
+
+🔗 [**View the source code on GitHub**](https://github.com/SinghChinmayy/kidney-care-health-tracker)
+
+> This is an engineering prototype, not a production medical system or patient-facing service. The implementation is useful for studying persistence and synchronization boundaries, but it has not been audited for a formal HIPAA/GDPR target.
+
+## The offline-first invariant
+
+The core problem is straightforward: a patient must be able to record a reading with zero dependency on network availability, then reconcile it with Postgres later.
+
+I made local persistence the write path. The flow is Flutter UI → `ChangeNotifier` view models → repositories → Drift DAOs over SQLite. Repositories do not import Supabase.
+
+That gives the app a simple rule: a successful local write is enough for the user action to succeed. Connectivity affects when the server catches up, not whether a reading can be recorded.
+
+```text
+Flutter UI
+    ↓
+ChangeNotifier ViewModels
+    ↓
+Repositories ──────→ Drift / SQLite
+    │                       ↑
+    └── onDriftWrite → SyncCoordinator → SyncEngine → Supabase/Postgres
+```
+
+## Mirroring the remote schema locally
+
+The local database uses Drift, which generates typed table and DAO code around SQLite. `AppDatabase` registers the domain tables and the local-only `SyncState` table in one place.
+
+This is the actual database declaration from `app/lib/data/local/app_database.dart`:
+
+```dart
+@DriftDatabase(
+  tables: [
+    Patients,
+    PatientPrefs,
+    BloodPressureReadings,
+    BloodGlucoseReadings,
+    WeightReadings,
+    FluidIntakeLogs,
+    Medications,
+    PatientMedicationSchedules,
+    SyncState,
+  ],
+  daos: [
+    PatientsDao,
+    PatientPreferencesDao,
+    BloodPressureDao,
+    BloodGlucoseDao,
+    WeightDao,
+    FluidIntakeDao,
+    MedicationsDao,
+    PatientMedicationScheduleDao,
+    SyncStateDao,
+  ],
+)
+class AppDatabase extends _$AppDatabase {
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+
+  AppDatabase.forTesting(super.executor);
+
+  @override
+  int get schemaVersion => 7;
+```
+
+Synced tables mirror the remote columns and add local synchronization metadata. For example, `BloodPressureReadings` has timestamps, a nullable soft-delete timestamp, and an `isDirty` flag.
+
+```dart
+DateTimeColumn get createdAt => dateTime()();
+
+DateTimeColumn get updatedAt => dateTime()();
+
+DateTimeColumn get deletedAt => dateTime().nullable()();
+
+BoolColumn get isDirty => boolean().withDefault(const Constant(true))();
+```
+
+`SyncState` is not a remote business table. It stores one row per registered table, including the pull cursor and the timestamp of the last sync attempt.
+
+```dart
+@DataClassName('SyncStateRow')
+class SyncState extends Table {
+  TextColumn get tableKey => text()();
+
+  DateTimeColumn get lastPulledAt => dateTime().nullable()();
+
+  DateTimeColumn get lastSyncedRunAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {tableKey};
+}
+```
+
+The database has versioned migrations. Adding a table or column does not require throwing away existing local data, including rows still waiting to sync.
+
+## Making the repository local-first
+
+The repository is the boundary used by the UI. A new blood-pressure reading is inserted into Drift with `isDirty: true`, then the repository calls `_onWrite()`.
+
+This is the real method from `app/lib/data/repositories/vitals_repository.dart`:
+
+```dart
+Future<void> addBloodPressureReading(BloodPressureReading reading) async {
+  final patientId = await _requirePatientId();
+  final now = DateTime.now().toUtc();
+  await _db.bloodPressureDao.insertReading(
+    BloodPressureReading(
+      id: reading.id,
+      patientId: patientId,
+      recordedAt: reading.recordedAt,
+      systolic: reading.systolic,
+      diastolic: reading.diastolic,
+      heartRateBpm: reading.heartRateBpm,
+      notes: reading.notes,
+      createdAt: now,
+      updatedAt: now,
+    ),
+    isDirty: true,
+  );
+  _onWrite();
+}
+```
+
+Reads use the same database. Active queries exclude soft-deleted rows and sort directly in SQLite, so the home screen does not need to ask Supabase for the latest reading.
+
+```dart
+Future<BloodPressureReading?> getLatestForPatient(String patientId) async {
+  final rows = await (select(bloodPressureReadings)
+        ..where(
+          (t) => t.patientId.equals(patientId) & t.deletedAt.isNull(),
+        )
+        ..orderBy([(t) => OrderingTerm.desc(t.recordedAt)])
+        ..limit(1))
+      .get();
+  return rows.isEmpty ? null : rows.first.toDomain();
+}
+```
+
+The repository has no Supabase dependency. That separation keeps the UI and local data path usable when the network is unavailable.
+
+## Dirty rows and soft deletes
+
+The dirty flag answers whether the server has confirmed the current local row. The DAO exposes exactly that query to the sync layer.
+
+```dart
+Future<List<BloodPressureRow>> getDirtyRows() {
+  return (select(bloodPressureReadings)
+        ..where((t) => t.isDirty.equals(true)))
+      .get();
+}
+```
+
+Deletes do not remove the row immediately. They write `deletedAt`, update the timestamp, and keep the row dirty so the deletion can cross the sync boundary.
+
+```dart
+Future<void> softDelete(String id, DateTime deletedAt) {
+  return (update(bloodPressureReadings)..where((t) => t.id.equals(id))).write(
+    BloodPressureReadingsCompanion(
+      deletedAt: Value(deletedAt),
+      updatedAt: Value(deletedAt),
+      isDirty: const Value(true),
+    ),
+  );
+}
+```
+
+This avoids deleting locally and losing the evidence needed to delete the corresponding remote row later.
+
+## A registry-driven sync engine
+
+Each remote table implements the same small contract.
+
+The current registry has seven synced tables: `patients`, `patient_preferences`, `blood_pressure_readings`, `blood_glucose_readings`, `weight_readings`, `fluid_intake_logs`, and `patient_medication_schedules`.
+
+```dart
+abstract class SyncableTable {
+  /// Key stored in local [SyncState.tableKey] (matches remote table name).
+  String get tableKey;
+
+  /// Postgres table name used in Supabase queries.
+  String get remoteTableName;
+
+  Future<void> push(SupabaseClient supabase);
+
+  Future<void> pull(SupabaseClient supabase);
+}
+```
+
+The registry is assembled in `SyncEngine`. Adding a table means implementing its push/pull adapter and registering it, rather than branching through one giant engine method.
+
+```dart
+registry = registry ??
+    [
+      PatientsSync(db: db, currentAuthUserId: currentAuthUserId),
+      PatientPreferencesSync(
+        db: db,
+        currentAuthUserId: currentAuthUserId,
+      ),
+      BpSync(db: db, currentAuthUserId: currentAuthUserId),
+      GlucoseSync(db: db, currentAuthUserId: currentAuthUserId),
+      WeightSync(db: db, currentAuthUserId: currentAuthUserId),
+      FluidIntakeSync(db: db, currentAuthUserId: currentAuthUserId),
+      PatientMedicationScheduleSync(
+        db: db,
+        currentAuthUserId: currentAuthUserId,
+      ),
+    ];
+```
+
+## Push, pull, then advance the cursor
+
+The engine processes every registered table in two passes. It pushes dirty rows first, then pulls remote rows. Each table is isolated in its own `try` block, so one failing table does not abort the entire run.
+
+```dart
+Future<void> run() async {
+  for (final table in registry) {
+    try {
+      await table.push(_supabase);
+      await _db.syncStateDao.setLastSyncedRunAt(
+        table.tableKey,
+        DateTime.now().toUtc(),
+      );
+    } catch (error, stackTrace) {
+      logSyncError('${table.tableKey} push', error, stackTrace);
+    }
+  }
+
+  for (final table in registry) {
+    try {
+      await table.pull(_supabase);
+      await _db.syncStateDao.setLastSyncedRunAt(
+        table.tableKey,
+        DateTime.now().toUtc(),
+      );
+    } catch (error, stackTrace) {
+      logSyncError('${table.tableKey} pull', error, stackTrace);
+    }
+  }
+}
+```
+
+For a blood-pressure table, push reads dirty local rows, upserts them by ID, then writes the server's `updated_at` back into Drift and clears `isDirty`.
+
+```dart
+final dirtyRows = await _db.bloodPressureDao.getDirtyRows();
+if (dirtyRows.isEmpty) {
+  return;
+}
+
+final payload = dirtyRows.map(bloodPressureRowToRemoteJson).toList();
+final response = await supabase
+    .from(remoteTableName)
+    .upsert(payload, onConflict: 'id')
+    .select();
+
+for (final serverRow in List<Map<String, dynamic>>.from(response)) {
+  final id = serverRow['id'] as String;
+  final updatedAt = parseRemoteDateTime(serverRow['updated_at']);
+  await _db.bloodPressureDao.markSynced(id, updatedAt);
+}
+```
+
+Pull reads the table's `lastPulledAt`, filters by patient, applies rows, and advances the cursor to the greatest `updated_at` returned. The local `sync_state` table makes this one cursor and one last-run timestamp per table.
+
+```dart
+final lastPulledAt = await _db.syncStateDao.getLastPulledAt(tableKey);
+var query =
+    supabase.from(remoteTableName).select().eq('patient_id', patientId);
+if (lastPulledAt != null) {
+  query = query.gt('updated_at', remoteIsoDateTime(lastPulledAt)!);
+}
+
+final response = await query.order('updated_at');
+```
+
+## Last-write-wins without trusting client clocks
+
+When a pulled row already exists locally, the sync adapter compares timestamps. The remote row wins only when it is strictly newer; an equal timestamp keeps the local row.
+
+```dart
+/// Remote wins only when strictly newer; ties keep local (local wins on push).
+bool shouldApplyRemoteUpdate({
+  required DateTime remoteUpdatedAt,
+  required DateTime localUpdatedAt,
+}) {
+  return remoteUpdatedAt.isAfter(localUpdatedAt);
+}
+```
+
+The important detail is where `updated_at` comes from. A client timestamp is not authoritative because device clocks drift and users can change them. The Postgres trigger sets the value on the server for both inserts and updates.
+
+```sql
+create trigger set_blood_pressure_readings_updated_at
+before insert or update on public.blood_pressure_readings
+for each row execute function private.set_updated_at();
+```
+
+The server timestamp gives every device the same ordering source. The policy is pragmatic for a single-patient health log: deterministic conflict resolution without a manual conflict screen.
+
+## Triggering sync safely
+
+Repositories call the coordinator after local writes. `SyncCoordinator` debounces those notifications by two seconds, which coalesces rapid form changes into fewer sync attempts.
+
+```dart
+void onDriftWrite() {
+  _debounceTimer?.cancel();
+  _debounceTimer = Timer(_debounceDuration, () {
+    unawaited(run());
+  });
+}
+```
+
+The coordinator also runs on app startup, app resume, and connectivity restoration. Runs are serialized; if another trigger arrives while a sync is active, one follow-up run is queued.
+
+```dart
+Future<void> run() async {
+  if (_running) {
+    _pendingRun = true;
+    return;
+  }
+  _running = true;
+  try {
+    await _engine.run();
+  } finally {
+    _running = false;
+    if (_pendingRun) {
+      _pendingRun = false;
+      unawaited(run());
+    }
+  }
+}
+```
+
+`SyncLifecycleObserver` listens to `connectivity_plus`, but the app does not treat a transport signal as proof that Supabase is reachable.
+
+`ConnectivityService.isOnline()` performs an HTTP reachability probe before the initial gate proceeds.
+
+```dart
+import 'dart:io';
+
+import 'package:app/core/supabase_config.dart';
+
+/// Lightweight online probe used by the initial sync gate (no connectivity_plus).
+class ConnectivityService {
+  ConnectivityService({String? probeUrl}) : _probeUrl = probeUrl;
+
+  final String? _probeUrl;
+
+Future<bool> isOnline() async {
+    final probeUrl = _probeUrl ??
+        (SupabaseConfig.validationError == null ? SupabaseConfig.url : null);
+    if (probeUrl == null) {
+      return false;
+    }
+
+    final client = HttpClient();
+    try {
+      client.connectionTimeout = const Duration(seconds: 3);
+      final request = await client.headUrl(Uri.parse(probeUrl));
+      final response =
+          await request.close().timeout(const Duration(seconds: 3));
+      return response.statusCode < 500;
+    } catch (_) {
+      return false;
+    } finally {
+      client.close(force: true);
+    }
+  }
+}
+```
+
+This is foreground synchronization. The app does not currently use a native background worker or a durable exponential-backoff loop.
+
+## The first-sync gate
+
+Offline-first does not mean showing an empty local database after a fresh sign-in. If there is no local patient row yet, `InitialSyncGate` checks connectivity and runs an initial sync before showing the signed-in app.
+
+```dart
+if (await db.hasLocalDataForAuthUser(authUserId)) {
+  if (!mounted) {
+    return;
+  }
+  setState(() => _phase = _InitialSyncPhase.ready);
+  return;
+}
+
+if (!await connectivity.isOnline()) {
+  if (!mounted) {
+    return;
+  }
+  setState(() => _phase = _InitialSyncPhase.blockedOffline);
+  return;
+}
+```
+
+If the first pull succeeds and local patient data exists, the gate opens. If the device is offline or sync fails, the user sees a retry state instead of interacting with an unseeded local store.
+
+## RLS is the security boundary
+
+The client only receives a Supabase publishable/anon key. It does not contain a service-role credential. Authorization is enforced by Postgres Row Level Security, not by trusting the Flutter repository to filter data correctly.
+
+The remote policies scope patient-owned rows through the relationship `patients.auth_user_id = auth.uid()`. App logic chooses which local patient to display; RLS decides which remote rows the authenticated user may read or write.
+
+For example, the blood-pressure select policy checks the relationship in Postgres:
+
+```sql
+create policy "Patients can view their own blood pressure readings"
+  on public.blood_pressure_readings
+  for select
+  to authenticated
+  using (
+    exists (
+      select 1
+      from public.patients p
+      where p.id = patient_id
+        and p.auth_user_id = (select auth.uid())
+    )
+  );
+```
+
+The repository documents the current boundary plainly: the policy model is patient-owner-only, caretaker authorization is not implemented, and the project has not been audited for a formal HIPAA/GDPR target.
+
+## What is deliberately incomplete
+
+The current implementation is foreground-only. Local changes remain in SQLite while offline, then sync attempts happen at startup, on resume, after writes, or when connectivity returns.
+
+There is no native background worker, no exponential backoff loop, and no sync-status UI.
+
+Sync errors are developer logs, and the repository still needs end-to-end validation against a real Supabase project for offline/reconnect flows and migrations with dirty rows.
+
+These are known next steps, not hidden capabilities.
+
+The useful result today is a clear local-first core with durable rows, soft-delete propagation, incremental pulls, deterministic conflict handling, and a registry that can grow without duplicating the engine.
+
+## What I learned
+
+Offline-first is not a connectivity feature added to the UI. It is an architectural invariant: repositories write locally, synchronization reconciles later, and each layer respects that direction of dependency.
+
+The hardest decisions were about failure semantics: what counts as a successful write, how a delete survives an outage, which clock orders conflicting edits, and what a new session is allowed to see before its first pull.
