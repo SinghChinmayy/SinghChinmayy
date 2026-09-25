@@ -45,6 +45,10 @@ const logoTechnologies = new Set([
   'Go', 'Python', 'C++', 'Java', 'PostgreSQL', 'Supabase', 'SQLite',
   'AWS', 'Docker', 'Linux', 'Prometheus', 'OpenTelemetry', 'OpenSearch',
 ]);
+const techIconUrls: Record<string, string> = {
+  Java: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
+  AWS: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+};
 const techGroups = [
   { label: 'Languages', technologies: ['Go', 'Python', 'C++', 'Java'] },
   { label: 'Backend & Data', technologies: ['REST / JSON', 'PostgreSQL', 'Supabase', 'SQLite'] },
@@ -157,7 +161,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
             <p class="stack-values">
               {group.technologies.map((technology, index) => <>
                 <span class="stack-value">
-                  {logoTechnologies.has(technology) && techIcons[technology] && <img class="stack-icon" src={`https://cdn.simpleicons.org/${techIcons[technology]}/276EF1`} alt="" loading="lazy" />}
+                  {logoTechnologies.has(technology) && (techIconUrls[technology] || techIcons[technology]) && <img class="stack-icon" src={techIconUrls[technology] || `https://cdn.simpleicons.org/${techIcons[technology]}/276EF1`} alt="" loading="lazy" />}
                   {technology}
                 </span>{index < group.technologies.length - 1 && <span class="stack-separator" aria-hidden="true">·</span>}
               </>)}
