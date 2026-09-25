@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
 import ForwardLink from '../components/ForwardLink.astro';
-import SocialLinks from '../components/SocialLinks.astro';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../data/index';
 import awsBadge from '../assets/Certifications/AWS/aws-academy-graduate-cloud-foundations-training-bad.png';
@@ -28,34 +27,30 @@ import bootDevPython from '../assets/Certifications/boot.dev/bdeedf6a-e1ef-4174-
 
 const projects = await getCollection('projects');
 const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order || 999) - (b.data.order || 999)).slice(0, 2);
+const currentProject = featuredProjects[0];
 const posts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()).slice(0, 3);
+const githubProfile = siteConfig.social.find(({ platform }) => platform === 'github')?.url ?? 'https://github.com/SinghChinmayy';
+const githubUsername = githubProfile.split('/').filter(Boolean).pop() ?? 'SinghChinmayy';
 const shorten = (text: string, maxLength = 180) => text.length > maxLength ? `${text.slice(0, maxLength - 1).trimEnd()}…` : text;
-const techStack = Array.from(new Set([
-  ...projects.flatMap((project) => project.data.techStack),
-  'C++', 'C', 'Java', 'Data structures & algorithms',
-  'AWS', 'Amazon Bedrock', 'Docker', 'Linux', 'OpenSearch',
-  'RAG', 'Agentic AI', 'Linear regression', 'IBM Granite', 'IoT',
-  'Web development',
-]));
 const techIcons: Record<string, string> = {
   Go: 'go', Python: 'python', Flutter: 'flutter', Dart: 'dart', PostgreSQL: 'postgresql',
-  'Supabase (Auth + Postgres)': 'supabase', 'drift / SQLite': 'sqlite', Provider: 'flutter',
+  Supabase: 'supabase', SQLite: 'sqlite', 'Supabase (Auth + Postgres)': 'supabase', 'drift / SQLite': 'sqlite', Provider: 'flutter',
   'REST / JSON': 'json', Prometheus: 'prometheus', OpenTelemetry: 'opentelemetry',
   'Background workers': 'go', 'Row Level Security': 'postgresql', Regex: 'python',
   pathlib: 'python', 'Unicode (NFKC)': 'python', 'C++': 'cplusplus', C: 'c', Java: 'java',
   AWS: 'amazonaws', Docker: 'docker', Linux: 'linux', OpenSearch: 'opensearch',
   'IBM Granite': 'ibm', IoT: 'arduino',
 };
+const logoTechnologies = new Set([
+  'Go', 'Python', 'C++', 'Java', 'PostgreSQL', 'Supabase', 'SQLite',
+  'AWS', 'Docker', 'Linux', 'Prometheus', 'OpenTelemetry', 'OpenSearch',
+]);
 const techGroups = [
-  { label: 'Languages', technologies: ['Go', 'Python', 'C++', 'C', 'Java', 'Dart'] },
-  { label: 'Application', technologies: ['Flutter', 'Provider'] },
-  { label: 'Backend & data', technologies: ['REST / JSON', 'PostgreSQL', 'Supabase (Auth + Postgres)', 'drift / SQLite', 'Row Level Security'] },
-  { label: 'Cloud & tooling', technologies: ['AWS', 'Amazon Bedrock', 'Docker', 'Linux', 'OpenSearch'] },
-  { label: 'AI & data foundations', technologies: ['RAG', 'Agentic AI', 'Linear regression', 'IBM Granite'] },
-  { label: 'Systems & web foundations', technologies: ['IoT', 'Web development'] },
-  { label: 'Reliability', technologies: ['Prometheus', 'OpenTelemetry', 'Background workers'] },
-  { label: 'Foundations', technologies: ['Regex', 'pathlib', 'Unicode (NFKC)'] },
-  { label: 'Problem solving', technologies: ['Data structures & algorithms'] },
+  { label: 'Languages', technologies: ['Go', 'Python', 'C++', 'Java'] },
+  { label: 'Backend & Data', technologies: ['REST / JSON', 'PostgreSQL', 'Supabase', 'SQLite'] },
+  { label: 'Infrastructure', technologies: ['AWS', 'Docker', 'Linux', 'Background workers'] },
+  { label: 'Observability', technologies: ['Prometheus', 'OpenTelemetry'] },
+  { label: 'AI & Foundations', technologies: ['Amazon Bedrock', 'OpenSearch', 'RAG', 'Data structures & algorithms'] },
 ];
 const certifications = [
   {
@@ -120,27 +115,21 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     <div class="hero-shell">
       <section class="hero">
         <div class="hero-left">
-          <img src={siteConfig.author.profilePic} alt={`${siteConfig.author.name} portrait`} class="profile-pic" />
-          <p class="eyebrow">Backend · Infrastructure · Systems</p>
-          <h1>I build backend systems and infrastructure.</h1>
-          <p class="hero-sub">Early-career software engineer and computer science student building backend systems, infrastructure, and developer tools.</p>
-          <div class="hero-cta"><a href="/projects" class="btn-primary">View projects</a><a href="/contact" class="btn-secondary">Contact</a></div>
-          <div class="profile-actions">
-            <SocialLinks excludePlatforms={['leetcode']} />
-            <a class="profile-link" href="https://leetcode.com/u/SinghChinmayy/" target="_blank" rel="noopener noreferrer">LeetCode profile <span aria-hidden="true">↗</span></a>
-          </div>
+          <p class="eyebrow">Backend engineering · Systems · Infrastructure</p>
+          <h1>Backend systems, built to be understood.</h1>
+          <p class="hero-sub">I build APIs, data flows, and operational tooling that make software more reliable and easier to reason about.</p>
+          <div class="hero-cta"><a href="/projects" class="btn-primary">View selected work <span aria-hidden="true">→</span></a><a class="profile-link" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
-      </section>
-      <section class="selected-work" aria-labelledby="selected-work-heading">
-        <p class="section-kicker" id="selected-work-heading">Selected public work</p>
-        <div class="case-snapshots">
-          {featuredProjects.map((project) => <a href={`/projects/${project.id}`} class="case-snapshot">
-            <span class="case-label">{project.data.status === 'ongoing' ? 'In progress' : 'Case study'} · {project.data.role}</span>
-            <span class="case-title">{project.data.title}</span>
-            <span class="case-outcome">{shorten(project.data.outcomeSummary)}</span>
-            <span class="case-link">Read case study →</span>
-          </a>)}
-        </div>
+        {currentProject && <div class="current-project">
+          <p class="project-status">Currently building</p>
+          <a href={`/projects/${currentProject.id}`} class="project-link">
+            <h2>{currentProject.data.title}</h2>
+            <p class="project-type">Backend reliability tooling</p>
+            <p class="project-description">An auditable workflow for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery.</p>
+            <p class="project-stack">Go <span aria-hidden="true">·</span> REST / JSON <span aria-hidden="true">·</span> PostgreSQL <span aria-hidden="true">·</span> Prometheus</p>
+            <span class="case-link">Read case study <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>}
       </section>
     </div>
 
@@ -150,15 +139,16 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       </div>
       <div class="stack-groups">
         {techGroups.map((group) => {
-          const technologies = group.technologies.filter((technology) => techStack.includes(technology));
-          return technologies.length > 0 && <div class="stack-group">
+          return <div class="stack-group">
             <h3 class="stack-group-title">{group.label}</h3>
-            <div class="stack-list">
-              {technologies.map((technology) => <span class="stack-item">
-                {techIcons[technology] && <img class="stack-icon" src={`https://cdn.simpleicons.org/${techIcons[technology]}/276EF1`} alt="" loading="lazy" />}
-                {technology}
-              </span>)}
-            </div>
+            <p class="stack-values">
+              {group.technologies.map((technology, index) => <>
+                <span class="stack-value">
+                  {logoTechnologies.has(technology) && techIcons[technology] && <img class="stack-icon" src={`https://cdn.simpleicons.org/${techIcons[technology]}/276EF1`} alt="" loading="lazy" />}
+                  {technology}
+                </span>{index < group.technologies.length - 1 && <span class="stack-separator" aria-hidden="true">·</span>}
+              </>)}
+            </p>
           </div>;
         })}
       </div>
@@ -203,6 +193,16 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       </a>)}</div>
     </section>}
 
+    <section class="activity-section" aria-labelledby="activity-heading">
+      <div class="section-header activity-header">
+        <div><p class="section-kicker">Building in public</p><h2 id="activity-heading">GitHub activity</h2></div>
+        <a class="activity-link" href={githubProfile} target="_blank" rel="noopener noreferrer">View profile <span aria-hidden="true">↗</span></a>
+      </div>
+      <a class="activity-heatmap" href={githubProfile} target="_blank" rel="noopener noreferrer" aria-label={`View ${githubUsername}'s GitHub contribution activity`}>
+        <img src={`https://ghchart.rshah.org/276EF1/${githubUsername}`} alt={`GitHub contribution heatmap for ${githubUsername}`} loading="lazy" />
+      </a>
+    </section>
+
     <section class="cta"><p class="section-kicker">Have a thoughtful problem to discuss?</p><h2>Let’s connect.</h2><p>Open to early-career software engineering opportunities, collaborations, and conversations about systems.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Say hello</a><a href="/projects" class="btn-secondary">Browse projects</a></div></section>
   </main>
 </BaseLayout>
@@ -232,33 +232,41 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
 <style>
   .home-page { max-width: var(--max-width-content); margin: 0 auto; padding: .75rem 1rem 4rem; }
-  .hero-shell { display: grid; gap: 2.5rem; }
-  .hero { padding: 1.25rem 0 2.5rem; border-bottom: 1px solid var(--color-border); }
-  .hero-left { max-width: 38rem; }
-  .profile-pic { width: 64px; height: 64px; object-fit: cover; border: 1px solid var(--color-border); border-radius: 10px; margin-bottom: 1.25rem; }
-  .eyebrow, .section-kicker, .case-label, .writing-date { color: var(--color-accent); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  h1 { max-width: 14ch; font-size: clamp(2.35rem, 11vw, 5rem); line-height: 1.04; letter-spacing: -.06em; margin: .8rem 0 1.25rem; }
-  .hero-sub { max-width: 34rem; color: var(--color-text-secondary); font-size: 1rem; line-height: 1.65; margin-bottom: 1.5rem; }
-  .hero-cta, .cta-buttons { display: flex; flex-wrap: wrap; gap: .65rem; margin-bottom: 1.5rem; }
-  .profile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .hero { display: grid; gap: 3rem; padding: 3.5rem 0 4.5rem; border-bottom: 1px solid var(--color-border); }
+  .hero-left { max-width: 42rem; }
+  .eyebrow, .section-kicker, .project-status, .writing-date { color: var(--color-accent); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; }
+  h1 { max-width: 20ch; font-size: clamp(2.5rem, 11vw, 4.75rem); line-height: 1.02; letter-spacing: -.065em; margin: 1rem 0 1.5rem; }
+  .hero-sub { max-width: 34rem; color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.65; margin-bottom: 2rem; }
+  .hero-cta, .cta-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
   .profile-link { color: var(--color-text-secondary); font-size: .875rem; font-weight: 600; }
   .profile-link:hover { color: var(--color-accent); }
-  .btn-primary, .btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 2.875rem; padding: .7rem 1rem; border: 1px solid var(--color-accent); border-radius: var(--border-radius-sm); font-weight: 600; }
-  .btn-primary { background: var(--color-accent); color: #fff; } .btn-primary:hover { background: var(--color-accent-hover); color: #fff; }
-  .btn-secondary { color: var(--color-text); border-color: var(--color-border); background: var(--color-bg-secondary); } .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
-  .selected-work { padding-top: 0; } .case-snapshots { display: grid; gap: 1rem; margin-top: 1rem; }
-  .case-snapshot { display: block; padding: 1.35rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); box-shadow: var(--shadow-sm); }
-  .case-snapshot:hover { border-color: var(--color-accent); } .case-label { display: block; }
-  .case-title { display: block; color: var(--color-text); font-size: 1.15rem; font-weight: 600; margin: .6rem 0 .5rem; }
-  .case-outcome { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1rem; } .case-link { color: var(--color-accent); font-size: .875rem; font-weight: 600; }
+  .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 2.875rem; padding: .7rem 1rem; border: 1px solid var(--color-accent); border-radius: var(--border-radius-sm); background: var(--color-accent); color: #fff; font-weight: 600; }
+  .btn-primary:hover { background: var(--color-accent-hover); color: #fff; }
+  .current-project { max-width: 34rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+  .project-status { margin-bottom: 1rem; }
+  .project-link { display: block; color: var(--color-text); }
+  .project-link:hover h2, .project-link:hover .case-link { color: var(--color-accent); }
+  .project-link h2 { max-width: 16ch; font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1.08; letter-spacing: -.045em; margin: 0 0 .5rem; transition: color var(--transition-fast); }
+  .project-type { color: var(--color-text-muted); font: 600 .78rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 1.1rem; }
+  .project-description { max-width: 31rem; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: 1.25rem; }
+  .project-stack { color: var(--color-text-muted); font: .8rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin-bottom: 1.5rem; }
+  .case-link { color: var(--color-accent); font-size: .875rem; font-weight: 600; transition: color var(--transition-fast); }
   .section-header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.25rem; } h2 { font-size: clamp(1.8rem, 8vw, 2.5rem); margin-top: .4rem; }
+  .activity-section { margin: 2rem 0 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border); }
+  .activity-header { margin-bottom: .6rem; }
+  .activity-link { color: var(--color-text-secondary); font-size: .875rem; font-weight: 600; white-space: nowrap; }
+  .activity-link:hover { color: var(--color-accent); }
+  .activity-heatmap { display: block; max-width: 760px; overflow: hidden; padding: .35rem 0; border-radius: var(--border-radius-sm); }
+  .activity-heatmap:hover { background: var(--color-bg-elevated); }
+  .activity-heatmap img { width: 100%; height: auto; max-height: 5rem; object-fit: contain; object-position: left center; }
   .stack-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--color-border); }
-  .stack-header { margin-bottom: 1rem; }
-  .stack-groups { display: grid; gap: 1rem; }
-  .stack-group-title { margin-bottom: .6rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .stack-list { display: flex; flex-wrap: wrap; gap: .55rem; }
-  .stack-item { display: inline-flex; align-items: center; min-height: 2.5rem; padding: .45rem .75rem .45rem .45rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); background: var(--color-bg-secondary); color: var(--color-text-secondary); font-size: .875rem; }
-  .stack-icon { width: 1.7rem; height: 1.7rem; margin-right: .55rem; object-fit: contain; }
+  .stack-header { margin-bottom: 1.25rem; }
+  .stack-groups { display: grid; gap: 1.25rem 2rem; }
+  .stack-group-title { margin-bottom: .35rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .stack-values { color: var(--color-text-secondary); font-size: .925rem; line-height: 1.7; }
+  .stack-value { display: inline-flex; align-items: center; white-space: nowrap; }
+  .stack-separator { padding-inline: .45rem; color: var(--color-text-muted); }
+  .stack-icon { width: 1rem; height: 1rem; margin-right: .35rem; object-fit: contain; }
   .certifications-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--color-border); }
   .certification-subtitle { max-width: 32rem; color: var(--color-text-secondary); font-size: .9rem; line-height: 1.5; margin-top: .5rem; }
   .certifications-table-header, .certification-item { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) auto; column-gap: 1.25rem; align-items: center; min-width: 0; }
@@ -283,6 +291,6 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
   .writing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; } .writing-item { display: block; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); }
   .writing-item:hover { border-color: var(--color-accent); } .writing-title { color: var(--color-text); font-size: 1.05rem; line-height: 1.35; margin: .7rem 0 .5rem; } .writing-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; color: var(--color-text-secondary); font-size: .925rem; line-height: 1.55; }
   .cta { margin-top: 3rem; padding: 1.75rem 1.15rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); } .cta h2 { margin-bottom: .75rem; } .cta > p:not(.section-kicker) { max-width: 36rem; margin-bottom: 1.5rem; color: var(--color-text-secondary); }
-  @media (max-width: 599px) { .hero-cta a, .cta-buttons a { flex: 1 1 0; min-width: 0; padding-inline: .75rem; } .profile-actions { align-items: flex-start; flex-direction: column; gap: .75rem; } .case-snapshot, .writing-item { padding: 1rem; } .case-outcome { -webkit-line-clamp: 3; } .stack-item { max-width: 100%; font-size: .8125rem; } .certifications-table-header { display: none; } .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; } .certification-name { grid-column: 1 / -1; font-size: .95rem; } .certification-issuer { grid-column: 1; font-size: .8rem; } .certification-action { grid-column: 2; font-size: .78rem; } .certification-category { margin-top: 1.1rem; } }
-  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero-shell { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; } .hero { padding: 2.5rem 0 5rem; margin-bottom: 0; } .selected-work { padding-top: 3rem; } .profile-pic { width: 72px; height: 72px; margin-bottom: 1.5rem; } h1 { font-size: clamp(2.8rem, 6vw, 5rem); } .hero-sub { font-size: 1.1rem; } .stack-section, .certifications-section { margin-bottom: 4rem; padding-bottom: 4rem; } .certifications-section h2 { font-size: clamp(3rem, 5vw, 3.5rem); } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
+  @media (max-width: 599px) { .hero { gap: 2.75rem; padding-top: 2.75rem; } .hero-cta a { min-height: 2.875rem; } .activity-section { margin-block: 1.75rem 2rem; padding-bottom: 1.75rem; } .activity-heatmap img { max-height: 4rem; } .certifications-table-header { display: none; } .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; } .certification-name { grid-column: 1 / -1; font-size: .95rem; } .certification-issuer { grid-column: 1; font-size: .8rem; } .certification-action { grid-column: 2; font-size: .78rem; } .certification-category { margin-top: 1.1rem; } }
+  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero { grid-template-columns: minmax(0, 1.08fr) minmax(20rem, .72fr); gap: clamp(3rem, 9vw, 8rem); align-items: start; padding: 6rem 0 7rem; } h1 { font-size: clamp(4rem, 5.3vw, 4.75rem); } .hero-sub { font-size: 1.1rem; } .current-project { margin-top: 2.25rem; } .activity-section { margin-top: 2.5rem; margin-bottom: 3rem; padding-bottom: 2.5rem; } .stack-section, .certifications-section { margin-bottom: 4rem; padding-bottom: 4rem; } .stack-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem 3rem; } .certifications-section h2 { font-size: clamp(3rem, 5vw, 3.5rem); } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
 </style>
