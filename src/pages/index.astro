@@ -6,6 +6,25 @@ import ForwardLink from '../components/ForwardLink.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../data/index';
+import awsBadge from '../assets/Certifications/AWS/aws-academy-graduate-cloud-foundations-training-bad.png';
+import awsCertificate from '../assets/Certifications/AWS/AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260716-8-2s66j3.pdf';
+import ibmCertificate from '../assets/Certifications/IBMDesign20260915-20-xfmpjj.pdf';
+import amfiCertificate from '../assets/Certifications/AMFI_INDIA/1749477044045.jpeg';
+import courseraDigitalSystems from '../assets/Certifications/Coursera/CERTIFICATE_LANDING_PAGE~BNXSSGE9Z7UW.jpeg';
+import courseraJava from '../assets/Certifications/Coursera/CERTIFICATE_LANDING_PAGE~489ZTO7YQW2I.jpeg';
+import courseraDataStructures from '../assets/Certifications/Coursera/CERTIFICATE_LANDING_PAGE~9LFD9JPQKOQT.jpeg';
+import courseraLinearRegression from '../assets/Certifications/Coursera/1755159608816.jpeg';
+import courseraC from '../assets/Certifications/Coursera/Coursera 9P5E3RK9UJLU.pdf';
+import courseraDocker from '../assets/Certifications/Coursera/Coursera 2G6SK49FW4BU.pdf';
+import ibmIot from '../assets/Certifications/IBM-skill_build/1755457040788.jpeg';
+import ibmBedrock from '../assets/Certifications/IBM-skill_build/1755457171782.jpeg';
+import ibmAgenticAi from '../assets/Certifications/IBM-skill_build/1755457363567.jpeg';
+import ibmRag from '../assets/Certifications/IBM-skill_build/1755457475189.jpeg';
+import ibmGranite from '../assets/Certifications/IBM-skill_build/1755457609740.jpeg';
+import ibmOpenSearch from '../assets/Certifications/IBM-skill_build/1755457677750.jpeg';
+import ibmAiAgents from '../assets/Certifications/IBM-skill_build/1755457865036.jpeg';
+import bootDevLinux from '../assets/Certifications/boot.dev/ac713580-a863-4970-968a-0a3281207d56.jpeg';
+import bootDevPython from '../assets/Certifications/boot.dev/bdeedf6a-e1ef-4174-86d4-707cdfd094a6.jpeg';
 
 const projects = await getCollection('projects');
 const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order || 999) - (b.data.order || 999)).slice(0, 2);
@@ -13,25 +32,85 @@ const posts = (await getCollection('writing', ({ data }) => data.draft !== true)
 const shorten = (text: string, maxLength = 180) => text.length > maxLength ? `${text.slice(0, maxLength - 1).trimEnd()}…` : text;
 const techStack = Array.from(new Set([
   ...projects.flatMap((project) => project.data.techStack),
-  'C++',
-  'Data structures & algorithms',
+  'C++', 'C', 'Java', 'Data structures & algorithms',
+  'AWS', 'Amazon Bedrock', 'Docker', 'Linux', 'OpenSearch',
+  'RAG', 'Agentic AI', 'Linear regression', 'IBM Granite', 'IoT',
+  'Web development',
 ]));
 const techIcons: Record<string, string> = {
   Go: 'go', Python: 'python', Flutter: 'flutter', Dart: 'dart', PostgreSQL: 'postgresql',
   'Supabase (Auth + Postgres)': 'supabase', 'drift / SQLite': 'sqlite', Provider: 'flutter',
   'REST / JSON': 'json', Prometheus: 'prometheus', OpenTelemetry: 'opentelemetry',
   'Background workers': 'go', 'Row Level Security': 'postgresql', Regex: 'python',
-  pathlib: 'python', 'Unicode (NFKC)': 'python', 'C++': 'cplusplus',
-  'Data structures & algorithms': 'cplusplus',
+  pathlib: 'python', 'Unicode (NFKC)': 'python', 'C++': 'cplusplus', C: 'c', Java: 'java',
+  AWS: 'amazonaws', Docker: 'docker', Linux: 'linux', OpenSearch: 'opensearch',
+  'IBM Granite': 'ibm', IoT: 'arduino',
 };
 const techGroups = [
-  { label: 'Languages', technologies: ['Go', 'Python', 'C++', 'Dart'] },
+  { label: 'Languages', technologies: ['Go', 'Python', 'C++', 'C', 'Java', 'Dart'] },
   { label: 'Application', technologies: ['Flutter', 'Provider'] },
   { label: 'Backend & data', technologies: ['REST / JSON', 'PostgreSQL', 'Supabase (Auth + Postgres)', 'drift / SQLite', 'Row Level Security'] },
+  { label: 'Cloud & tooling', technologies: ['AWS', 'Amazon Bedrock', 'Docker', 'Linux', 'OpenSearch'] },
+  { label: 'AI & data foundations', technologies: ['RAG', 'Agentic AI', 'Linear regression', 'IBM Granite'] },
+  { label: 'Systems & web foundations', technologies: ['IoT', 'Web development'] },
   { label: 'Reliability', technologies: ['Prometheus', 'OpenTelemetry', 'Background workers'] },
   { label: 'Foundations', technologies: ['Regex', 'pathlib', 'Unicode (NFKC)'] },
   { label: 'Problem solving', technologies: ['Data structures & algorithms'] },
 ];
+const certifications = [
+  {
+    issuer: 'AWS Academy',
+    title: 'Graduate — Cloud Foundations',
+    date: '2026',
+    description: 'Training badge covering foundational cloud concepts and AWS services.',
+    preview: awsBadge.src,
+    certificate: awsCertificate,
+    alt: 'AWS Academy Graduate Cloud Foundations badge',
+  },
+  {
+    issuer: 'IBM SkillsBuild',
+    title: 'Web Development Fundamentals',
+    date: '2026',
+    description: 'Digital credential covering foundational web development concepts.',
+    certificate: ibmCertificate,
+    alt: 'IBM SkillsBuild Web Development Fundamentals certificate',
+  },
+  { issuer: 'AMFI India', title: 'AMFI Registered Mutual Fund Distributor', date: '2024', description: 'Registration card issued by the Association of Mutual Funds in India.', preview: amfiCertificate.src, certificate: amfiCertificate.src, alt: 'AMFI Registered Mutual Fund Distributor card' },
+  { issuer: 'Coursera · UAB', title: 'Digital Systems: From Logic Gates to Processors', date: '2024', description: 'Online course authorized by Universitat Autònoma de Barcelona.', preview: courseraDigitalSystems.src, certificate: courseraDigitalSystems.src, alt: 'Coursera Digital Systems certificate' },
+  { issuer: 'Coursera · University of Pennsylvania', title: 'Introduction to Java and Object-Oriented Programming', date: '2024', description: 'Online non-credit course offered through Coursera.', preview: courseraJava.src, certificate: courseraJava.src, alt: 'Coursera Introduction to Java certificate' },
+  { issuer: 'Coursera · University of Illinois', title: 'Ordered Data Structures', date: '2024', description: 'Online course in computer science and data structures.', preview: courseraDataStructures.src, certificate: courseraDataStructures.src, alt: 'Coursera Ordered Data Structures certificate' },
+  { issuer: 'Coursera Project Network', title: 'Linear Regression with Python', date: '2025', description: 'Hands-on project certificate in Python and machine learning.', preview: courseraLinearRegression.src, certificate: courseraLinearRegression.src, alt: 'Coursera Linear Regression with Python certificate' },
+  { issuer: 'Coursera Project Network', title: 'Learn Fundamentals of Computer Programming with C Language', date: '2024', description: 'Guided project certificate in C programming fundamentals.', certificate: courseraC, alt: 'Coursera C programming certificate' },
+  { issuer: 'Coursera Project Network', title: 'Docker for Absolute Beginners', date: '2024', description: 'Guided project certificate covering Docker fundamentals.', certificate: courseraDocker, alt: 'Coursera Docker certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'Workshop on Connecting to IoT by IBMer', date: '2025', description: 'Completion certificate for an IBM SkillsBuild workshop.', preview: ibmIot.src, certificate: ibmIot.src, alt: 'IBM SkillsBuild Connecting to IoT certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'AWS Lab — Bedrock Agent Integration via API', date: '2025', description: 'Completion certificate for an applied AWS Bedrock lab.', preview: ibmBedrock.src, certificate: ibmBedrock.src, alt: 'IBM SkillsBuild AWS Bedrock certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'AWS Lab — Agentic AI', date: '2025', description: 'Completion certificate for an applied agentic AI lab.', preview: ibmAgenticAi.src, certificate: ibmAgenticAi.src, alt: 'IBM SkillsBuild Agentic AI certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'Unleashing the Power of AI Agents', date: '2025', description: 'Completion certificate for an AI agents learning course.', preview: ibmAiAgents.src, certificate: ibmAiAgents.src, alt: 'IBM SkillsBuild AI Agents certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'Introduction to Retrieval Augmented Generation', date: '2025', description: 'Completion certificate covering RAG concepts and workflows.', preview: ibmRag.src, certificate: ibmRag.src, alt: 'IBM SkillsBuild RAG certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'Classifying Data Using IBM Granite', date: '2025', description: 'Completion certificate for a data classification course.', preview: ibmGranite.src, certificate: ibmGranite.src, alt: 'IBM SkillsBuild IBM Granite certificate' },
+  { issuer: 'IBM SkillsBuild', title: 'Building RAG Workflows with Amazon OpenSearch Service', date: '2025', description: 'Completion certificate for an applied RAG and OpenSearch course.', preview: ibmOpenSearch.src, certificate: ibmOpenSearch.src, alt: 'IBM SkillsBuild Amazon OpenSearch certificate' },
+  { issuer: 'Boot.dev', title: 'Learn Linux', date: '2025', description: 'Certificate of completion for Boot.dev’s Linux course.', preview: bootDevLinux.src, certificate: bootDevLinux.src, alt: 'Boot.dev Learn Linux certificate' },
+  { issuer: 'Boot.dev', title: 'Learn to Code in Python', date: '2025', description: 'Certificate of completion for Boot.dev’s Python course.', preview: bootDevPython.src, certificate: bootDevPython.src, alt: 'Boot.dev Learn to Code in Python certificate' },
+];
+const featuredCertificationTitles = new Set([
+  'Graduate — Cloud Foundations',
+  'Web Development Fundamentals',
+  'Digital Systems: From Logic Gates to Processors',
+  'Ordered Data Structures',
+  'Linear Regression with Python',
+  'Docker for Absolute Beginners',
+]);
+const featuredCertifications = certifications.filter(({ title }) => featuredCertificationTitles.has(title));
+const otherCertifications = certifications.filter(({ title }) => !featuredCertificationTitles.has(title));
+const certificationCategory = (title: string) => {
+  if (/AWS|Docker|Linux/.test(title)) return 'Cloud & DevOps';
+  if (/Linear Regression|RAG|Agent|Granite/.test(title)) return 'AI & Data';
+  if (/Web Development|Digital Systems|Java|Data Structures|C Language|Python/.test(title)) return 'Software Development';
+  return 'Other Professional Credentials';
+};
+const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Development', 'Other Professional Credentials']
+  .map((label) => ({ label, items: otherCertifications.filter(({ title }) => certificationCategory(title) === label) }))
+  .filter(({ items }) => items.length > 0);
 ---
 
 <BaseLayout>
@@ -85,6 +164,37 @@ const techGroups = [
       </div>
     </section>
 
+    <section class="certifications-section" aria-labelledby="certifications-heading">
+      <div class="section-header">
+        <div><p class="section-kicker">Selected credentials</p><h2 id="certifications-heading">Certifications</h2><p class="certification-subtitle">Selected credentials and technical coursework.</p></div>
+      </div>
+      <div class="certifications-table">
+        <div class="certifications-table-header" aria-hidden="true"><span>Certificate</span><span>Issuer</span><span>Year / View</span></div>
+        {featuredCertifications.map((certification) => <a class="certification-item" href={certification.certificate} target="_blank" rel="noopener noreferrer">
+          <span class="certification-name">{certification.title}</span>
+          <span class="certification-issuer">{certification.issuer}</span>
+          <span class="certification-action"><time>{certification.date}</time><span class="certification-link" aria-label={`View ${certification.title} certificate`}>View ↗</span></span>
+        </a>)}
+      </div>
+      {otherCertifications.length > 0 && <div class="certifications-more">
+        <button class="certifications-toggle" type="button" aria-expanded="false" aria-controls="all-certifications">
+          <span data-certifications-label>View all certifications</span> <span aria-hidden="true" data-certifications-icon>↓</span>
+        </button>
+        <div class="certifications-list" id="all-certifications" data-certifications-list hidden>
+          {certificationCategories.map((category) => <section class="certification-category" aria-labelledby={`category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>
+            <h3 id={`category-${category.label.toLowerCase().replaceAll(' ', '-')}`}>{category.label}</h3>
+            <div class="certification-category-table">
+              {category.items.map((certification) => <a class="certification-item" href={certification.certificate} target="_blank" rel="noopener noreferrer">
+                <span class="certification-name">{certification.title}</span>
+                <span class="certification-issuer">{certification.issuer}</span>
+                <span class="certification-action"><time>{certification.date}</time><span class="certification-link" aria-label={`View ${certification.title} certificate`}>View ↗</span></span>
+              </a>)}
+            </div>
+          </section>)}
+        </div>
+      </div>}
+    </section>
+
     {posts.length > 0 && <section class="recent-writing">
       <div class="section-header"><div><p class="section-kicker">Notes from the work</p><h2>Recent writing</h2></div><ForwardLink href="/blogs" text="View all" variant="muted" /></div>
       <div class="writing-grid">{posts.map((post) => <a href={`/blogs/${post.id}`} class="writing-item">
@@ -96,6 +206,29 @@ const techGroups = [
     <section class="cta"><p class="section-kicker">Have a thoughtful problem to discuss?</p><h2>Let’s connect.</h2><p>Open to early-career software engineering opportunities, collaborations, and conversations about systems.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Say hello</a><a href="/projects" class="btn-secondary">Browse projects</a></div></section>
   </main>
 </BaseLayout>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.certifications-toggle');
+  const list = document.querySelector<HTMLElement>('[data-certifications-list]');
+  const label = document.querySelector<HTMLElement>('[data-certifications-label]');
+  const icon = document.querySelector<HTMLElement>('[data-certifications-icon]');
+
+  toggle?.addEventListener('click', () => {
+    if (!list || !label || !icon) return;
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isExpanded));
+    label.textContent = isExpanded ? 'View all certifications' : 'Show less';
+    icon.textContent = isExpanded ? '↓' : '↑';
+
+    if (isExpanded) {
+      list.classList.remove('is-expanded');
+      window.setTimeout(() => list.setAttribute('hidden', ''), 240);
+    } else {
+      list.removeAttribute('hidden');
+      requestAnimationFrame(() => list.classList.add('is-expanded'));
+    }
+  });
+</script>
 
 <style>
   .home-page { max-width: var(--max-width-content); margin: 0 auto; padding: .75rem 1rem 4rem; }
@@ -126,9 +259,30 @@ const techGroups = [
   .stack-list { display: flex; flex-wrap: wrap; gap: .55rem; }
   .stack-item { display: inline-flex; align-items: center; min-height: 2.5rem; padding: .45rem .75rem .45rem .45rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); background: var(--color-bg-secondary); color: var(--color-text-secondary); font-size: .875rem; }
   .stack-icon { width: 1.7rem; height: 1.7rem; margin-right: .55rem; object-fit: contain; }
+  .certifications-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--color-border); }
+  .certification-subtitle { max-width: 32rem; color: var(--color-text-secondary); font-size: .9rem; line-height: 1.5; margin-top: .5rem; }
+  .certifications-table-header, .certification-item { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) auto; column-gap: 1.25rem; align-items: center; min-width: 0; }
+  .certifications-table-header { padding: 0 .2rem .55rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .09em; text-transform: uppercase; }
+  .certification-item { min-height: 4rem; padding: .55rem .2rem; border-top: 1px solid var(--color-border); }
+  .certification-item:hover .certification-name, .certification-item:hover .certification-link { color: var(--color-accent); }
+  .certification-name { display: -webkit-box; grid-column: 1; overflow: hidden; color: var(--color-text); font-size: 1.05rem; font-weight: 600; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .certification-issuer { grid-column: 2; overflow: hidden; color: var(--color-text-secondary); font-size: .9rem; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+  .certification-action { display: inline-flex; grid-column: 3; align-items: center; gap: .55rem; color: var(--color-text-muted); font-size: .85rem; white-space: nowrap; }
+  .certification-link { color: var(--color-text-secondary); font-weight: 600; transition: color .18s ease, transform .18s ease; }
+  .certification-item:hover .certification-link { transform: translateX(2px); }
+  .certifications-more { margin-top: .8rem; }
+  .certifications-toggle { min-height: 2.75rem; padding: .45rem 0; border: 0; background: transparent; color: var(--color-text-secondary); cursor: pointer; font-family: inherit; font-size: .8rem; font-weight: 600; line-height: 1.4; }
+  .certifications-toggle:hover { color: var(--color-accent); }
+  .certifications-toggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
+  .certifications-toggle [data-certifications-icon] { display: inline-block; margin-left: .2rem; color: var(--color-accent); transition: transform .2s ease; }
+  .certifications-list { max-height: 0; margin-top: 0; overflow: hidden; opacity: 0; transition: max-height .24s ease, margin-top .24s ease, opacity .18s ease; }
+  .certifications-list.is-expanded { max-height: 60rem; margin-top: .35rem; opacity: 1; }
+  .certification-category { margin-top: 1.35rem; }
+  .certification-category h3 { margin-bottom: .15rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .09em; text-transform: uppercase; }
+  .certification-category-table { display: grid; }
   .writing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; } .writing-item { display: block; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); }
   .writing-item:hover { border-color: var(--color-accent); } .writing-title { color: var(--color-text); font-size: 1.05rem; line-height: 1.35; margin: .7rem 0 .5rem; } .writing-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; color: var(--color-text-secondary); font-size: .925rem; line-height: 1.55; }
   .cta { margin-top: 3rem; padding: 1.75rem 1.15rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); } .cta h2 { margin-bottom: .75rem; } .cta > p:not(.section-kicker) { max-width: 36rem; margin-bottom: 1.5rem; color: var(--color-text-secondary); }
-  @media (max-width: 420px) { .hero-cta a, .cta-buttons a { flex: 1 1 0; min-width: 0; padding-inline: .75rem; } .profile-actions { align-items: flex-start; flex-direction: column; gap: .75rem; } .case-snapshot, .writing-item { padding: 1rem; } .case-outcome { -webkit-line-clamp: 3; } .stack-item { max-width: 100%; font-size: .8125rem; } }
-  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero-shell { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; } .hero { padding: 2.5rem 0 5rem; margin-bottom: 0; } .selected-work { padding-top: 3rem; } .profile-pic { width: 72px; height: 72px; margin-bottom: 1.5rem; } h1 { font-size: clamp(2.8rem, 6vw, 5rem); } .hero-sub { font-size: 1.1rem; } .stack-section { margin-bottom: 4rem; padding-bottom: 4rem; } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
+  @media (max-width: 599px) { .hero-cta a, .cta-buttons a { flex: 1 1 0; min-width: 0; padding-inline: .75rem; } .profile-actions { align-items: flex-start; flex-direction: column; gap: .75rem; } .case-snapshot, .writing-item { padding: 1rem; } .case-outcome { -webkit-line-clamp: 3; } .stack-item { max-width: 100%; font-size: .8125rem; } .certifications-table-header { display: none; } .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; } .certification-name { grid-column: 1 / -1; font-size: .95rem; } .certification-issuer { grid-column: 1; font-size: .8rem; } .certification-action { grid-column: 2; font-size: .78rem; } .certification-category { margin-top: 1.1rem; } }
+  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero-shell { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; } .hero { padding: 2.5rem 0 5rem; margin-bottom: 0; } .selected-work { padding-top: 3rem; } .profile-pic { width: 72px; height: 72px; margin-bottom: 1.5rem; } h1 { font-size: clamp(2.8rem, 6vw, 5rem); } .hero-sub { font-size: 1.1rem; } .stack-section, .certifications-section { margin-bottom: 4rem; padding-bottom: 4rem; } .certifications-section h2 { font-size: clamp(3rem, 5vw, 3.5rem); } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
 </style>
