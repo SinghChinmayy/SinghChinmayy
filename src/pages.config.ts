@@ -60,7 +60,7 @@ export const pagesConfig = {
     title: 'Blog',
     description: 'Technical articles, notes, and things I\'ve learned from building software and studying computer science.',
     heading: 'Blog',
-    intro: 'Notes from building software and studying computer science: architecture trade-offs, infrastructure, search, and the lessons behind unfinished systems.',
+    intro: 'Notes on software architecture, backend systems, infrastructure, search, and lessons from building.',
   },
 
   /**

@@ -3,7 +3,7 @@
  * Blog Index Page with Pagination
  *
  * Lists all published articles (excluding drafts) with pagination support. Displays
- * article cards with title, description, publish date, and tags. Uses a rest parameter
+ * compact editorial entries with title, description, publish date, and topics. Uses a rest parameter
  * route to handle both the first page (/blogs) and subsequent pages (/blogs/2, etc.).
  *
  * Features:
@@ -26,8 +26,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SEO from "../../components/SEO.astro";
 import Pagination from "../../components/Pagination.astro";
-import ArticleCard from "../../components/ArticleCard.astro";
-import PageStats from "../../components/PageStats.astro";
+import ArticleIndexItem from "../../components/ArticleIndexItem.astro";
 import { getCollection } from "astro:content";
 import { pagesConfig } from "../../pages.config";
 import type { GetStaticPaths } from "astro";
@@ -87,7 +86,6 @@ interface Props {
 }
 
 const { articles, currentPage, totalPages, totalArticles } = Astro.props;
-const postsPerPage = 5;
 
 /**
  * Generates page title based on current page number
@@ -98,6 +96,20 @@ const pageTitle =
   currentPage === 1
     ? pagesConfig.writing.title
     : `${pagesConfig.writing.title} - Page ${currentPage}`;
+
+const conciseTopics: Record<string, string[]> = {
+  "offline-first-local-persistence-flutter-kidney-care": [
+    "Flutter",
+    "Offline-first",
+    "SQLite",
+  ],
+  "monolith-or-microservices-choosing-the-right-architecture-for-scale": [
+    "Architecture",
+    "Microservices",
+    "Scaling",
+  ],
+  "search-engine-stage-1": ["Python", "Search", "Inverted index"],
+};
 ---
 
 <BaseLayout>
@@ -109,54 +121,24 @@ const pageTitle =
   />
 
   <main class="page-container">
-    <header class="page-header">
-      <div
-        style="display: flex; align-items: center; justify-content: space-between;"
-      >
-        <h1 class="page-title">{pagesConfig.writing.heading}</h1>
-        <a
-          href="/rss.xml"
-          aria-label="RSS Feed"
-          class="contact-btn"
-          style="color: var(--color-text-secondary); text-decoration: none; padding: 0.25rem;"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M4 11a9 9 0 0 1 9 9"></path>
-            <path d="M4 4a16 16 0 0 1 16 16"></path>
-            <circle cx="5" cy="19" r="1"></circle>
-          </svg>
-        </a>
-      </div>
+    <header class="page-header article-index__header">
+      <h1 class="page-title">{pagesConfig.writing.heading}</h1>
       <p class="page-intro">
         {pagesConfig.writing.intro}
       </p>
-      <PageStats
-        text={totalPages > 1
-          ? `Showing ${(currentPage - 1) * postsPerPage + 1}–${Math.min(currentPage * postsPerPage, totalArticles)} of ${totalArticles} articles`
-          : `${totalArticles} articles`}
-      />
+      <p class="article-index__count">{String(totalArticles).padStart(2, "0")} articles</p>
     </header>
 
     {
       articles.length > 0 ? (
-        <div class="card-list">
+        <div class="article-index__list">
           {articles.map((article) => (
-            <ArticleCard
+            <ArticleIndexItem
               title={article.data.title}
               slug={article.id}
-              description={article.data.description}
+              summary={article.data.description}
               publishDate={article.data.publishDate}
-              tags={article.data.tags}
+              topics={conciseTopics[article.id] ?? article.data.tags?.slice(0, 3)}
             />
           ))}
         </div>
@@ -172,3 +154,36 @@ const pageTitle =
     />
   </main>
 </BaseLayout>
+
+<style>
+  .page-container {
+    max-width: 1120px;
+  }
+
+  .article-index__header {
+    max-width: 46rem;
+    margin-bottom: 2rem;
+  }
+
+  .article-index__header .page-title {
+    margin-bottom: 0.65rem;
+  }
+
+  .article-index__header .page-intro {
+    max-width: 43rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .article-index__count {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .article-index__list {
+    max-width: 68rem;
+  }
+</style>

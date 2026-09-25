@@ -1,0 +1,145 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  summary: string;
+  publishDate: Date;
+  topics?: string[];
+}
+
+const { title, slug, summary, publishDate, topics = [] } = Astro.props;
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  })
+    .format(date)
+    .toUpperCase();
+}
+---
+
+<article class="article-index__item">
+  <time class="article-index__date" datetime={publishDate.toISOString()}>
+    {formatDate(publishDate)}
+  </time>
+
+  <div class="article-index__body">
+    <h2 class="article-index__title">
+      <a href={`/blogs/${slug}`}>{title}</a>
+    </h2>
+    <p class="article-index__summary">{summary}</p>
+    {topics.length > 0 && (
+      <p class="article-index__topics" aria-label="Article topics">
+        {topics.join(' · ')}
+      </p>
+    )}
+  </div>
+
+  <a class="article-index__link" href={`/blogs/${slug}`}>
+    <span>Read article</span>
+    <span aria-hidden="true">↗</span>
+  </a>
+</article>
+
+<style>
+  .article-index__item {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    gap: 1.75rem;
+    align-items: start;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .article-index__item:last-child {
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .article-index__date,
+  .article-index__topics {
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .article-index__date {
+    padding-top: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .article-index__title {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .article-index__title a {
+    color: var(--color-text);
+  }
+
+  .article-index__title a:hover {
+    color: var(--color-accent);
+  }
+
+  .article-index__summary {
+    display: -webkit-box;
+    max-width: 50rem;
+    margin: 0 0 0.55rem;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .article-index__topics {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .article-index__link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.4rem;
+    padding-top: 0.1rem;
+    color: var(--color-accent);
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+
+  .article-index__link span:last-child {
+    transition: transform var(--transition-fast);
+  }
+
+  .article-index__link:hover span:last-child {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 640px) {
+    .article-index__item {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      padding: 1.25rem 0;
+    }
+
+    .article-index__date {
+      padding-top: 0;
+    }
+
+    .article-index__summary {
+      font-size: 0.9375rem;
+    }
+
+    .article-index__link {
+      padding-top: 0.35rem;
+    }
+  }
+</style>
