@@ -133,6 +133,19 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       </section>
     </div>
 
+    <section class="about-section" aria-labelledby="about-heading">
+      <div class="about-copy">
+        <p class="section-kicker">About</p>
+        <h2 id="about-heading">I learn systems by making their boundaries explicit.</h2>
+        <p>I’m Chinmay, a software engineer focused on backend development, infrastructure, and the practical details that make software dependable. I like working from a clear model of the data, the failure modes, and the evidence a system should leave behind.</p>
+        <p>Most of my work is self-directed and public: small, explainable systems that help me turn concepts into working code and better engineering judgment.</p>
+        <p class="about-exploring"><span>Currently exploring</span> Go services, operational workflows, and reliable data synchronization.</p>
+      </div>
+      <div class="about-portrait">
+        <img src={siteConfig.author.profilePic} alt="Portrait of Chinmay Singh" loading="lazy" />
+      </div>
+    </section>
+
     <section class="stack-section" aria-labelledby="stack-heading">
       <div class="section-header stack-header">
         <div><p class="section-kicker">Tools I use to learn by building</p><h2 id="stack-heading">Tools &amp; practice</h2></div>
@@ -251,6 +264,14 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
   .project-description { max-width: 31rem; color: var(--color-text-secondary); line-height: 1.65; margin-bottom: 1.25rem; }
   .project-stack { color: var(--color-text-muted); font: .8rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin-bottom: 1.5rem; }
   .case-link { color: var(--color-accent); font-size: .875rem; font-weight: 600; transition: color var(--transition-fast); }
+  .about-section { display: grid; gap: 2.5rem; padding: 3.5rem 0; border-bottom: 1px solid var(--color-border); }
+  .about-copy { max-width: 42rem; }
+  .about-copy h2 { max-width: 22ch; font-size: clamp(1.8rem, 5vw, 2.75rem); line-height: 1.08; letter-spacing: -.045em; margin: .5rem 0 1.25rem; }
+  .about-copy > p:not(.section-kicker):not(.about-exploring) { max-width: 42rem; color: var(--color-text-secondary); line-height: 1.7; margin-top: .85rem; }
+  .about-exploring { margin-top: 1.4rem; color: var(--color-text); font-size: .9rem; line-height: 1.6; }
+  .about-exploring span { color: var(--color-accent); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; margin-right: .45rem; }
+  .about-portrait { width: min(100%, 18rem); justify-self: start; }
+  .about-portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .45rem; }
   .section-header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.25rem; } h2 { font-size: clamp(1.8rem, 8vw, 2.5rem); margin-top: .4rem; }
   .activity-section { margin: 2rem 0 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border); }
   .activity-header { margin-bottom: .6rem; }
@@ -291,6 +312,6 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
   .writing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; } .writing-item { display: block; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); }
   .writing-item:hover { border-color: var(--color-accent); } .writing-title { color: var(--color-text); font-size: 1.05rem; line-height: 1.35; margin: .7rem 0 .5rem; } .writing-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; color: var(--color-text-secondary); font-size: .925rem; line-height: 1.55; }
   .cta { margin-top: 3rem; padding: 1.75rem 1.15rem; border: 1px solid var(--color-border); border-radius: var(--border-radius-md); background: var(--color-bg-secondary); } .cta h2 { margin-bottom: .75rem; } .cta > p:not(.section-kicker) { max-width: 36rem; margin-bottom: 1.5rem; color: var(--color-text-secondary); }
-  @media (max-width: 599px) { .hero { gap: 2.75rem; padding-top: 2.75rem; } .hero-cta a { min-height: 2.875rem; } .activity-section { margin-block: 1.75rem 2rem; padding-bottom: 1.75rem; } .activity-heatmap img { max-height: 4rem; } .certifications-table-header { display: none; } .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; } .certification-name { grid-column: 1 / -1; font-size: .95rem; } .certification-issuer { grid-column: 1; font-size: .8rem; } .certification-action { grid-column: 2; font-size: .78rem; } .certification-category { margin-top: 1.1rem; } }
-  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero { grid-template-columns: minmax(0, 1.08fr) minmax(20rem, .72fr); gap: clamp(3rem, 9vw, 8rem); align-items: start; padding: 6rem 0 7rem; } h1 { font-size: clamp(4rem, 5.3vw, 4.75rem); } .hero-sub { font-size: 1.1rem; } .current-project { margin-top: 2.25rem; } .activity-section { margin-top: 2.5rem; margin-bottom: 3rem; padding-bottom: 2.5rem; } .stack-section, .certifications-section { margin-bottom: 4rem; padding-bottom: 4rem; } .stack-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem 3rem; } .certifications-section h2 { font-size: clamp(3rem, 5vw, 3.5rem); } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
+  @media (max-width: 599px) { .hero { gap: 2.75rem; padding-top: 2.75rem; } .hero-cta a { min-height: 2.875rem; } .about-section { gap: 2rem; padding-block: 3rem; } .about-portrait { width: min(100%, 15rem); } .activity-section { margin-block: 1.75rem 2rem; padding-bottom: 1.75rem; } .activity-heatmap img { max-height: 4rem; } .certifications-table-header { display: none; } .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; } .certification-name { grid-column: 1 / -1; font-size: .95rem; } .certification-issuer { grid-column: 1; font-size: .8rem; } .certification-action { grid-column: 2; font-size: .78rem; } .certification-category { margin-top: 1.1rem; } }
+  @media (min-width: 769px) { .home-page { padding: 1.5rem 1.5rem 5rem; } .hero { grid-template-columns: minmax(0, 1.08fr) minmax(20rem, .72fr); gap: clamp(3rem, 9vw, 8rem); align-items: start; padding: 6rem 0 7rem; } h1 { font-size: clamp(4rem, 5.3vw, 4.75rem); } .hero-sub { font-size: 1.1rem; } .current-project { margin-top: 2.25rem; } .about-section { grid-template-columns: minmax(0, 1.8fr) minmax(12rem, .8fr); gap: clamp(3rem, 8vw, 7rem); align-items: center; padding-block: 4.5rem; } .about-portrait { justify-self: end; } .activity-section { margin-top: 2.5rem; margin-bottom: 3rem; padding-bottom: 2.5rem; } .stack-section, .certifications-section { margin-bottom: 4rem; padding-bottom: 4rem; } .stack-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem 3rem; } .certifications-section h2 { font-size: clamp(3rem, 5vw, 3.5rem); } .writing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cta { margin-top: 4rem; padding: 2.5rem clamp(1.25rem, 4vw, 3rem); } }
 </style>
