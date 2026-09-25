@@ -1,0 +1,159 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  slug: string;
+  summary: string;
+  year: number;
+  status?: 'completed' | 'ongoing' | 'archived';
+  techStack?: string[];
+}
+
+const {
+  number,
+  title,
+  slug,
+  summary,
+  year,
+  status = 'completed',
+  techStack = [],
+} = Astro.props;
+
+const statusLabel = {
+  completed: 'completed',
+  ongoing: 'in progress',
+  archived: 'archived',
+}[status];
+---
+
+<article class="project-index__item">
+  <div class="project-index__number" aria-hidden="true">{number}</div>
+
+  <div class="project-index__body">
+    <h2 class="project-index__title">
+      <a href={`/projects/${slug}`}>{title}</a>
+    </h2>
+    <p class="project-index__summary">{summary}</p>
+    {techStack.length > 0 && (
+      <p class="project-index__stack" aria-label="Technology stack">
+        {techStack.join(' · ')}
+      </p>
+    )}
+  </div>
+
+  <div class="project-index__aside">
+    <p class="project-index__meta">{year} · {statusLabel}</p>
+    <a class="project-index__link" href={`/projects/${slug}`}>
+      <span>View case study</span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-index__item {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: start;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .project-index__item:last-child {
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .project-index__number,
+  .project-index__meta,
+  .project-index__stack {
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .project-index__number {
+    padding-top: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .project-index__title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .project-index__title a {
+    color: var(--color-text);
+  }
+
+  .project-index__title a:hover {
+    color: var(--color-accent);
+  }
+
+  .project-index__summary {
+    max-width: 48rem;
+    margin: 0 0 0.55rem;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .project-index__stack,
+  .project-index__meta {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .project-index__aside {
+    display: flex;
+    min-width: 10.5rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.25rem;
+    padding-top: 0.35rem;
+  }
+
+  .project-index__link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-accent);
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+
+  .project-index__link span:last-child {
+    transition: transform var(--transition-fast);
+  }
+
+  .project-index__link:hover span:last-child {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 640px) {
+    .project-index__item {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 0.75rem;
+      padding: 1.25rem 0;
+    }
+
+    .project-index__aside {
+      grid-column: 2;
+      min-width: 0;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      padding-top: 0.15rem;
+    }
+
+    .project-index__summary {
+      font-size: 0.9375rem;
+    }
+  }
+</style>

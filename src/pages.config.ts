@@ -50,7 +50,7 @@ export const pagesConfig = {
     title: 'Projects',
     description: 'Projects and case studies showing how I approach problems, make technical decisions, and build working systems.',
     heading: 'Projects',
-    intro: 'A selection of public projects covering backend systems, infrastructure, search, and offline-first application design. Each case study explains the scope, decisions, and current limits.',
+    intro: 'A small set of systems projects, built to make backend decisions visible.',
   },
 
   /**

@@ -9,8 +9,7 @@
  * Features:
  * - Queries all projects from content collection
  * - Smart sorting: custom order → year (descending)
- * - Displays project and featured count statistics
- * - Uses ProjectCard component for consistent presentation
+ * - Displays a compact editorial index of case studies
  * - SEO optimization
  * - Empty state handling
  * 
@@ -21,8 +20,7 @@
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SEO from '../../components/SEO.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import PageStats from '../../components/PageStats.astro';
+import ProjectIndexItem from '../../components/ProjectIndexItem.astro';
 import { getCollection } from 'astro:content';
 import { pagesConfig } from '../../pages.config';
 
@@ -43,14 +41,10 @@ const allProjects = await getCollection('projects');
  * chronological order for others.
  */
 const sortedProjects = allProjects.sort((a, b) => {
-  // If both have order field, sort by order
-  if (a.data.order !== undefined && b.data.order !== undefined) {
-    return a.data.order - b.data.order;
-  }
-  // If only one has order, prioritize it
-  if (a.data.order !== undefined) return -1;
-  if (b.data.order !== undefined) return 1;
-  // Otherwise sort by year (descending)
+  const orderA = a.data.order ?? Number.MAX_SAFE_INTEGER;
+  const orderB = b.data.order ?? Number.MAX_SAFE_INTEGER;
+
+  if (orderA !== orderB) return orderA - orderB;
   return b.data.year - a.data.year;
 });
 
@@ -59,10 +53,14 @@ const sortedProjects = allProjects.sort((a, b) => {
  */
 const totalProjects = sortedProjects.length;
 
-/**
- * Count of featured projects for statistics display
- */
-const featuredCount = sortedProjects.filter(p => p.data.featured).length;
+const conciseSummaries: Record<string, string> = {
+  'aegis-observability-remediation':
+    'A Go backend for controlled remediation: detect failures, require approval, and verify recovery with operational evidence.',
+  'kidney-care':
+    'An offline-first Flutter prototype that keeps vitals local, then reconciles changes with Supabase through a registry-driven sync engine.',
+  'nlp-search-engine':
+    'A modular Python search pipeline that turns text into an inverted index, with ranking and semantic search left as deliberate next steps.',
+};
 ---
 
 <BaseLayout>
@@ -74,25 +72,24 @@ const featuredCount = sortedProjects.filter(p => p.data.featured).length;
   />
 
   <main class="page-container">
-    <header class="page-header">
+    <header class="page-header project-index__header">
       <h1 class="page-title">{pagesConfig.projects.heading}</h1>
       <p class="page-intro">
         {pagesConfig.projects.intro}
       </p>
-      <PageStats text={`${totalProjects} projects · ${featuredCount} featured`} />
+      <p class="project-index__count">{String(totalProjects).padStart(2, '0')} selected projects</p>
     </header>
 
     {sortedProjects.length > 0 ? (
-      <div class="card-list">
-        {sortedProjects.map((project) => (
-          <ProjectCard
+      <div class="project-index__list">
+        {sortedProjects.map((project, index) => (
+          <ProjectIndexItem
+            number={String(index + 1).padStart(2, '0')}
             title={project.data.title}
             slug={project.id}
-            outcomeSummary={project.data.outcomeSummary}
-            role={project.data.role}
+            summary={conciseSummaries[project.id] ?? project.data.outcomeSummary}
             year={project.data.year}
             techStack={project.data.techStack}
-            featured={project.data.featured}
             status={project.data.status}
           />
         ))}
@@ -102,3 +99,36 @@ const featuredCount = sortedProjects.filter(p => p.data.featured).length;
     )}
   </main>
 </BaseLayout>
+
+<style>
+  .page-container {
+    max-width: 1120px;
+  }
+
+  .project-index__header {
+    max-width: 44rem;
+    margin-bottom: 2rem;
+  }
+
+  .project-index__header .page-title {
+    margin-bottom: 0.65rem;
+  }
+
+  .project-index__header .page-intro {
+    max-width: 40rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .project-index__count {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .project-index__list {
+    max-width: 68rem;
+  }
+</style>
