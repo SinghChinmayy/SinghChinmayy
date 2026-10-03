@@ -13,6 +13,12 @@ I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology,
 - Systems projects that make fundamentals visible instead of hiding them behind abstractions
 - Technical writing about architecture, search, and lessons from building
 
+## Learning in public
+
+I keep an evolving set of notes and exercises in [learn-sql](https://github.com/SinghChinmayy/learn-sql) as I strengthen the database foundations behind the backend systems I build.
+
+`SQL` `PostgreSQL` `Database design`
+
 ## Selected projects
 
 ### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
