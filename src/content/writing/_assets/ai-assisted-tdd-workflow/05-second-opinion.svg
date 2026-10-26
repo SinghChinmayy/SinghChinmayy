@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Sketch: a detective robot in a deerstalker hat holds a magnifying glass over another robot's code and reports finding 1 of 15: the seed command promotes whoever registered the admin email first. The first robot sweats and admits it wrote that 20 minutes ago.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.6"/>
+    </filter>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <line x1="40" y1="5" x2="40" y2="16" class="s"/>
+      <circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" fill="#2b2b2b"/><circle cx="52" cy="34" r="5" fill="#2b2b2b"/>
+      <circle cx="30" cy="32" r="1.6" fill="#fff"/><circle cx="54" cy="32" r="1.6" fill="#fff"/>
+      <path d="M31 47 Q40 43 49 47" class="s"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M18 68 L6 82 M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <symbol id="det" viewBox="0 0 80 110">
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#e7defc" class="s"/>
+      <circle cx="28" cy="34" r="5" fill="#2b2b2b"/><circle cx="52" cy="34" r="5" fill="#2b2b2b"/>
+      <path d="M21 26 l12 3 M59 26 l-12 3" class="s"/>
+      <path d="M32 46 h16" class="s"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c8b8f0" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#f5c451" class="s"/>
+      <path d="M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .s{stroke:#2b2b2b;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+    </style>
+  </defs>
+  <rect width="800" height="400" rx="18" fill="#fffdf7"/>
+
+  <g filter="url(#w)">
+    <!-- code sheet -->
+    <path d="M262 130 h220 l20 20 v186 h-240 z" style="fill:#fff" class="s"/>
+    <path d="M482 130 v20 h20" class="s"/>
+    <!-- bubbles -->
+    <path d="M30 40 h220 a12 12 0 0 1 12 12 v44 a12 12 0 0 1 -12 12 h-120 l-14 26 l-6 -26 h-80 a12 12 0 0 1 -12 -12 v-44 a12 12 0 0 1 12 -12 z" style="fill:#fff" class="s"/>
+    <path d="M436 22 h330 a12 12 0 0 1 12 12 v72 a12 12 0 0 1 -12 12 h-110 l-8 26 l-20 -26 h-192 a12 12 0 0 1 -12 -12 v-72 a12 12 0 0 1 12 -12 z" style="fill:#fff" class="s"/>
+    <!-- sweat on robot 1 -->
+    <path d="M178 182 q7 11 0 18 q-7 -7 0 -18 z" style="fill:#8fd3f4" stroke="#2b2b2b" stroke-width="1.8"/>
+    <!-- magnifier -->
+    <path d="M412 248 L452 290" class="s" stroke="#9a7b5b" stroke-width="7"/>
+    <circle cx="384" cy="220" r="40" style="fill:#fff5c2;fill-opacity:.35" class="s" stroke-width="4"/>
+    <!-- detective arm -->
+    <path d="M592 272 L452 290" class="s"/>
+    <!-- hat -->
+    <path d="M594 200 Q598 156 642 154 Q686 156 690 200 Z" style="fill:#b08d63" class="s"/>
+    <path d="M582 202 Q642 186 702 202" class="s" stroke-width="5" stroke="#7d5f3d"/>
+    <path d="M610 186 Q642 176 674 186" class="s" stroke="#7d5f3d"/>
+  </g>
+  <use href="#bot" x="56" y="170" width="120" height="165"/>
+  <use href="#det" x="582" y="170" width="120" height="165"/>
+  <path d="M582 202 Q642 186 702 202" class="s" stroke-width="5" stroke="#7d5f3d" filter="url(#w)"/>
+
+  <text x="276" y="158" font-size="12" class="mono">def seed_admin(email):</text>
+  <text x="276" y="180" font-size="12" class="mono">  user = find(email)</text>
+  <text x="276" y="226" font-size="13" class="mono" font-weight="700" style="fill:#e5484d">  promote(user)</text>
+  <text x="276" y="270" font-size="12" class="mono" style="fill:#5b6573">  # whoever signed up</text>
+  <text x="276" y="290" font-size="12" class="mono" style="fill:#5b6573">  # with this email</text>
+  <text x="276" y="310" font-size="12" class="mono" style="fill:#5b6573">  # first is admin?!</text>
+  <path d="M296 234 h104" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>
+
+  <text x="140" y="70" font-size="15" text-anchor="middle">"...I wrote that</text>
+  <text x="140" y="92" font-size="15" text-anchor="middle">20 minutes ago."</text>
+
+  <text x="456" y="50" font-size="16" font-weight="700">Finding 1 of 15 (high):</text>
+  <text x="456" y="74" font-size="15">the seed command promotes whoever</text>
+  <text x="456" y="96" font-size="15">registered the admin email first.</text>
+
+  <text x="400" y="384" font-size="14" text-anchor="middle" style="fill:#5b6573">A fresh agent with none of the earlier reasoning caught what the first one argued itself into.</text>
+</svg>

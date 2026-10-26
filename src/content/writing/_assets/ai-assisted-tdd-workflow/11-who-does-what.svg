@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Responsibility split. I decide: scope, trade-offs, answers in the interview, what counts as done, merges and anything touching secrets or money. The agent drafts and runs: asks the questions, writes the failing test and the minimal code, runs the suites, checks the app in a browser, writes up what it did. Machines verify: tests on real Postgres, four required CI checks, branch protection, coverage threshold.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="27"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="400" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="24" y="24" width="240" height="352" rx="10" style="fill:#fff1c7" class="s" stroke="#c99a1e"/>
+    <rect x="280" y="24" width="240" height="352" rx="10" style="fill:#ebe3fd" class="s" stroke="#7c5cd6"/>
+    <rect x="536" y="24" width="240" height="352" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+  </g>
+  <text x="144" y="60" font-size="18" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">I decide</text>
+  <text x="46" y="106" font-size="15" text-anchor="start" style="fill:#2b2b2b">• scope + trade-offs</text>
+  <text x="46" y="150" font-size="15" text-anchor="start" style="fill:#2b2b2b">• every interview answer</text>
+  <text x="46" y="194" font-size="15" text-anchor="start" style="fill:#2b2b2b">• what "done" means</text>
+  <text x="46" y="238" font-size="15" text-anchor="start" style="fill:#2b2b2b">• approve each merge</text>
+  <text x="46" y="282" font-size="15" text-anchor="start" style="fill:#2b2b2b">• secrets, accounts, money</text>
+  <text x="46" y="326" font-size="15" text-anchor="start" style="fill:#2b2b2b">• say "no" a lot</text>
+  <text x="400" y="60" font-size="18" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">The agent drafts + runs</text>
+  <text x="302" y="106" font-size="15" text-anchor="start" style="fill:#2b2b2b">• asks the questions</text>
+  <text x="302" y="150" font-size="15" text-anchor="start" style="fill:#2b2b2b">• writes the red test</text>
+  <text x="302" y="194" font-size="15" text-anchor="start" style="fill:#2b2b2b">• writes the minimal green</text>
+  <text x="302" y="238" font-size="15" text-anchor="start" style="fill:#2b2b2b">• runs the full suite</text>
+  <text x="302" y="282" font-size="15" text-anchor="start" style="fill:#2b2b2b">• checks the app in a browser</text>
+  <text x="302" y="326" font-size="15" text-anchor="start" style="fill:#2b2b2b">• documents what it did</text>
+  <text x="656" y="60" font-size="18" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">Machines verify</text>
+  <text x="558" y="106" font-size="15" text-anchor="start" style="fill:#2b2b2b">• tests on real Postgres</text>
+  <text x="558" y="150" font-size="15" text-anchor="start" style="fill:#2b2b2b">• 4 required CI checks</text>
+  <text x="558" y="194" font-size="15" text-anchor="start" style="fill:#2b2b2b">• 95% coverage floor</text>
+  <text x="558" y="238" font-size="15" text-anchor="start" style="fill:#2b2b2b">• branch protection</text>
+  <text x="558" y="282" font-size="15" text-anchor="start" style="fill:#2b2b2b">• rebase-only history</text>
+  <text x="558" y="326" font-size="15" text-anchor="start" style="fill:#2b2b2b">• migrate before deploy</text>
+</svg>
