@@ -71,64 +71,54 @@ const conciseSummaries: Record<string, string> = {
     type="website"
   />
 
-  <main class="page-container">
-    <header class="page-header project-index__header">
+  <main class="page-container section-front">
+    <header class="page-header section-front__header">
       <h1 class="page-title">{pagesConfig.projects.heading}</h1>
       <p class="page-intro">
         {pagesConfig.projects.intro}
       </p>
-      <p class="project-index__count">{String(totalProjects).padStart(2, '0')} selected projects</p>
     </header>
 
-    {sortedProjects.length > 0 ? (
-      <div class="project-index__list">
-        {sortedProjects.map((project, index) => (
-          <ProjectIndexItem
-            number={String(index + 1).padStart(2, '0')}
-            title={project.data.title}
-            slug={project.id}
-            summary={conciseSummaries[project.id] ?? project.data.outcomeSummary}
-            year={project.data.year}
-            techStack={project.data.techStack}
-            status={project.data.status}
-          />
-        ))}
-      </div>
-    ) : (
-      <p class="empty-state">No projects available yet.</p>
-    )}
+    <section aria-labelledby="project-index-label">
+      <h2 class="section-label" id="project-index-label">
+        <span>Case studies</span>
+        <span class="section-label__count">{String(totalProjects).padStart(2, '0')} selected projects</span>
+      </h2>
+
+      {sortedProjects.length > 0 ? (
+        <div class="section-front__list">
+          {sortedProjects.map((project, index) => (
+            <ProjectIndexItem
+              number={String(index + 1).padStart(2, '0')}
+              title={project.data.title}
+              slug={project.id}
+              summary={conciseSummaries[project.id] ?? project.data.outcomeSummary}
+              year={project.data.year}
+              techStack={project.data.techStack}
+              status={project.data.status}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">No projects available yet.</p>
+      )}
+    </section>
   </main>
 </BaseLayout>
 
 <style>
-  .page-container {
-    max-width: 1120px;
-  }
-
-  .project-index__header {
+  .section-front__header {
     max-width: 44rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
-  .project-index__header .page-title {
-    margin-bottom: 0.65rem;
+  .section-front__header .page-intro {
+    margin-bottom: 0;
   }
 
-  .project-index__header .page-intro {
-    max-width: 40rem;
-    margin-bottom: 0.85rem;
-  }
-
-  .project-index__count {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .project-index__list {
-    max-width: 68rem;
+  @media (min-width: 768px) {
+    .section-front__header {
+      margin-bottom: 3rem;
+    }
   }
 </style>

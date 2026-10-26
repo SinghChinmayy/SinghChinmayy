@@ -52,26 +52,26 @@ const links = siteConfig.social
 <style>
   .social-links {
     display: flex;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.25rem;
   }
 
+  /* Plain ink icons on paper; no circles, fills or lift on hover. */
   .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: var(--color-text-muted);
-    background: var(--color-bg-secondary);
-    transition: all 0.2s ease;
+    width: 2.75rem;
+    height: 2.75rem;
     border: 1px solid transparent;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-muted);
+    background: transparent;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
   }
 
   .social-link:hover {
     color: var(--color-text);
-    background: var(--color-bg-elevated);
     border-color: var(--color-border);
-    transform: translateY(-2px);
   }
 </style>

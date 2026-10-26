@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="CI pipeline: a pull request runs four required checks in parallel (lint, backend tests on real Postgres, frontend tests and build, the Playwright end-to-end journey). If any fails, push a fix. When all pass, the branch is up to date and conversations are resolved, the change is rebased into main, CI runs again, migrates the Neon database, then deploys to Vercel.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="31"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="520" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="300" y="24" width="200" height="50" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="22" y="120" width="180" height="60" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <path d="M400 78 L112 116" class="s" marker-end="url(#a)"/>
+    <path d="M112 184 L400 232" class="s" marker-end="url(#a)"/>
+    <rect x="214" y="120" width="180" height="60" rx="10" style="fill:#dbe7ff" class="s" stroke="#276ef1"/>
+    <path d="M400 78 L304 116" class="s" marker-end="url(#a)"/>
+    <path d="M304 184 L400 232" class="s" marker-end="url(#a)"/>
+    <rect x="406" y="120" width="180" height="60" rx="10" style="fill:#dbe7ff" class="s" stroke="#276ef1"/>
+    <path d="M400 78 L496 116" class="s" marker-end="url(#a)"/>
+    <path d="M496 184 L400 232" class="s" marker-end="url(#a)"/>
+    <rect x="598" y="120" width="180" height="60" rx="10" style="fill:#ebe3fd" class="s" stroke="#7c5cd6"/>
+    <path d="M400 78 L688 116" class="s" marker-end="url(#a)"/>
+    <path d="M688 184 L400 232" class="s" marker-end="url(#a)"/>
+    <path d="M400 236 L470 276 L400 316 L330 276 Z" style="fill:#fff1c7" class="s" stroke="#c99a1e"/>
+    <path d="M330 276 L12 276 L12 49 L294 49" class="s" stroke="#e5484d" marker-end="url(#ar)"/>
+    <rect x="300" y="338" width="200" height="44" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+    <path d="M400 318 L400 334" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="430" width="210" height="56" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <rect x="295" y="430" width="210" height="56" rx="10" style="fill:#fff1c7" class="s" stroke="#c99a1e"/>
+    <rect x="550" y="430" width="210" height="56" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+    <path d="M400 386 L145 426" class="s" marker-end="url(#a)"/>
+    <path d="M254 458 L291 458" class="s" marker-end="url(#a)"/>
+    <path d="M509 458 L546 458" class="s" marker-end="url(#a)"/>
+  </g>
+  <text x="400.0" y="44.5" font-size="15" text-anchor="middle" font-weight="700">Pull request</text>
+  <text x="400.0" y="64.0" font-size="13" text-anchor="middle" style="fill:#5b6573">branch with red/green commits</text>
+  <text x="112.0" y="145.8" font-size="14" text-anchor="middle" font-weight="700">Lint</text>
+  <text x="112.0" y="164.0" font-size="12" text-anchor="middle" style="fill:#5b6573">ruff, eslint, prettier</text>
+  <text x="304.0" y="145.8" font-size="14" text-anchor="middle" font-weight="700">Backend tests</text>
+  <text x="304.0" y="164.0" font-size="12" text-anchor="middle" style="fill:#5b6573">pytest + real Postgres</text>
+  <text x="496.0" y="145.8" font-size="14" text-anchor="middle" font-weight="700">Frontend tests</text>
+  <text x="496.0" y="164.0" font-size="12" text-anchor="middle" style="fill:#5b6573">vitest + MSW, then build</text>
+  <text x="688.0" y="145.8" font-size="14" text-anchor="middle" font-weight="700">E2E journey</text>
+  <text x="688.0" y="164.0" font-size="12" text-anchor="middle" style="fill:#5b6573">Playwright, one buyer</text>
+  <text x="400" y="272" font-size="14" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">all 4 green?</text>
+  <text x="400" y="290" font-size="12" text-anchor="middle" style="fill:#5b6573">up to date?</text>
+  <text x="170" y="268" font-size="13" text-anchor="middle" style="fill:#e5484d">no: push a fix</text>
+  <text x="400.0" y="365.2" font-size="15" text-anchor="middle">Rebase merge to main</text>
+  <text x="424" y="330" font-size="13" text-anchor="middle" style="fill:#30a46c">yes</text>
+  <text x="145.0" y="453.8" font-size="14" text-anchor="middle" font-weight="700">CI again on main</text>
+  <text x="145.0" y="472.0" font-size="12" text-anchor="middle" style="fill:#5b6573">same 4 checks</text>
+  <text x="400.0" y="453.8" font-size="14" text-anchor="middle" font-weight="700">Migrate Neon</text>
+  <text x="400.0" y="472.0" font-size="12" text-anchor="middle" style="fill:#5b6573">alembic upgrade head</text>
+  <text x="655.0" y="453.8" font-size="14" text-anchor="middle" font-weight="700">Deploy to Vercel</text>
+  <text x="655.0" y="472.0" font-size="12" text-anchor="middle" style="fill:#5b6573">only after migration</text>
+  <text x="655" y="506" font-size="12" text-anchor="middle" style="fill:#5b6573">new code never runs on an old schema</text>
+</svg>

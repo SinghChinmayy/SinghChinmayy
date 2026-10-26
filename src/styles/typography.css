@@ -7,7 +7,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-serif);
+  font-weight: 700;
   line-height: 1.16;
   color: var(--color-text);
   margin-top: 0;
@@ -115,11 +116,11 @@ ol ul {
 
 /* Blockquotes */
 blockquote {
-  border-left: 4px solid var(--color-border);
-  padding-left: var(--space-lg);
+  border-left: 3px solid var(--color-rule);
+  padding-left: 1.25rem;
   margin: var(--space-xl) 0;
-  font-style: italic;
-  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  color: var(--color-text);
 }
 
 blockquote p {
@@ -153,16 +154,16 @@ small {
 
 /* Links in Content */
 .prose a {
-  color: var(--color-accent);
+  color: var(--color-text);
   text-decoration: underline;
+  text-decoration-color: var(--color-accent);
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-  transition: all 0.2s ease;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
 }
 
 .prose a:hover {
-  color: var(--color-accent-hover);
-  text-decoration-thickness: 2px;
+  color: var(--color-accent);
 }
 
 /* Code in Typography */

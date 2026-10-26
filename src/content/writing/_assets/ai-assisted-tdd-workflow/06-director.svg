@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="Sketch: the developer sits in a director's chair with a megaphone shouting cut, that test passed on the first try, it is not red. A robot holds a clapperboard reading take 128, test red. A smaller robot holds a sign saying CI 4 of 4 green.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="13"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.6"/>
+    </filter>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <line x1="40" y1="5" x2="40" y2="16" class="s"/>
+      <circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" fill="#2b2b2b"/><circle cx="52" cy="34" r="5" fill="#2b2b2b"/>
+      <circle cx="30" cy="32" r="1.6" fill="#fff"/><circle cx="54" cy="32" r="1.6" fill="#fff"/>
+      <path d="M31 45 Q40 52 49 45" class="s"/>
+      <circle cx="19" cy="45" r="3.5" fill="#f6a5a5"/><circle cx="61" cy="45" r="3.5" fill="#f6a5a5"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .s{stroke:#2b2b2b;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="380" rx="18" fill="#fffdf7"/>
+
+  <g filter="url(#w)">
+    <!-- bubble -->
+    <path d="M30 26 h380 a12 12 0 0 1 12 12 v62 a12 12 0 0 1 -12 12 h-160 l-6 30 l-30 -30 h-184 a12 12 0 0 1 -12 -12 v-62 a12 12 0 0 1 12 -12 z" style="fill:#fff" class="s"/>
+    <!-- director chair -->
+    <path d="M120 360 L220 260 M220 360 L120 260 M110 260 L230 260 M128 260 L128 180 M212 260 L212 180" class="s" stroke="#7d5f3d" stroke-width="4"/>
+    <rect x="126" y="186" width="88" height="34" rx="3" style="fill:#e5484d" class="s"/>
+    <!-- dev seated -->
+    <circle cx="170" cy="158" r="20" style="fill:#ffe3c4" class="s"/>
+    <path d="M150 148 q4 -22 26 -18 q16 4 14 14 z" style="fill:#2b2b2b" class="s"/>
+    <circle cx="175" cy="157" r="2.4" fill="#2b2b2b"/>
+    <path d="M170 178 L170 252 M170 252 L222 252 L230 310 M170 252 L210 258 L214 316" class="s"/>
+    <path d="M170 196 L200 166" class="s"/>
+    <!-- megaphone -->
+    <path d="M186 160 L248 132 L256 186 L192 172 Z" style="fill:#f5c451" class="s"/>
+    <path d="M262 140 l14 -8 M266 160 l18 0 M262 180 l14 8" class="s" stroke="#e5484d"/>
+    <!-- clapperboard -->
+    <rect x="392" y="208" width="120" height="74" rx="4" style="fill:#2b2b2b" class="s"/>
+    <path d="M392 208 L388 186 L506 172 L512 196" style="fill:#fff" class="s"/>
+    <path d="M410 184 l8 22 M436 181 l8 22 M462 178 l8 22 M488 175 l8 22" class="s" stroke-width="5"/>
+    <path d="M512 240 L540 252" class="s"/>
+    <!-- small robot sign -->
+    <rect x="610" y="196" width="140" height="44" rx="6" style="fill:#fff" class="s"/>
+    <path d="M680 240 L680 262" class="s"/>
+  </g>
+  <use href="#bot" x="520" y="196" width="110" height="151"/>
+  <use href="#bot" x="644" y="258" width="74" height="102"/>
+
+  <text x="50" y="60" font-size="20" font-weight="700" style="fill:#e5484d">CUT!</text>
+  <text x="108" y="60" font-size="16">That test passed on the first try.</text>
+  <text x="50" y="90" font-size="16">That's not red. Again, from the top.</text>
+  <text x="170" y="208" font-size="13" font-weight="700" text-anchor="middle" style="fill:#fff">DEV</text>
+  <text x="452" y="242" font-size="15" font-weight="700" text-anchor="middle" style="fill:#fff">TAKE 128</text>
+  <text x="452" y="266" font-size="13" text-anchor="middle" style="fill:#ffb4b6">test: ... (red)</text>
+  <text x="680" y="224" font-size="15" font-weight="700" text-anchor="middle" style="fill:#30a46c">CI: 4/4 green</text>
+  <text x="560" y="40" font-size="15" style="fill:#5b6573">less typing,</text>
+  <text x="560" y="62" font-size="15" style="fill:#5b6573">more directing,</text>
+  <text x="560" y="84" font-size="15" style="fill:#5b6573">and a lot more "no."</text>
+</svg>

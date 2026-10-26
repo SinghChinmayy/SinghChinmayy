@@ -1,6 +1,14 @@
 ---
+/**
+ * ProjectIndexItem Component
+ *
+ * One entry in the /projects section front: kicker (year and status), serif
+ * headline, serif deck, and muted sans metadata (tech stack). Items are
+ * separated by hairline rules; on wider screens the kicker moves into a left rail.
+ */
 interface Props {
-  number: string;
+  /** Position in the list (accepted for compatibility; not displayed) */
+  number?: string;
   title: string;
   slug: string;
   summary: string;
@@ -10,7 +18,6 @@ interface Props {
 }
 
 const {
-  number,
   title,
   slug,
   summary,
@@ -20,140 +27,125 @@ const {
 } = Astro.props;
 
 const statusLabel = {
-  completed: 'completed',
-  ongoing: 'in progress',
-  archived: 'archived',
+  completed: 'Completed',
+  ongoing: 'In progress',
+  archived: 'Archived',
 }[status];
 ---
 
 <article class="project-index__item">
-  <div class="project-index__number" aria-hidden="true">{number}</div>
+  <p class="project-index__kicker">
+    <span>{year}</span>
+    <span class="project-index__status">{statusLabel}</span>
+  </p>
 
   <div class="project-index__body">
-    <h2 class="project-index__title">
+    <h3 class="project-index__title">
       <a href={`/projects/${slug}`}>{title}</a>
-    </h2>
+    </h3>
     <p class="project-index__summary">{summary}</p>
     {techStack.length > 0 && (
-      <p class="project-index__stack" aria-label="Technology stack">
+      <p class="project-index__stack">
+        <span class="visually-hidden">Technology stack: </span>
         {techStack.join(' · ')}
       </p>
     )}
-  </div>
-
-  <div class="project-index__aside">
-    <p class="project-index__meta">{year} · {statusLabel}</p>
-    <a class="project-index__link" href={`/projects/${slug}`}>
-      <span>View case study</span>
-      <span aria-hidden="true">↗</span>
-    </a>
   </div>
 </article>
 
 <style>
   .project-index__item {
     display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr) auto;
-    gap: 1.5rem;
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
     padding: 1.5rem 0;
-    border-top: 1px solid var(--color-border-subtle);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .project-index__item:last-child {
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .project-index__number,
-  .project-index__meta,
-  .project-index__stack {
-    color: var(--color-text-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
-
-  .project-index__number {
-    padding-top: 0.35rem;
-    font-size: 0.75rem;
+  .project-index__kicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    line-height: 1.4;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .project-index__status {
+    color: var(--color-text-muted);
+  }
+
+  .project-index__status::before {
+    content: '·';
+    margin-right: 0.5rem;
+  }
+
+  .project-index__body {
+    min-width: 0;
+    max-width: 46rem;
   }
 
   .project-index__title {
-    margin: 0 0 0.35rem;
-    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 6vw, 1.875rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
   }
 
   .project-index__title a {
     color: var(--color-text);
+    text-decoration: none;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
 
   .project-index__title a:hover {
-    color: var(--color-accent);
+    color: var(--color-text);
+    text-decoration: underline;
   }
 
   .project-index__summary {
-    max-width: 48rem;
-    margin: 0 0 0.55rem;
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.45;
     color: var(--color-text-secondary);
-    font-size: 1rem;
-    line-height: 1.55;
   }
 
-  .project-index__stack,
-  .project-index__meta {
+  .project-index__stack {
     margin: 0;
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
     line-height: 1.5;
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
   }
 
-  .project-index__aside {
-    display: flex;
-    min-width: 10.5rem;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 1.25rem;
-    padding-top: 0.35rem;
-  }
-
-  .project-index__link {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--color-accent);
-    font-size: 0.9375rem;
-    white-space: nowrap;
-  }
-
-  .project-index__link span:last-child {
-    transition: transform var(--transition-fast);
-  }
-
-  .project-index__link:hover span:last-child {
-    transform: translate(2px, -2px);
-  }
-
-  @media (max-width: 640px) {
+  @media (min-width: 768px) {
     .project-index__item {
-      grid-template-columns: 2rem minmax(0, 1fr);
-      gap: 0.75rem;
-      padding: 1.25rem 0;
+      grid-template-columns: 10rem minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.75rem 0;
     }
 
-    .project-index__aside {
-      grid-column: 2;
-      min-width: 0;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem 1rem;
-      padding-top: 0.15rem;
+    .project-index__kicker {
+      flex-direction: column;
+      padding-top: 0.45rem;
+    }
+
+    .project-index__status::before {
+      content: none;
     }
 
     .project-index__summary {
-      font-size: 0.9375rem;
+      font-size: 1.125rem;
     }
   }
 </style>

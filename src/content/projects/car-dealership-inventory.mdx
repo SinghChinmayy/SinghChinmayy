@@ -1,0 +1,224 @@
+---
+title: Car Dealership Inventory System
+role: Solo Developer
+year: 2026
+duration: 3 days
+teamSize: 1
+outcomeSummary: >-
+  Built a full-stack inventory and purchase system test-first, with a FastAPI
+  and PostgreSQL backend, a React SPA, and a CI pipeline that migrates the
+  database before deploying. It is a kata with a public demo on Vercel and Neon,
+  not a real dealership's production system.
+overview: >-
+  A coding kata turned into a complete, deployed application. Administrators
+  add, edit, restock, and soft-delete vehicle listings; signed-in users search
+  the catalogue and buy vehicles one unit at a time, then see their purchase
+  history. The backend is FastAPI with PostgreSQL and Alembic migrations, the
+  frontend is a React single-page app, and every change reaches main through a
+  pull request that must pass lint, backend, frontend, and end-to-end checks.
+  I built it with AI coding agents under a strict red-green-refactor workflow,
+  so the commit history shows each failing test before the code that made it
+  pass.
+problem: >-
+  Inventory systems look like simple CRUD until two people try to buy the last
+  car at the same moment. The kata asked for listings, search, purchase, and
+  restock, but the interesting work was in the rules around them: stock must
+  never go negative under concurrent requests, every stock change should be
+  explainable later, deleting a listing must not break the history of what was
+  sold, and the database schema has to change safely while the app is live. I
+  also wanted to find out whether AI agents could speed up the work without
+  weakening test-driven development.
+constraints:
+  - Solo project built over three days, from 2026-10-24 to 2026-10-26
+  - >-
+    Kata scope — listings model stocked offerings, not VIN-tracked cars, and
+    prices are single-currency INR
+  - >-
+    Tests had to come first for every behavior, with red and green commits kept
+    visible in the history
+  - >-
+    Free-tier hosting: a Vercel Python function and Neon serverless Postgres
+    reached through a transaction pooler
+  - >-
+    The demo administrator login is public, so anyone can edit the catalogue
+    and it is reset periodically
+  - >-
+    Deliberately deferred: refresh tokens, rate limiting, email verification,
+    and password reset
+approach: >-
+  I started with an architecture review and wrote down each choice as a short
+  ADR — thirteen in total, covering the stack, authentication, purchases, soft
+  delete, auditing, currency, error format, and identifiers. Each feature then
+  began with an interview that settled its open questions (access rules,
+  response codes, schema, concurrency) before any code. Implementation followed
+  one red-green cycle per behavior: a failing test committed first, then the
+  smallest change that passed, then a refactor only when it helped. Backend
+  tests run against real PostgreSQL in Testcontainers; frontend tests use
+  Vitest, Testing Library, and MSW; one Playwright journey exercises the whole
+  stack. Once the core worked, I added CI, branch protection, and a deploy
+  pipeline that applies migrations to Neon before Vercel serves the new code.
+keyDecisions:
+  - decision: Atomic conditional UPDATE for purchases
+    reasoning: >-
+      A purchase decrements stock with a single
+      UPDATE ... WHERE quantity > 0 AND deleted_at IS NULL, in the same
+      transaction as the insert of a Purchase record with price, make, model,
+      and category snapshots. I first built the naive read-then-write version
+      and wrote a concurrency test that fires 20 buyers at 5 units — all 20
+      succeeded, and the test failed. The atomic version makes exactly 5
+      succeed and 15 receive 409, with the history showing both commits.
+    alternatives:
+      - Read the quantity, check it, then write (races under concurrent buyers)
+      - SELECT ... FOR UPDATE row locking (works, but more moving parts)
+      - Optimistic locking with a version column and retries
+  - decision: Soft delete with audit columns and Stock Adjustment records
+    reasoning: >-
+      Deleting a listing sets deleted_at and deleted_by instead of removing the
+      row, guarded by a check that both are set together. Past purchases still
+      point at a real listing, and the deletion itself is attributable. Every
+      restock also writes a Stock Adjustment row, so each supported stock change
+      is backed by either a Purchase or an adjustment record.
+    alternatives:
+      - Hard delete (breaks the link from historical purchases)
+      - A generic audit-log table (more flexible, but harder to query and test)
+  - decision: Test against real PostgreSQL with Testcontainers
+    reasoning: >-
+      The rules that matter here — conditional updates, check constraints,
+      foreign keys with ON DELETE RESTRICT, and pg_trgm similarity — only behave
+      correctly in Postgres. Running the 160 backend tests against a disposable
+      Postgres container meant the concurrency test was exercising the real
+      engine rather than a stand-in.
+    alternatives:
+      - SQLite in memory (fast, but different locking and no pg_trgm)
+      - Mocking the database layer (would not catch the purchase race)
+  - decision: pg_trgm word similarity for as-you-type search
+    reasoning: >-
+      Separate make and model boxes meant typing "Hilux" into Make found
+      nothing. A single search box now matches each word against make or model
+      in any order and tolerates small typos ("toyta", "nexn"), using pg_trgm
+      word similarity with a 0.5 cut-off. No trigram index is added yet; at
+      catalogue sizes a sequential scan is fast, and a GIN index is the noted
+      scaling follow-up.
+    alternatives:
+      - Plain ILIKE substring matching (no typo tolerance)
+      - An external search service (too much infrastructure for the scope)
+  - decision: Migrate Neon first, then deploy to Vercel, from CI only
+    reasoning: >-
+      On a push to main, CI runs all four checks, then applies Alembic
+      migrations over Neon's direct (non-pooled) endpoint, and only then runs
+      the production deploy. New code never meets an old schema, and a failed
+      check or migration stops the release. The trade-off is that migrations
+      must stay backward compatible with the code still serving during them.
+    alternatives:
+      - Vercel Git integration deploys in parallel with the migration (races)
+      - Running migrations during the Vercel build (wrong endpoint, no gate)
+  - decision: Rebase-only merges behind a no-bypass ruleset
+    reasoning: >-
+      Main requires a pull request and four passing checks, with an empty bypass
+      list so the rules apply to me too. Merges are rebase-only, because a
+      squash merge would fold each failing-test commit and its implementation
+      into one and hide the red-green-refactor history.
+    alternatives:
+      - Squash merges (cleaner log, but loses the TDD evidence)
+      - Merge commits (keeps commits, but no linear history)
+techStack:
+  - Python
+  - FastAPI
+  - PostgreSQL
+  - SQLAlchemy
+  - Alembic
+  - pg_trgm
+  - React
+  - TypeScript
+  - TanStack Query
+  - Vitest
+  - MSW
+  - Playwright
+  - Testcontainers
+  - GitHub Actions
+  - Vercel
+  - Neon
+impact:
+  metrics:
+    - label: Automated Tests
+      value: 160 backend (pytest) and 61 frontend (Vitest), plus one Playwright journey
+    - label: Backend Coverage
+      value: '98%'
+    - label: Concurrency Check
+      value: 20 buyers vs 5 units — exactly 5 succeed
+    - label: TDD History
+      value: About 320 commits, 127 of them failing-test (red) commits
+    - label: Design Records
+      value: 13 ADRs
+  qualitative: >-
+    This is the most complete project I have shipped end to end: a public demo,
+    a documented architecture, and a pipeline where nothing reaches production
+    without passing tests and a successful migration. It is still a kata — the
+    demo catalogue is sample data and nobody buys real cars through it — but it
+    let me practise the parts of backend work that CRUD tutorials skip:
+    concurrency, auditability, safe schema changes, and release gates. It was
+    also my first project built mostly through AI agents, and the strict TDD
+    workflow is what made that trustworthy: every generated change had to turn
+    a specific failing test green, and an independent review agent caught a
+    real security flaw in code the implementing agent had just written.
+learnings:
+  - >-
+    A concurrency bug is easiest to believe when a test proves it first — the
+    failing 20-vs-5 test made the case for the atomic UPDATE better than any
+    explanation
+  - >-
+    Testing against the real database engine catches behavior that mocks and
+    SQLite would hide
+  - >-
+    Deploy order is a design decision: migrating before deploying forces
+    backward-compatible migrations, which is a good constraint to learn early
+  - >-
+    Writing decisions down as short ADRs made later features faster, because
+    each interview started from what was already settled
+  - >-
+    AI agents are fast at writing code but need a tight loop — one failing test,
+    the smallest fix, my review — to stay honest
+  - >-
+    A second agent reviewing the code without seeing the original reasoning
+    found problems the first pass had argued itself into
+featured: true
+status: completed
+order: 2
+relatedProjects: []
+---
+
+🔗 **[View the public repository on GitHub](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System)**
+
+🚀 **[Try the live demo](https://car-dealership-inventory-umber.vercel.app)** — the sign-in page lists a shared demo administrator and a demo buyer.
+
+This is a kata and portfolio project with a public demo, not a production system for
+a real dealership. The demo catalogue is sample data, the administrator login is
+shared, and the catalogue is reset from time to time.
+
+## Architecture Overview
+
+![Production architecture: the browser loads the React SPA from Vercel's static files and calls the FastAPI Python function at /api/* with a Bearer token; the function uses Neon's pooled endpoint; GitHub Actions runs four checks, migrates through Neon's direct endpoint, then deploys to Vercel.](./_assets/car-dealership-inventory/architecture.svg)
+
+The SPA and the API share one Vercel origin. The API only serves requests and never
+changes the schema; migrations run from CI over Neon's direct endpoint, because they
+must not go through the transaction pooler.
+
+## What's Built
+
+- **Inventory management**: Administrators add, edit, restock, and soft-delete listings, each with an optional photo and spec sheet
+- **Search**: One as-you-type box with multi-word, typo-tolerant matching, plus category and price filters kept in the URL
+- **Purchases**: One-unit atomic purchases with price snapshots, a confirmation dialog, and a My purchases history page
+- **Auth**: Email and password accounts with 60-minute JWT access tokens and Standard User / Administrator roles
+- **Errors**: One error envelope with a request ID for every failure, shared by the backend and the SPA
+- **Delivery**: Four required CI checks, rebase-only merges, and a migrate-then-deploy pipeline to Vercel and Neon
+
+## Related Blogs
+
+- **[Red, Green, Robot: How I Build Software with AI Agents Now](/blogs/ai-assisted-tdd-workflow)** — How I used AI agents for interviews, red-green-refactor cycles, and independent audits while building this project, and where the workflow kept them honest.
+
+## What's Next
+
+- **Refresh tokens**: The access token lives in memory only, so a browser refresh currently requires signing in again
+- **Rate limiting**: Login and registration limits need shared infrastructure to work across function instances
+- **Indexes for scale**: A `pg_trgm` GIN index for search and a partial index for active listings
+- **Administrator audit view**: Surfacing deleted listings and per-listing stock history from the records already stored

@@ -1,0 +1,308 @@
+---
+/**
+ * Agent Skills Page
+ *
+ * Lists the open-source agent skills published in the agent-skills repository,
+ * each with a sketch, what it does, the phrases that trigger it, and a
+ * one-line install command (via the `npx skills` installer).
+ *
+ * Data comes from src/data/agentSkills.json; sketches are served from
+ * public/images/agent-skills/<name>.svg.
+ *
+ * Route: /agent-skills
+ *
+ * @page
+ */
+
+import { Code } from "astro:components";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SEO from "../components/SEO.astro";
+import skillsData from "../data/agentSkills.json";
+
+const { repo, branch, skills } = skillsData;
+const repoUrl = `https://github.com/${repo}`;
+
+/** Folder of a skill inside the repo, e.g. skills/engineering/tdd-red-green-refactor */
+const skillPath = (s: { category: string; name: string }) =>
+  `skills/${s.category}/${s.name}`;
+
+const installAll = `npx skills add ${repo} --all`;
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title="Agent Skills"
+    description="Open-source skills for Claude Code, Codex, Cursor and other coding agents: test-first development, design interviews, database planning, scoped builds and terse replies. One command to install."
+  />
+
+  <main class="skills-page">
+    <header class="page-header">
+      <p class="kicker">Open source</p>
+      <h1>Agent Skills</h1>
+      <p class="deck">
+        The reusable instructions I give my coding agents, packaged so you can
+        install them with one command. They work with Claude Code, Codex, Cursor
+        and the other agents that read <code>SKILL.md</code> files.
+      </p>
+    </header>
+
+    <section class="install" aria-labelledby="install-heading">
+      <p class="section-label" id="install-heading">How to install</p>
+      <p class="install-copy">
+        Run this from your project. It uses the open
+        <a href="https://github.com/vercel-labs/skills">skills</a> installer, which
+        asks which agents to install for. Add <code>-g</code> to install for every
+        project instead of just this one.
+      </p>
+      <Code code={installAll} lang="bash" wrap />
+      <p class="install-note">
+        Want just one? Each skill below has its own command. Prefer not to run
+        Node? Copy the skill's <code>SKILL.md</code> into
+        <code>~/.claude/skills/&lt;name&gt;/</code> (Claude Code) or
+        <code>~/.agents/skills/&lt;name&gt;/</code> (Codex and others). Source:
+        <a href={repoUrl}>{repo}</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="list-heading">
+      <p class="section-label" id="list-heading">The skills</p>
+      <ol class="skill-list">
+        {
+          skills.map((skill) => (
+            <li class="skill" id={skill.name}>
+              <div class="skill-text">
+                <p class="skill-kicker">{skill.category}</p>
+                <h2 class="skill-title">
+                  <a href={`${repoUrl}/tree/${branch}/${skillPath(skill)}`}>
+                    {skill.title}
+                  </a>
+                </h2>
+                <p class="skill-summary">{skill.summary}</p>
+                <p class="skill-triggers">
+                  <span class="triggers-label">Say</span>
+                  {skill.useWhen.map((t) => (
+                    <code>{t}</code>
+                  ))}
+                </p>
+                <Code
+                  code={`npx skills add ${repo} --skill ${skill.name}`}
+                  lang="bash"
+                  wrap
+                />
+                <p class="skill-links">
+                  <a href={`${repoUrl}/blob/${branch}/${skillPath(skill)}/README.md`}>
+                    Read the guide
+                  </a>
+                  <span aria-hidden="true">·</span>
+                  <a href={`${repoUrl}/blob/${branch}/${skillPath(skill)}/SKILL.md`}>
+                    View SKILL.md
+                  </a>
+                  {skill.featured && (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <a href="/blogs/ai-assisted-tdd-workflow">
+                        How I use it
+                      </a>
+                    </>
+                  )}
+                </p>
+              </div>
+              <figure class="skill-figure">
+                <img
+                  src={`/images/agent-skills/${skill.name}.svg`}
+                  alt={skill.imageAlt}
+                  width="800"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </main>
+
+  <style>
+    .skills-page {
+      max-width: var(--max-width-content);
+      margin: 0 auto;
+      padding: 3.5rem 1rem 4rem;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+    }
+
+    .kicker,
+    .section-label,
+    .skill-kicker,
+    .triggers-label {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .kicker {
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: 1rem;
+    }
+
+    .deck {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+      max-width: 44rem;
+      text-wrap: pretty;
+    }
+
+    .section-label {
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--color-rule);
+      margin-bottom: 1.5rem;
+    }
+
+    .install {
+      margin-bottom: 4rem;
+    }
+
+    .install > :not(.section-label) {
+      max-width: 44rem;
+    }
+
+    .install-copy,
+    .install-note {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--color-text);
+    }
+
+    .install-note {
+      font-size: 0.9375rem;
+      color: var(--color-text-secondary);
+    }
+
+    .skills-page a {
+      color: var(--color-text);
+      text-decoration: underline;
+      text-decoration-color: var(--color-accent);
+      text-underline-offset: 3px;
+    }
+
+    .skills-page a:hover {
+      color: var(--color-accent);
+    }
+
+    .skills-page :global(pre.astro-code) {
+      margin: 1rem 0;
+      padding: 0.875rem 1rem;
+      padding-right: 5.5rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      font-size: 0.875rem;
+      overflow-x: auto;
+    }
+
+    .skill-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .skill {
+      display: grid;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--color-border);
+      margin: 0;
+    }
+
+    .skill:first-child {
+      padding-top: 0.5rem;
+    }
+
+    .skill-kicker {
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-title {
+      font-size: 1.75rem;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-title a {
+      text-decoration: none;
+    }
+
+    .skill-title a:hover {
+      text-decoration: underline;
+    }
+
+    .skill-summary {
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .skill-triggers {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .skill-triggers code {
+      font-size: 0.8125rem;
+    }
+
+    .skill-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    .skill-links a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .skill-figure {
+      margin: 0;
+    }
+
+    .skill-figure img {
+      width: 100%;
+      height: auto;
+    }
+
+    @media (min-width: 900px) {
+      .skill {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 3rem;
+        align-items: center;
+      }
+    }
+  </style>
+</BaseLayout>

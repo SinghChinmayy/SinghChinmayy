@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-label="Sketch: before, a tired developer alone at 2:47 AM with four coffee cups and a TypeError on screen; now, a developer pointing at a whiteboard that says red, green, refactor while a small robot types and reports that the test is red for the right reason.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.6"/>
+    </filter>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <line x1="40" y1="5" x2="40" y2="16" class="s"/>
+      <circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" fill="#2b2b2b"/><circle cx="52" cy="34" r="5" fill="#2b2b2b"/>
+      <circle cx="30" cy="32" r="1.6" fill="#fff"/><circle cx="54" cy="32" r="1.6" fill="#fff"/>
+      <path d="M31 45 Q40 52 49 45" class="s"/>
+      <circle cx="19" cy="45" r="3.5" fill="#f6a5a5"/><circle cx="61" cy="45" r="3.5" fill="#f6a5a5"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M18 68 L6 82 M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .s{stroke:#2b2b2b;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+    </style>
+  </defs>
+  <rect width="800" height="420" rx="18" fill="#fffdf7"/>
+
+  <text x="200" y="44" font-size="26" text-anchor="middle" font-weight="700">BEFORE</text>
+  <text x="600" y="44" font-size="26" text-anchor="middle" font-weight="700">NOW</text>
+
+  <g filter="url(#w)">
+    <!-- divider -->
+    <path d="M400 70 q8 30 0 60 q-8 30 0 60 q8 30 0 60 q-8 30 0 60 q8 30 0 50" class="s" stroke-dasharray="6 8"/>
+    <!-- clock -->
+    <circle cx="80" cy="108" r="28" style="fill:#fff" class="s"/>
+    <path d="M80 108 L80 88 M80 108 L95 116" class="s"/>
+    <!-- desk + chair -->
+    <path d="M50 300 L340 300 M70 300 L70 382 M320 300 L320 382" class="s"/>
+    <path d="M92 292 L148 292 M120 292 L120 382 M100 382 L140 382" class="s"/>
+    <!-- monitor -->
+    <rect x="170" y="186" width="124" height="88" rx="7" style="fill:#fff" class="s"/>
+    <path d="M232 274 L232 300 M212 300 L252 300" class="s"/>
+    <!-- tired dev -->
+    <circle cx="118" cy="212" r="19" style="fill:#ffe3c4" class="s"/>
+    <path d="M102 202 q16 -16 32 0" class="s" stroke-width="5"/>
+    <path d="M110 212 l6 0 M122 212 l6 0" class="s"/>
+    <path d="M110 222 q4 -3 8 0 q4 3 8 0" class="s"/>
+    <path d="M118 231 L124 290 M121 250 L168 284 M121 252 L160 290" class="s"/>
+    <!-- coffee tower -->
+    <g>
+      <rect x="300" y="278" width="26" height="22" rx="3" style="fill:#fff" class="s"/>
+      <rect x="302" y="256" width="24" height="22" rx="3" style="fill:#fff" class="s"/>
+      <rect x="299" y="234" width="26" height="22" rx="3" style="fill:#fff" class="s"/>
+      <rect x="303" y="212" width="24" height="22" rx="3" style="fill:#fff" class="s"/>
+    </g>
+    <path d="M309 204 q-6 -8 0 -16 q6 -8 0 -16 M320 204 q-6 -8 0 -16" class="s" stroke="#9a7b5b"/>
+    <!-- bubble left -->
+    <path d="M140 70 h220 a14 14 0 0 1 14 14 v36 a14 14 0 0 1 -14 14 h-170 l-30 26 l6 -26 h-26 a14 14 0 0 1 -14 -14 v-36 a14 14 0 0 1 14 -14 z" style="fill:#fff" class="s"/>
+
+    <!-- whiteboard -->
+    <rect x="446" y="70" width="320" height="112" rx="8" style="fill:#fff" class="s"/>
+    <!-- standing dev pointing -->
+    <circle cx="480" cy="236" r="19" style="fill:#ffe3c4" class="s"/>
+    <path d="M464 226 q16 -18 32 0" class="s" stroke-width="5"/>
+    <circle cx="473" cy="236" r="2.4" fill="#2b2b2b"/><circle cx="487" cy="236" r="2.4" fill="#2b2b2b"/>
+    <path d="M472 245 q8 7 16 0" class="s"/>
+    <path d="M480 255 L480 322 M480 322 L462 376 M480 322 L498 376 M480 272 L516 196 M480 274 L458 304" class="s"/>
+    <!-- laptop for robot -->
+    <path d="M598 352 L668 352 L676 372 L590 372 Z" style="fill:#c9d3df" class="s"/>
+    <rect x="604" y="312" width="58" height="40" rx="4" style="fill:#fff" class="s"/>
+    <circle cx="616" cy="324" r="5" fill="#e5484d"/>
+    <!-- robot bubble -->
+    <path d="M560 196 h208 a12 12 0 0 1 12 12 v44 a12 12 0 0 1 -12 12 h-56 l-8 22 l-14 -22 h-130 a12 12 0 0 1 -12 -12 v-44 a12 12 0 0 1 12 -12 z" style="fill:#fff" class="s"/>
+  </g>
+  <use href="#bot" x="668" y="270" width="88" height="121"/>
+
+  <text x="80" y="160" font-size="15" text-anchor="middle">2:47 AM</text>
+  <text x="182" y="212" font-size="12" class="mono" fill="#e5484d" style="fill:#e5484d">TypeError:</text>
+  <text x="182" y="230" font-size="12" class="mono" style="fill:#e5484d">undefined is</text>
+  <text x="182" y="248" font-size="12" class="mono" style="fill:#e5484d">not a function</text>
+  <text x="250" y="98" font-size="17" text-anchor="middle">"it works on my</text>
+  <text x="250" y="120" font-size="17" text-anchor="middle">machine..."</text>
+  <text x="200" y="408" font-size="14" text-anchor="middle" style="fill:#5b6573">tests? next sprint. probably.</text>
+
+  <text x="606" y="114" font-size="24" text-anchor="middle" font-weight="700"><tspan style="fill:#e5484d">RED</tspan> → <tspan style="fill:#30a46c">GREEN</tspan> → <tspan style="fill:#276ef1">REFACTOR</tspan></text>
+  <text x="606" y="154" font-size="16" text-anchor="middle">one behaviour at a time</text>
+  <text x="664" y="224" font-size="15" text-anchor="middle">"test is red. for the</text>
+  <text x="664" y="246" font-size="15" text-anchor="middle">RIGHT reason this time."</text>
+  <text x="626" y="333" font-size="10" class="mono">1 fail</text>
+  <text x="560" y="408" font-size="14" text-anchor="middle" style="fill:#5b6573">"nice. now make it green."</text>
+</svg>

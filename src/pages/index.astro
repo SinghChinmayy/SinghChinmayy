@@ -4,6 +4,7 @@ import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
 import ForwardLink from '../components/ForwardLink.astro';
 import ProjectIndexItem from '../components/ProjectIndexItem.astro';
+import agentSkills from '../data/agentSkills.json';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../data/index';
 import awsBadge from '../assets/Certifications/AWS/aws-academy-graduate-cloud-foundations-training-bad.png';
@@ -29,7 +30,17 @@ import bootDevPython from '../assets/Certifications/boot.dev/bdeedf6a-e1ef-4174-
 const projects = await getCollection('projects');
 const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order || 999) - (b.data.order || 999)).slice(0, 2);
 const currentProject = featuredProjects[0];
-const posts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()).slice(0, 3);
+const allPosts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const posts = allPosts.slice(0, 3);
+const teaserSkills = ['tdd-red-green-refactor', 'grill-me', 'caveman']
+  .map((name) => agentSkills.skills.find((skill) => skill.name === name))
+  .filter((skill) => skill !== undefined);
+const numbers = [
+  { value: String(projects.length), label: 'public case studies' },
+  { value: '221', label: 'tests in my latest build' },
+  { value: String(agentSkills.skills.length), label: 'open-source agent skills' },
+  { value: String(allPosts.length), label: 'articles on what I learned' },
+];
 const githubProfile = siteConfig.social.find(({ platform }) => platform === 'github')?.url ?? 'https://github.com/SinghChinmayy';
 const githubUsername = githubProfile.split('/').filter(Boolean).pop() ?? 'SinghChinmayy';
 const shorten = (text: string, maxLength = 180) => text.length > maxLength ? `${text.slice(0, maxLength - 1).trimEnd()}…` : text;
@@ -123,39 +134,51 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
           <p class="eyebrow">Backend engineering · Systems · Infrastructure</p>
           <h1>Backend systems, built to be understood.</h1>
           <p class="hero-sub">I build APIs, data flows, and operational tooling that make software more reliable and easier to reason about.</p>
-          <div class="hero-cta"><a href="/projects" class="btn-primary">View selected work <span aria-hidden="true">→</span></a><a class="profile-link" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+          <p class="hero-personal">I like writing the failing test first, keeping a record of why each decision was made, and leaving systems easier to change than I found them.</p>
+          <div class="hero-cta"><a href="/projects" class="btn-primary">View selected work <span aria-hidden="true">→</span></a><a class="profile-link btn-secondary" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
-        {currentProject && <div class="current-project">
-          <p class="project-status">Currently building</p>
-          <a href={`/projects/${currentProject.id}`} class="project-link">
-            <h2>{currentProject.data.title}</h2>
-            <p class="project-type">Backend reliability tooling</p>
-            <p class="project-description">An auditable workflow for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery.</p>
-            <p class="project-stack">Go <span aria-hidden="true">·</span> REST / JSON <span aria-hidden="true">·</span> PostgreSQL <span aria-hidden="true">·</span> Prometheus</p>
-            <span class="case-link">Read case study <span aria-hidden="true">↗</span></span>
-          </a>
-        </div>}
+        <figure class="hero-portrait">
+          <img src={siteConfig.author.profilePic} alt="Portrait of Chinmay Singh" width="480" height="600" fetchpriority="high" />
+          <figcaption>{siteConfig.author.name} · {siteConfig.author.location}</figcaption>
+        </figure>
       </section>
     </div>
 
+    {currentProject && <a href={`/projects/${currentProject.id}`} class="now-building">
+      <span class="now-label"><span class="now-dot" aria-hidden="true"></span>Now building</span>
+      <span class="now-title">{currentProject.data.title}</span>
+      <span class="now-description">An auditable workflow for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery.</span>
+      <span class="now-link">Read the case study <span aria-hidden="true">→</span></span>
+    </a>}
+
     <section class="about-section" aria-labelledby="about-heading">
+      <div class="section-header"><p class="section-kicker">About</p></div>
+      <div class="about-grid">
       <div class="about-copy">
-        <p class="section-kicker">About</p>
         <h2 id="about-heading">I learn systems by making their boundaries explicit.</h2>
         <p>I’m Chinmay, a software engineer focused on backend development, infrastructure, and the practical details that make software dependable. I like working from a clear model of the data, the failure modes, and the evidence a system should leave behind.</p>
         <p>Most of my work is self-directed and public: small, explainable systems that help me turn concepts into working code and better engineering judgment.</p>
         <p class="about-exploring"><span>Currently exploring</span> Go services, operational workflows, and reliable data synchronization.</p>
       </div>
-      <div class="about-portrait">
-        <img src={siteConfig.author.profilePic} alt="Portrait of Chinmay Singh" loading="lazy" />
       </div>
+    </section>
+
+    <section class="numbers" aria-labelledby="numbers-heading">
+      <div class="section-header"><p class="section-kicker" id="numbers-heading">By the numbers</p></div>
+      <ul class="numbers-grid">
+        {numbers.map((item) => <li class="number-cell">
+          <span class="number-value">{item.value}</span>
+          <span class="number-label">{item.label}</span>
+        </li>)}
+      </ul>
     </section>
 
     <section class="selected-projects" aria-labelledby="selected-projects-heading">
       <div class="section-header">
-        <div><p class="section-kicker">Selected work</p><h2 id="selected-projects-heading">Projects</h2></div>
+        <p class="section-kicker">Selected work</p>
         <ForwardLink href="/projects" text="View all" variant="muted" />
       </div>
+      <h2 class="section-title" id="selected-projects-heading">Projects</h2>
       <div class="project-home-list">
         {featuredProjects.map((project, index) => <ProjectIndexItem
           number={String(index + 1).padStart(2, '0')}
@@ -169,10 +192,29 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       </div>
     </section>
 
+    <section class="skills-teaser" aria-labelledby="skills-heading">
+      <div class="section-header">
+        <p class="section-kicker">Open source</p>
+        <ForwardLink href="/agent-skills" text="All skills" variant="muted" />
+      </div>
+      <h2 class="section-title" id="skills-heading">Skills for your coding agent</h2>
+      <p class="section-deck">The instructions I give Claude Code and Codex, packaged so you can install them with one command.</p>
+      <ul class="skills-list">
+        {teaserSkills.map((skill) => <li>
+          <a class="skill-row" href={`/agent-skills#${skill.name}`}>
+            <span class="skill-row-title">{skill.title}</span>
+            <span class="skill-row-summary">{skill.summary.split('. ')[0].replace(/\.$/, '')}.</span>
+          </a>
+        </li>)}
+      </ul>
+      <p class="skills-install"><span>Try one:</span> <code>npx skills add {agentSkills.repo} --skill grill-me</code></p>
+    </section>
+
     <section class="stack-section" aria-labelledby="stack-heading">
       <div class="section-header stack-header">
-        <div><p class="section-kicker">Tools I use to learn by building</p><h2 id="stack-heading">Tools &amp; practice</h2></div>
+        <p class="section-kicker">Tools I use to learn by building</p>
       </div>
+      <h2 class="section-title" id="stack-heading">Tools &amp; practice</h2>
       <div class="stack-groups">
         {techGroups.map((group) => {
           return <div class="stack-group">
@@ -192,8 +234,10 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
     <section class="certifications-section" aria-labelledby="certifications-heading">
       <div class="section-header">
-        <div><p class="section-kicker">Selected credentials</p><h2 id="certifications-heading">Certifications</h2><p class="certification-subtitle">Selected credentials and technical coursework.</p></div>
+        <p class="section-kicker">Selected credentials</p>
       </div>
+      <h2 class="section-title" id="certifications-heading">Certifications</h2>
+      <p class="certification-subtitle">Selected credentials and technical coursework.</p>
       <div class="certifications-table">
         <div class="certifications-table-header" aria-hidden="true"><span>Certificate</span><span>Issuer</span><span>Year / View</span></div>
         {featuredCertifications.map((certification) => <a class="certification-item" href={certification.certificate} target="_blank" rel="noopener noreferrer">
@@ -222,7 +266,8 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     </section>
 
     {posts.length > 0 && <section class="recent-writing">
-      <div class="section-header"><div><p class="section-kicker">Notes from the work</p><h2>Recent writing</h2></div><ForwardLink href="/blogs" text="View all" variant="muted" /></div>
+      <div class="section-header"><p class="section-kicker">Notes from the work</p><ForwardLink href="/blogs" text="View all" variant="muted" /></div>
+      <h2 class="section-title">Recent writing</h2>
       <div class="writing-grid">{posts.map((post) => <a href={`/blogs/${post.id}`} class="writing-item">
         <time class="writing-date" datetime={post.data.publishDate.toISOString()}>{post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
         <h3 class="writing-title">{post.data.title}</h3><p class="writing-description">{shorten(post.data.description, 150)}</p>
@@ -231,15 +276,16 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
     <section class="activity-section" aria-labelledby="activity-heading">
       <div class="section-header activity-header">
-        <div><p class="section-kicker">Building in public</p><h2 id="activity-heading">GitHub activity</h2></div>
+        <p class="section-kicker">Building in public</p>
         <a class="activity-link" href={githubProfile} target="_blank" rel="noopener noreferrer">View profile <span aria-hidden="true">↗</span></a>
       </div>
+      <h2 class="section-title" id="activity-heading">GitHub activity</h2>
       <a class="activity-heatmap" href={githubProfile} target="_blank" rel="noopener noreferrer" aria-label={`View ${githubUsername}'s GitHub contribution activity`}>
-        <img src={`https://ghchart.rshah.org/276EF1/${githubUsername}`} alt={`GitHub contribution heatmap for ${githubUsername}`} loading="lazy" />
+        <img src={`https://ghchart.rshah.org/326891/${githubUsername}`} alt={`GitHub contribution heatmap for ${githubUsername}`} loading="lazy" />
       </a>
     </section>
 
-    <section class="cta"><p class="section-kicker">Have a thoughtful problem to discuss?</p><h2>Let’s connect.</h2><p>Open to early-career software engineering opportunities, collaborations, and conversations about systems.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Say hello</a><a href="/projects" class="btn-secondary">Browse projects</a></div></section>
+    <section class="cta"><div class="section-header"><p class="section-kicker">Have a thoughtful problem to discuss?</p></div><h2>Let’s connect.</h2><p>Open to early-career software engineering opportunities, collaborations, and conversations about systems.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Say hello</a><a href="/projects" class="btn-secondary">Browse projects</a></div></section>
   </main>
 </BaseLayout>
 
@@ -267,45 +313,92 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 </script>
 
 <style>
+  /* Front-page layout: section labels over heavy ink rules, items between hairlines. */
   .home-page {
-    width: min(100%, 1200px);
+    width: min(100%, var(--max-width-content));
     margin: 0 auto;
-    padding: 0 clamp(1.125rem, 4vw, 2.5rem) 5rem;
+    padding: 0 clamp(1rem, 4vw, 2.5rem) 4rem;
   }
 
-  .hero {
-    display: grid;
-    gap: 3.5rem;
-    padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(4rem, 9vw, 7rem);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .hero-left { max-width: 42rem; }
-
+  /* ---------- Shared editorial pieces ---------- */
   .eyebrow,
   .section-kicker,
-  .project-status,
-  .writing-date {
-    color: var(--color-accent);
-    font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    letter-spacing: .1em;
+  .project-status {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
     text-transform: uppercase;
   }
 
-  .hero h1 {
-    max-width: 14ch;
-    margin: 1rem 0 1.5rem;
-    font-size: clamp(3rem, 6vw, 4.75rem);
-    line-height: 1.02;
-    letter-spacing: -.065em;
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--color-rule);
   }
 
-  .hero-sub {
-    max-width: 36rem;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-secondary);
-    font-size: clamp(1rem, 1.8vw, 1.1rem);
-    line-height: 1.65;
+  .section-header :global(.arrow-link) {
+    min-height: 2.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+
+  .section-title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.125rem;
+    border: 1px solid var(--color-text);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: none;
+  }
+
+  /* Primary = ink button. */
+  .btn-primary {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-text-secondary);
+    border-color: var(--color-text-secondary);
+    color: var(--color-bg);
+  }
+
+  /* Secondary = outline on paper. */
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .btn-secondary:hover {
+    background: transparent;
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .hero-cta,
@@ -313,169 +406,741 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1.25rem;
+    gap: 0.75rem;
   }
 
-  .profile-link,
-  .activity-link {
-    color: var(--color-text-secondary);
-    font-size: .875rem;
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    gap: 2.5rem;
+    padding: clamp(2rem, 6vw, 3.5rem) 0 clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .hero-left {
+    max-width: 44rem;
+  }
+
+  .hero h1 {
+    max-width: 20ch;
+    margin: 0.875rem 0 1rem;
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
     font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
-  .profile-link:hover,
-  .activity-link:hover { color: var(--color-accent); }
-
-  .btn-primary {
-    display: inline-flex;
-    min-height: 2.875rem;
-    align-items: center;
-    justify-content: center;
-    gap: .55rem;
-    padding: .7rem 1rem;
-    border: 1px solid var(--color-accent);
-    border-radius: var(--border-radius-sm);
-    background: var(--color-accent);
-    color: #fff;
-    font-weight: 600;
-  }
-
-  .btn-primary:hover { background: var(--color-accent-hover); color: #fff; }
-
-  .current-project {
-    max-width: 34rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .project-status { margin-bottom: 1rem; }
-  .project-link { display: block; color: var(--color-text); }
-  .project-link:hover h2,
-  .project-link:hover .case-link { color: var(--color-accent); }
-  .project-link h2 {
-    max-width: 16ch;
-    margin: 0 0 .5rem;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    line-height: 1.08;
-    letter-spacing: -.045em;
-    transition: color var(--transition-fast);
-  }
-  .project-type {
-    margin-bottom: 1.1rem;
+  .hero-personal {
+    max-width: 36rem;
+    margin-bottom: 1.75rem;
     color: var(--color-text-muted);
-    font: 600 .78rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    letter-spacing: .04em;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
-  .project-description { max-width: 31rem; margin-bottom: 1.1rem; color: var(--color-text-secondary); line-height: 1.65; }
-  .project-stack { margin-bottom: 1.25rem; color: var(--color-text-muted); font: .8rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-  .case-link { color: var(--color-accent); font-size: .875rem; font-weight: 600; transition: color var(--transition-fast); }
 
+  .hero-portrait {
+    width: min(100%, 11rem);
+    margin: 0;
+  }
+
+  @media (min-width: 900px) {
+    .hero-portrait {
+      width: 100%;
+    }
+  }
+
+  .hero-portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .hero-portrait figcaption {
+    margin-top: 0.6rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+
+  /* Deck under the headline. */
+  .hero-sub {
+    max-width: 36rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+
+  .project-status {
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-rule);
+  }
+
+  /* ---------- Sections ---------- */
   .about-section,
   .selected-projects,
   .stack-section,
   .certifications-section,
   .recent-writing,
   .activity-section {
-    padding-block: clamp(3.5rem, 8vw, 6rem);
+    padding-top: clamp(2rem, 5vw, 3rem);
+  }
+
+  .about-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .about-copy {
+    max-width: 42rem;
+  }
+
+  .about-copy h2 {
+    max-width: 22ch;
+    margin: 0 0 1rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .about-copy > p:not(.about-exploring) {
+    max-width: 40rem;
+    margin: 0 0 1rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .about-exploring {
+    margin-top: 1.25rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .about-exploring span {
+    margin-right: 0.5rem;
+    color: var(--color-text);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-home-list {
+    max-width: 100%;
+  }
+
+  /* Tools grouped as small ruled columns. */
+  .stack-groups {
+    display: grid;
+    gap: 0 2rem;
+  }
+
+  .stack-group {
+    padding: 0.75rem 0 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stack-group-title {
+    margin: 0 0 0.375rem;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .stack-values {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .stack-value {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .stack-separator {
+    padding-inline: 0.4rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Brand icons rendered as neutral greys so they sit quietly in both themes. */
+  .stack-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.35rem;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.75;
+  }
+
+  /* Certifications table. */
+  .certification-subtitle {
+    max-width: 36rem;
+    margin: -0.75rem 0 1.25rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.45;
+  }
+
+  .certifications-table-header,
+  .certification-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) auto;
+    column-gap: 1.25rem;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .certifications-table-header {
+    padding: 0 0 0.5rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .certification-item {
+    min-height: 3.5rem;
+    padding: 0.625rem 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .certifications-table > .certification-item:last-child,
+  .certification-category-table > .certification-item:last-child {
     border-bottom: 1px solid var(--color-border);
   }
 
-  .about-section {
+  .certification-item:hover .certification-name {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .certification-name {
+    display: -webkit-box;
+    grid-column: 1;
+    overflow: hidden;
+    color: var(--color-text);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .certification-issuer {
+    grid-column: 2;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .certification-action {
+    display: inline-flex;
+    grid-column: 3;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .certification-link {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .certifications-more {
+    margin-top: 0.5rem;
+  }
+
+  .certifications-toggle {
+    min-height: 2.75rem;
+    padding: 0.5rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .certifications-toggle:hover [data-certifications-label] {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .certifications-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .certifications-toggle [data-certifications-icon] {
+    display: inline-block;
+    margin-left: 0.2rem;
+  }
+
+  .certifications-list {
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.24s ease, margin-top 0.24s ease, opacity 0.18s ease;
+  }
+
+  .certifications-list.is-expanded {
+    max-height: 60rem;
+    margin-top: 0.35rem;
+    opacity: 1;
+  }
+
+  .certification-category {
+    margin-top: 1.25rem;
+  }
+
+  .certification-category h3 {
+    margin: 0 0 0.375rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .certification-category-table {
     display: grid;
-    gap: 3rem;
   }
 
-  .about-copy { max-width: 42rem; }
-  .about-copy h2 {
-    max-width: 22ch;
-    margin: .5rem 0 1.25rem;
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    line-height: 1.08;
-    letter-spacing: -.045em;
+  /* Recent writing: stacked on phones, a three-column row with column rules on wide screens. */
+  .writing-grid {
+    display: grid;
   }
-  .about-copy > p:not(.section-kicker):not(.about-exploring) { max-width: 42rem; margin-top: .85rem; color: var(--color-text-secondary); line-height: 1.7; }
-  .about-exploring { margin-top: 1.4rem; color: var(--color-text); font-size: .9rem; line-height: 1.6; }
-  .about-exploring span { margin-right: .45rem; color: var(--color-accent); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .about-portrait { width: min(100%, 18rem); justify-self: start; }
-  .about-portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .45rem; }
 
-  .section-header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; }
-  .section-header h2 { margin-top: .4rem; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.04em; }
-  .project-home-list { max-width: 68rem; }
+  .writing-item {
+    display: block;
+    padding: 1rem 0 1.125rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+  }
 
-  .stack-groups { display: grid; gap: 1.5rem 2.5rem; }
-  .stack-group-title { margin-bottom: .35rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .stack-values { color: var(--color-text-secondary); font-size: .925rem; line-height: 1.7; }
-  .stack-value { display: inline-flex; align-items: center; white-space: nowrap; }
-  .stack-separator { padding-inline: .45rem; color: var(--color-text-muted); }
-  .stack-icon { width: 1rem; height: 1rem; margin-right: .35rem; object-fit: contain; }
+  .writing-item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
 
-  .certification-subtitle { max-width: 32rem; margin-top: .5rem; color: var(--color-text-secondary); font-size: .9rem; line-height: 1.5; }
-  .certifications-table-header,
-  .certification-item { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) auto; column-gap: 1.25rem; align-items: center; min-width: 0; }
-  .certifications-table-header { padding: 0 .2rem .55rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .09em; text-transform: uppercase; }
-  .certification-item { min-height: 4rem; padding: .55rem .2rem; border-top: 1px solid var(--color-border); }
-  .certification-item:hover .certification-name,
-  .certification-item:hover .certification-link { color: var(--color-accent); }
-  .certification-name { display: -webkit-box; grid-column: 1; overflow: hidden; color: var(--color-text); font-size: 1.05rem; font-weight: 600; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-  .certification-issuer { grid-column: 2; overflow: hidden; color: var(--color-text-secondary); font-size: .9rem; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
-  .certification-action { display: inline-flex; grid-column: 3; align-items: center; gap: .55rem; color: var(--color-text-muted); font-size: .85rem; white-space: nowrap; }
-  .certification-link { color: var(--color-text-secondary); font-weight: 600; transition: color .18s ease, transform .18s ease; }
-  .certification-item:hover .certification-link { transform: translateX(2px); }
-  .certifications-more { margin-top: .8rem; }
-  .certifications-toggle { min-height: 2.75rem; padding: .45rem 0; border: 0; background: transparent; color: var(--color-text-secondary); cursor: pointer; font-family: inherit; font-size: .8rem; font-weight: 600; line-height: 1.4; }
-  .certifications-toggle:hover { color: var(--color-accent); }
-  .certifications-toggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
-  .certifications-toggle [data-certifications-icon] { display: inline-block; margin-left: .2rem; color: var(--color-accent); transition: transform .2s ease; }
-  .certifications-list { max-height: 0; margin-top: 0; overflow: hidden; opacity: 0; transition: max-height .24s ease, margin-top .24s ease, opacity .18s ease; }
-  .certifications-list.is-expanded { max-height: 60rem; margin-top: .35rem; opacity: 1; }
-  .certification-category { margin-top: 1.35rem; }
-  .certification-category h3 { margin-bottom: .15rem; color: var(--color-text-muted); font: 600 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .09em; text-transform: uppercase; }
-  .certification-category-table { display: grid; }
+  .writing-item:hover {
+    color: var(--color-text);
+  }
 
-  .writing-grid { display: grid; }
-  .writing-item { display: grid; grid-template-columns: 7.5rem minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; padding: 1.25rem 0; border-top: 1px solid var(--color-border); }
-  .writing-item:hover .writing-title { color: var(--color-accent); }
-  .writing-date { padding-top: .25rem; }
-  .writing-title { margin: 0; color: var(--color-text); font-size: 1.15rem; line-height: 1.35; transition: color var(--transition-fast); }
-  .writing-description { display: -webkit-box; overflow: hidden; color: var(--color-text-secondary); font-size: .925rem; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-  .writing-item:last-child { border-bottom: 1px solid var(--color-border); }
+  .writing-item:hover .writing-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 
-  .activity-header { margin-bottom: .75rem; }
-  .activity-heatmap { display: block; max-width: 760px; overflow: hidden; padding: .35rem 0; border-radius: var(--border-radius-sm); }
-  .activity-heatmap:hover { background: var(--color-bg-elevated); }
-  .activity-heatmap img { width: 100%; max-width: 100%; height: auto; max-height: 5rem; object-fit: contain; object-position: left center; }
+  .writing-date {
+    display: block;
+    margin-bottom: 0.375rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
 
-  .cta { margin-top: clamp(3.5rem, 8vw, 6rem); padding: clamp(2.5rem, 6vw, 4rem) 0 0; border-top: 1px solid var(--color-border); }
-  .cta h2 { margin: .4rem 0 .75rem; font-size: clamp(2rem, 4vw, 3rem); }
-  .cta > p:not(.section-kicker) { max-width: 36rem; margin-bottom: 1.5rem; color: var(--color-text-secondary); }
+  .writing-title {
+    margin: 0 0 0.5rem;
+    color: var(--color-text);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .writing-description {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* GitHub activity. */
+  .activity-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2.75rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .activity-link:hover {
+    color: var(--color-text);
+  }
+
+  .activity-heatmap {
+    display: block;
+    max-width: 760px;
+    overflow: hidden;
+    padding: 0.35rem 0;
+  }
+
+  .activity-heatmap img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 5rem;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  /* Closing call to action. */
+  .cta {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .cta h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .cta > p {
+    max-width: 36rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
 
   @media (min-width: 600px) {
-    .stack-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stack-groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   @media (min-width: 900px) {
-    .hero { grid-template-columns: minmax(0, 1.08fr) minmax(20rem, .72fr); gap: clamp(3rem, 7vw, 7rem); align-items: start; }
-    .current-project { margin-top: 2.25rem; }
-    .about-section { grid-template-columns: minmax(0, 1.8fr) minmax(12rem, .8fr); gap: clamp(3rem, 8vw, 7rem); align-items: center; }
-    .about-portrait { justify-self: end; }
+    .hero {
+      grid-template-columns: minmax(0, 1fr) 18rem;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      align-items: center;
+    }
+
+    .stack-groups {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .writing-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .writing-item,
+    .writing-item:first-child {
+      padding: 0 1.5rem 0.5rem;
+      border-top: 0;
+      border-left: 1px solid var(--color-border);
+    }
+
+    .writing-item:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .writing-item:last-child {
+      padding-right: 0;
+    }
   }
 
   @media (max-width: 599px) {
-    .hero { gap: 2.75rem; }
-    .hero-cta a { min-height: 2.875rem; }
-    .about-section { gap: 2rem; }
-    .about-portrait { width: min(100%, 15rem); }
-    .section-header { align-items: start; flex-direction: column; gap: .65rem; }
-    .certifications-table-header { display: none; }
-    .certification-item { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; row-gap: .25rem; min-height: 4.6rem; padding: .8rem 0; }
-    .certification-name { grid-column: 1 / -1; font-size: .95rem; }
-    .certification-issuer { grid-column: 1; font-size: .8rem; }
-    .certification-action { grid-column: 2; font-size: .78rem; }
-    .certification-category { margin-top: 1.1rem; }
-    .writing-item { grid-template-columns: 1fr; gap: .4rem; padding: 1.15rem 0; }
-    .writing-date { padding-top: 0; }
-    .writing-title { font-size: 1.05rem; }
+    .hero-sub,
+    .cta > p,
+    .about-copy > p:not(.about-exploring) {
+      font-size: 1.0625rem;
+    }
+
+    .certifications-table-header {
+      display: none;
+    }
+
+    .certification-item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto auto;
+      row-gap: 0.25rem;
+      padding: 0.75rem 0;
+    }
+
+    .certification-name {
+      grid-column: 1 / -1;
+      font-size: 1rem;
+    }
+
+    .certification-issuer {
+      grid-column: 1;
+      font-size: 0.8125rem;
+    }
+
+    .certification-action {
+      grid-column: 2;
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* ---------- Front-page extras: now-building row, numbers, skills ---------- */
+
+  .now-building {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .now-building:hover {
+    color: var(--color-text);
+  }
+
+  .now-building:hover .now-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .now-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .now-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #30a46c;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .now-dot {
+      animation: now-pulse 1.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes now-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.75); }
+  }
+
+  .now-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .now-description {
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .now-link {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .section-deck {
+    max-width: 40rem;
+    margin: -0.25rem 0 1.5rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .numbers,
+  .skills-teaser {
+    padding-top: clamp(2rem, 5vw, 3rem);
+  }
+
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .number-cell {
+    display: grid;
+    gap: 0.25rem;
+    justify-items: start;
+    margin: 0;
+    padding: 1rem 1rem 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .number-value {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+
+  .number-label {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .skills-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .skills-list li {
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .skill-row {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem 0;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .skill-row:hover {
+    color: var(--color-text);
+  }
+
+  .skill-row:hover .skill-row-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .skill-row-title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .skill-row-summary {
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .skills-install {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .skills-install code {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+  }
+
+  @media (min-width: 768px) {
+    .skill-row {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .numbers-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .number-cell {
+      padding: 1rem 1.25rem;
+      border-bottom: none;
+      border-left: 1px solid var(--color-border);
+    }
+
+    .number-cell:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .now-building {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: "label title link" "label desc link";
+      column-gap: 1.5rem;
+      align-items: center;
+    }
+
+    .now-label { grid-area: label; }
+    .now-title { grid-area: title; }
+    .now-description { grid-area: desc; }
+    .now-link { grid-area: link; }
   }
 </style>

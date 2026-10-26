@@ -1,0 +1,70 @@
+{
+  "repo": "SinghChinmayy/agent-skills",
+  "branch": "main",
+  "skills": [
+    {
+      "name": "tdd-red-green-refactor",
+      "title": "TDD Red-Green-Refactor",
+      "category": "engineering",
+      "summary": "Builds one behaviour at a time with separate red, green and optional refactor commits, so the git history proves every test came before the code. Works with any language or test runner, and includes an honest recipe for testing race conditions.",
+      "useWhen": [
+        "tdd",
+        "red green refactor",
+        "test first",
+        "implement with tests"
+      ],
+      "imageAlt": "Three round characters: a grumpy red one holding FAIL, a happy green one holding PASS, and a smug blue one in sunglasses with a broom.",
+      "featured": true
+    },
+    {
+      "name": "grill-me",
+      "title": "Grill Me",
+      "category": "planning",
+      "summary": "A relentless, one-question-at-a-time interview about your plan. For every question the agent offers its recommended answer, and it explores the codebase instead of asking when it can. You leave with every branch of the design decided.",
+      "useWhen": [
+        "grill me",
+        "stress-test this plan",
+        "interview me about the design"
+      ],
+      "imageAlt": "A robot with a clipboard asks question 17 of 40 while a sweating developer realises they had not thought about it."
+    },
+    {
+      "name": "db-planning",
+      "title": "DB Planning",
+      "category": "planning",
+      "summary": "Database design in two stages: an interview that walks purpose, entities, access patterns, scale, constraints and operations, then versioned DBML and markdown plans under planning/db/ that you can render as diagrams and iterate on.",
+      "useWhen": [
+        "plan db",
+        "design database",
+        "database design"
+      ],
+      "imageAlt": "A robot interviewer turns answers into DBML tables and versioned plan files."
+    },
+    {
+      "name": "modular-development",
+      "title": "Modular Development",
+      "category": "engineering",
+      "summary": "Locks the agent to the files you declare, then moves through build, tests, a review gate you control, a scoped merge and a global test check. Stops the 'while I was in there' refactors that leak across a codebase.",
+      "useWhen": [
+        "modular dev",
+        "scoped build",
+        "isolated module",
+        "/modular"
+      ],
+      "imageAlt": "A robot works inside a fenced sandbox labelled files in scope while the developer holds the key to the review gate."
+    },
+    {
+      "name": "caveman",
+      "title": "Caveman",
+      "category": "productivity",
+      "summary": "Ultra-compressed replies that keep every technical detail and drop the filler, cutting output tokens by roughly three quarters. Has intensity levels from lite to ultra, and switches back to full sentences for warnings and destructive actions.",
+      "useWhen": [
+        "caveman mode",
+        "less tokens",
+        "be brief",
+        "/caveman"
+      ],
+      "imageAlt": "A verbose robot with a huge speech bubble next to a caveman robot that says only: Bug in auth. Fix."
+    }
+  ]
+}

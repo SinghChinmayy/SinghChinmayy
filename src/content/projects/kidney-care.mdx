@@ -145,11 +145,7 @@ and the limits that still need validation.
 
 The app follows a strict three-layer data model:
 
-```text
-UI (ViewModels) → Repositories → drift SQLite
-                                      ↑
-                                 SyncEngine → Supabase Postgres
-```
+![Offline-first architecture: the UI calls repositories that read and write the local drift SQLite database immediately; the SyncEngine watches dirty rows, pushes to Supabase Postgres, pulls remote changes, and writes merges back into drift.](./_assets/kidney-care/architecture.svg)
 
 ViewModels and repositories never import `supabase_flutter`. All vitals logging completes against drift immediately. The SyncEngine observes dirty rows and remote deltas, then writes reconciliation results back into drift.
 

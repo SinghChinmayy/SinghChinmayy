@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 510" role="img" aria-label="Production architecture. The React SPA in the browser loads static files from Vercel and calls the FastAPI Python function on Vercel at /api/* with a Bearer token. The function talks to Neon Postgres through the pooled endpoint. GitHub Actions runs the four checks, then alembic upgrade through Neon's direct endpoint, then vercel deploy --prod.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="41"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="510" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="30" y="84" width="200" height="84" rx="10" style="fill:#dbe7ff" class="s" stroke="#276ef1"/>
+    <rect x="280" y="24" width="230" height="230" rx="14" style="fill:#eef1f5;fill-opacity:.45" class="s" stroke="#8a94a3" stroke-dasharray="8 6"/>
+    <rect x="300" y="60" width="190" height="58" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="300" y="160" width="190" height="66" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+    <rect x="562" y="24" width="216" height="300" rx="14" style="fill:#fff1c7;fill-opacity:.45" class="s" stroke="#c99a1e" stroke-dasharray="8 6"/>
+    <rect x="582" y="56" width="176" height="54" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="582" y="148" width="176" height="56" rx="10" style="fill:#fff1c7" class="s" stroke="#c99a1e"/>
+    <rect x="582" y="248" width="176" height="54" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <path d="M234 108 L296 90" class="s" marker-end="url(#a)"/>
+    <path d="M234 146 L296 186" class="s" marker-end="url(#a)"/>
+    <path d="M494 186 L578 86" class="s" marker-end="url(#a)"/>
+    <path d="M670 114 L670 144" class="s" marker-end="url(#a)"/>
+    <path d="M670 244 L670 208" class="s" marker-end="url(#a)"/>
+    <rect x="30" y="360" width="520" height="104" rx="14" style="fill:#ebe3fd;fill-opacity:.45" class="s" stroke="#7c5cd6" stroke-dasharray="8 6"/>
+    <rect x="50" y="394" width="140" height="56" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="220" y="394" width="150" height="56" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="400" y="394" width="130" height="56" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <path d="M194 422 L216 422" class="s" marker-end="url(#a)"/>
+    <path d="M374 422 L396 422" class="s" marker-end="url(#a)"/>
+    <path d="M295 454 L295 482 L548 482 L548 275 L578 275" class="s" marker-end="url(#a)"/>
+    <path d="M465 390 L465 258" class="s" marker-end="url(#a)"/>
+  </g>
+  <text x="130.0" y="111.8" font-size="15" text-anchor="middle" font-weight="700">Browser</text>
+  <text x="130.0" y="131.2" font-size="13" text-anchor="middle" style="fill:#5b6573">React SPA</text>
+  <text x="130.0" y="150.8" font-size="13" text-anchor="middle" style="fill:#5b6573">Vite, TanStack Query</text>
+  <text x="294" y="46" font-size="14" text-anchor="start" font-weight="700" style="fill:#8a94a3">Vercel (sin1)</text>
+  <text x="395.0" y="84.8" font-size="14" text-anchor="middle" font-weight="700">Static files</text>
+  <text x="395.0" y="103.0" font-size="12" text-anchor="middle" style="fill:#5b6573">frontend/dist</text>
+  <text x="395.0" y="179.7" font-size="14" text-anchor="middle" font-weight="700">FastAPI</text>
+  <text x="395.0" y="197.9" font-size="12" text-anchor="middle" style="fill:#5b6573">Python function</text>
+  <text x="395.0" y="216.1" font-size="12" text-anchor="middle" style="fill:#5b6573">api/index.py</text>
+  <text x="576" y="46" font-size="14" text-anchor="start" font-weight="700" style="fill:#c99a1e">Neon Postgres</text>
+  <text x="670.0" y="78.8" font-size="14" text-anchor="middle" font-weight="700">Pooled endpoint</text>
+  <text x="670.0" y="97.0" font-size="12" text-anchor="middle" style="fill:#5b6573">DATABASE_URL</text>
+  <text x="670.0" y="171.8" font-size="14" text-anchor="middle" font-weight="700">Database</text>
+  <text x="670.0" y="190.0" font-size="12" text-anchor="middle" style="fill:#5b6573">4 tables</text>
+  <text x="670.0" y="270.8" font-size="14" text-anchor="middle" font-weight="700">Direct endpoint</text>
+  <text x="670.0" y="289.0" font-size="12" text-anchor="middle" style="fill:#5b6573">DATABASE_URL_UNPOOLED</text>
+  <text x="262" y="88" font-size="13" text-anchor="middle" style="fill:#5b6573">pages</text>
+  <text x="196" y="196" font-size="13" text-anchor="middle" style="fill:#5b6573">/api/* + token</text>
+  <text x="512" y="212" font-size="13" text-anchor="middle" style="fill:#5b6573">pool of 1</text>
+  <text x="44" y="382" font-size="14" text-anchor="start" font-weight="700" style="fill:#7c5cd6">GitHub Actions, on every push to main</text>
+  <text x="120.0" y="417.8" font-size="14" text-anchor="middle" font-weight="700">4 checks</text>
+  <text x="120.0" y="436.0" font-size="12" text-anchor="middle" style="fill:#5b6573">lint, tests, e2e</text>
+  <text x="295.0" y="417.8" font-size="14" text-anchor="middle" font-weight="700">Migrate</text>
+  <text x="295.0" y="436.0" font-size="12" text-anchor="middle" style="fill:#5b6573">alembic upgrade head</text>
+  <text x="465.0" y="417.8" font-size="14" text-anchor="middle" font-weight="700">Deploy</text>
+  <text x="465.0" y="436.0" font-size="12" text-anchor="middle" style="fill:#5b6573">vercel deploy --prod</text>
+  <text x="420" y="500" font-size="13" text-anchor="middle" style="fill:#5b6573">migrations use the direct endpoint, never the pooler</text>
+  <text x="664" y="360" font-size="13" text-anchor="middle" style="fill:#5b6573">the API never changes</text>
+  <text x="664" y="378" font-size="13" text-anchor="middle" style="fill:#5b6573">the schema; CI migrates</text>
+  <text x="664" y="396" font-size="13" text-anchor="middle" style="fill:#5b6573">first, then deploys</text>
+</svg>

@@ -21,6 +21,12 @@ I keep an evolving set of notes and exercises in [learn-sql](https://github.com/
 
 ## Selected projects
 
+### [Car Dealership Inventory System](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System)
+
+A test-first kata with a [public demo](https://car-dealership-inventory-umber.vercel.app): a FastAPI and PostgreSQL inventory API with atomic purchases, soft delete, and audited restocks, plus a React SPA. CI gates every merge and migrates Neon before deploying to Vercel. Not a real dealership's production system.
+
+`Python` `FastAPI` `PostgreSQL` `React` `TypeScript` `Playwright` `GitHub Actions`
+
 ### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
 
 An ongoing Go backend project exploring incident detection, auditable remediation proposals, human approval, and recovery verification for self-hosted services.
@@ -43,6 +49,7 @@ A modular Python pipeline for document ingestion, Unicode normalization, tokeniz
 
 I write about the engineering ideas I’m actively learning:
 
+- [Red, Green, Robot: How I Build Software with AI Agents Now](https://chinmaysingh.me/blogs/ai-assisted-tdd-workflow)
 - [Stage 1: Building an NLP Search Pipeline](https://chinmaysingh.me/blogs/search-engine-stage-1)
 - [Monoliths or Microservices? Choosing an Architecture](https://chinmaysingh.me/blogs/monolith-or-microservices-choosing-the-right-architecture-for-scale)
 - [More articles](https://chinmaysingh.me/blogs)

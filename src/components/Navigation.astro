@@ -2,9 +2,9 @@
 /**
  * Navigation Component
  *
- * Main site navigation with responsive behavior and theme toggle. Features centered
- * navigation on desktop and horizontal scrolling on mobile. The theme toggle is fixed
- * at the right edge with a gradient fade effect.
+ * Slim editorial masthead: serif wordmark on the left, small uppercase sans links and
+ * the theme toggle on the right, hairline rule underneath. Below 768px the links move
+ * into a full-width, hairline-separated panel opened by the Menu button.
  *
  * Navigation items are configured in src/config.ts and automatically include a "Home"
  * link at the beginning. Active page highlighting is handled both server-side and
@@ -65,8 +65,9 @@ const isActive = (href: string) => {
 };
 ---
 
+<div class="masthead">
 <nav class="site-nav" aria-label="Main navigation">
-  <a class="nav-brand" href="/" aria-label={`${siteConfig.author.name} home`}>CS<span aria-hidden="true">/</span></a>
+  <a class="nav-brand" href="/" aria-label={`${siteConfig.author.name} home`}>{siteConfig.author.name}</a>
   <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
     <span class="visually-hidden">Open navigation</span>
     <span aria-hidden="true">Menu</span>
@@ -143,6 +144,7 @@ const isActive = (href: string) => {
     <ThemeToggle />
   </div>
 </nav>
+</div>
 
 <script>
   const menuToggle = document.querySelector('.menu-toggle');
@@ -186,187 +188,234 @@ const isActive = (href: string) => {
 </script>
 
 <style>
+  /* Slim editorial masthead: serif wordmark, sans links, hairline underneath. */
+  .masthead {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
   .site-nav {
     position: relative;
     max-width: var(--max-width-content);
     margin: 0 auto;
     display: flex;
     align-items: center;
+    gap: 0.75rem;
+    min-height: 3.75rem;
+    padding: 0.5rem clamp(1rem, 4vw, 2.5rem);
     background: var(--color-bg);
-    padding: 1rem clamp(1.125rem, 4vw, 2.5rem);
-    gap: .75rem;
-    min-height: 4rem;
-  }
-  .nav-brand { color: var(--color-text); font-weight: 600; letter-spacing: -.04em; font-size: 1.05rem; }
-  .nav-brand span { color: var(--color-accent); margin-left: .1rem; }
-
-  .nav-logo {
-    flex-shrink: 0;
   }
 
-  .logo-link {
-    text-decoration: none;
-    display: flex;
+  .nav-brand {
+    display: inline-flex;
     align-items: center;
-  }
-
-  .site-logo {
-    height: 32px;
-    width: auto;
-    display: block;
-  }
-
-  .site-name {
-    font-size: 1rem;
-    font-weight: 600;
+    min-height: 2.75rem;
     color: var(--color-text);
-    letter-spacing: -0.02em;
+    font-family: var(--font-serif);
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .nav-brand:hover {
+    color: var(--color-text);
   }
 
   .nav-scroll {
     flex: 1;
-    overflow: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .nav-scroll::-webkit-scrollbar {
-    display: none;
+    min-width: 0;
   }
 
   .nav-list {
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-end;
-    gap: clamp(1.25rem, 3vw, 2rem);
+    gap: clamp(1rem, 2.5vw, 1.75rem);
     list-style: none;
     margin: 0;
-    padding: 0.5rem 1.5rem;
-    min-width: max-content;
+    padding: 0 0.5rem;
   }
 
   .nav-item {
-    margin: 0;
-    flex-shrink: 0;
     position: relative;
+    flex-shrink: 0;
+    margin: 0;
   }
 
-  .nav-item--has-dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+
+  /* Active page: ink colour and a heavier ink underline. */
+  .nav-link--active,
+  .nav-link--active:hover {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-text);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  .dropdown-icon {
+    opacity: 0.6;
+    transition: transform var(--transition-fast);
   }
 
   .nav-item--has-dropdown:hover .dropdown-icon {
     transform: rotate(180deg);
   }
 
-  .nav-link {
-    color: var(--color-text-secondary);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .dropdown-icon {
-    transition: transform 0.2s ease;
-    opacity: 0.6;
-  }
-
-  .nav-link:hover {
-    color: var(--color-text);
-  }
-
-  .nav-link--active {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-  .nav-link--active::after { content: ""; display: block; width: .3rem; height: .3rem; border-radius: 50%; background: var(--color-accent); margin-left: .15rem; }
-
-  /* Dropdown Menu Styles */
+  /* Dropdown (unused by the current nav config, kept for config-driven children). */
   .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-50%) translateY(10px);
+    z-index: 100;
+    min-width: 160px;
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 0.5rem;
-    min-width: 160px;
-    list-style: none;
-    margin: 0;
+    border-top: 2px solid var(--color-rule);
+    border-radius: 0;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    margin-top: 0.5rem;
+    transform: translateX(-50%);
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
   }
 
-  .dropdown-menu::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
-    height: 10px;
+  .nav-item--has-dropdown:hover .dropdown-menu,
+  .nav-item--has-dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
   }
 
   .dropdown-item {
     margin: 0;
   }
 
+  .dropdown-item + .dropdown-item {
+    border-top: 1px solid var(--color-border);
+  }
+
   .dropdown-link {
-    display: block;
-    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1rem;
     color: var(--color-text-secondary);
     font-size: 0.8125rem;
     font-weight: 500;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.2s ease;
     white-space: nowrap;
   }
 
-  .dropdown-link:hover {
-    background: var(--color-bg-secondary);
-    color: var(--color-text);
-  }
-
+  .dropdown-link:hover,
   .dropdown-link--active {
     color: var(--color-text);
-    background: var(--color-bg-secondary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
   .nav-end {
-    flex-shrink: 0;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
-    padding: 0 0.75rem;
+    padding-left: 0.75rem;
     border-left: 1px solid var(--color-border);
-    background: var(--color-bg);
-    position: relative;
   }
 
-  .menu-toggle { display: none; }
+  .menu-toggle {
+    display: none;
+  }
 
   @media (max-width: 768px) {
-    .site-nav { padding: .65rem 1.125rem; justify-content: space-between; border-bottom: 1px solid var(--color-border); }
-    .menu-toggle { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .5rem .75rem; margin-left: auto; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); background: var(--color-bg-secondary); color: var(--color-text-secondary); cursor: pointer; font-size: .8125rem; }
-    .nav-scroll { display: none; position: absolute; left: 1rem; right: 1rem; top: 4.25rem; padding: .5rem; border: 1px solid var(--color-border); background: var(--color-bg-secondary); box-shadow: var(--shadow-sm); }
-    .nav-open .nav-scroll { display: block; }
-    .nav-list { flex-direction: column; align-items: stretch; gap: 0; padding: 0; min-width: 0; }
-    .nav-link { padding: .75rem; font-size: .9375rem; }
-    .nav-link--active::after { display: none; }
-    .nav-end { margin-left: 0; padding: 0; border-left: 0; }
-    .nav-item { width: 100%; }
+    .site-nav {
+      justify-content: space-between;
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      margin-left: auto;
+      padding: 0.5rem 0.875rem;
+      background: transparent;
+      border: 1px solid var(--color-text);
+      border-radius: var(--border-radius-sm);
+      color: var(--color-text);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .nav-open .menu-toggle {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+
+    /* Full-width panel below the masthead, items separated by hairlines. */
+    .nav-scroll {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      margin-top: 1px;
+      padding: 0 clamp(1rem, 4vw, 2.5rem) 0.5rem;
+      background: var(--color-bg);
+      border-bottom: 2px solid var(--color-rule);
+    }
+
+    .nav-open .nav-scroll {
+      display: block;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+    }
+
+    .nav-item {
+      width: 100%;
+    }
+
+    .nav-item + .nav-item {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .nav-link {
+      min-height: 3rem;
+      font-size: 0.875rem;
+    }
+
+    .nav-end {
+      padding-left: 0;
+      border-left: 0;
+    }
   }
 </style>

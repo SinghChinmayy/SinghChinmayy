@@ -32,15 +32,8 @@ I made local persistence the write path. The flow is Flutter UI → `ChangeNotif
 
 That gives the app a simple rule: a successful local write is enough for the user action to succeed. Connectivity affects when the server catches up, not whether a reading can be recorded.
 
-```text
-Flutter UI
-    ↓
-ChangeNotifier ViewModels
-    ↓
-Repositories ──────→ Drift / SQLite
-    │                       ↑
-    └── onDriftWrite → SyncCoordinator → SyncEngine → Supabase/Postgres
-```
+![Write path: Flutter UI, ChangeNotifier view models, repositories, then Drift over SQLite. After each local write, onDriftWrite goes to the SyncCoordinator and SyncEngine, which syncs with Supabase Postgres and writes results back into Drift.](./_assets/offline-first-local-persistence-flutter-kidney-care/write-path.svg)
+*The write path. Connectivity decides when the server catches up, not whether a reading is saved.*
 
 ## Mirroring the remote schema locally
 

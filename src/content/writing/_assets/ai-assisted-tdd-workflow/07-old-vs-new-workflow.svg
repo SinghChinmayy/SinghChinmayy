@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 690" role="img" aria-label="Flow diagram comparing the old workflow (ticket, think alone, type the code for hours, tests later, a pull request the reviewer skims, users find the edge cases in production) with the new one (ticket, grill-me interview, write decisions down, red, green, optional refactor looping back for the next behaviour, verify, ship through four CI checks, rebase merge, migrate, deploy).">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="21"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="690" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="40" y="76" width="320" height="52" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="40" y="148" width="320" height="52" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <path d="M200 130 L200 144" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="220" width="320" height="52" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <path d="M200 202 L200 216" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="292" width="320" height="52" rx="10" style="fill:#ffd6d7" class="s" stroke="#e5484d" stroke-dasharray="7 6"/>
+    <path d="M200 274 L200 288" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="364" width="320" height="52" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <path d="M200 346 L200 360" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="436" width="320" height="52" rx="10" style="fill:#ffd6d7" class="s" stroke="#e5484d"/>
+    <path d="M200 418 L200 432" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="76" width="320" height="52" rx="10" style="fill:#ffffff" class="s" stroke="#2b2b2b"/>
+    <rect x="440" y="148" width="320" height="52" rx="10" style="fill:#ebe3fd" class="s" stroke="#7c5cd6"/>
+    <path d="M600 130 L600 144" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="220" width="320" height="52" rx="10" style="fill:#fff1c7" class="s" stroke="#c99a1e"/>
+    <path d="M600 202 L600 216" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="292" width="320" height="52" rx="10" style="fill:#ffd6d7" class="s" stroke="#e5484d"/>
+    <path d="M600 274 L600 288" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="364" width="320" height="52" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+    <path d="M600 346 L600 360" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="436" width="320" height="52" rx="10" style="fill:#dbe7ff" class="s" stroke="#276ef1"/>
+    <path d="M600 418 L600 432" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="508" width="320" height="52" rx="10" style="fill:#eef1f5" class="s" stroke="#8a94a3"/>
+    <path d="M600 490 L600 504" class="s" marker-end="url(#a)"/>
+    <rect x="440" y="580" width="320" height="52" rx="10" style="fill:#d3f3e1" class="s" stroke="#30a46c"/>
+    <path d="M600 562 L600 576" class="s" marker-end="url(#a)"/>
+    <path d="M760 462.0 C 792 462.0, 792 318.0, 764 318.0" class="s" stroke-dasharray="7 6" marker-end="url(#a)"/>
+  </g>
+  <text x="200" y="48" font-size="18" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">HOW I USED TO WORK</text>
+  <text x="600" y="48" font-size="18" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">HOW I WORK NOW</text>
+  <text x="200.0" y="107.2" font-size="15" text-anchor="middle">Ticket / idea</text>
+  <text x="200.0" y="169.5" font-size="15" text-anchor="middle" font-weight="700">Think it through alone</text>
+  <text x="200.0" y="189.0" font-size="13" text-anchor="middle" style="fill:#5b6573">in my head, maybe a doc</text>
+  <text x="200.0" y="241.5" font-size="15" text-anchor="middle" font-weight="700">Type the code</text>
+  <text x="200.0" y="261.0" font-size="13" text-anchor="middle" style="fill:#5b6573">hours of it: the slow part</text>
+  <text x="200.0" y="313.5" font-size="15" text-anchor="middle" font-weight="700">Tests</text>
+  <text x="200.0" y="333.0" font-size="13" text-anchor="middle" style="fill:#5b6573">"later"</text>
+  <text x="200.0" y="385.5" font-size="15" text-anchor="middle" font-weight="700">Pull request</text>
+  <text x="200.0" y="405.0" font-size="13" text-anchor="middle" style="fill:#5b6573">reviewer skims 600 lines</text>
+  <text x="200.0" y="457.5" font-size="15" text-anchor="middle" font-weight="700">Production</text>
+  <text x="200.0" y="477.0" font-size="13" text-anchor="middle" style="fill:#5b6573">users find the edge cases</text>
+  <text x="600.0" y="107.2" font-size="15" text-anchor="middle">Ticket / idea</text>
+  <text x="600.0" y="169.5" font-size="15" text-anchor="middle" font-weight="700">Grill-me interview</text>
+  <text x="600.0" y="189.0" font-size="13" text-anchor="middle" style="fill:#5b6573">agent asks, I decide</text>
+  <text x="600.0" y="241.5" font-size="15" text-anchor="middle" font-weight="700">Write it down</text>
+  <text x="600.0" y="261.0" font-size="13" text-anchor="middle" style="fill:#5b6573">ADRs, glossary, AGENTS.md</text>
+  <text x="600.0" y="313.5" font-size="15" text-anchor="middle" font-weight="700">Red</text>
+  <text x="600.0" y="333.0" font-size="13" text-anchor="middle" style="fill:#5b6573">one failing test, failing for the right reason</text>
+  <text x="600.0" y="385.5" font-size="15" text-anchor="middle" font-weight="700">Green</text>
+  <text x="600.0" y="405.0" font-size="13" text-anchor="middle" style="fill:#5b6573">smallest code that passes</text>
+  <text x="600.0" y="457.5" font-size="15" text-anchor="middle" font-weight="700">Refactor</text>
+  <text x="600.0" y="477.0" font-size="13" text-anchor="middle" style="fill:#5b6573">optional, suite stays green</text>
+  <text x="600.0" y="529.5" font-size="15" text-anchor="middle" font-weight="700">Verify</text>
+  <text x="600.0" y="549.0" font-size="13" text-anchor="middle" style="fill:#5b6573">full suite, browser check, fresh-agent audit</text>
+  <text x="600.0" y="601.5" font-size="15" text-anchor="middle" font-weight="700">Ship</text>
+  <text x="600.0" y="621.0" font-size="13" text-anchor="middle" style="fill:#5b6573">PR, 4 checks, rebase, migrate, deploy</text>
+  <text x="784" y="390.0" font-size="12" text-anchor="middle" transform="rotate(-90 774 390.0)" style="fill:#5b6573">next</text>
+  <text x="200" y="528" font-size="15" text-anchor="middle" style="fill:#e5484d">bottleneck: typing speed + memory</text>
+  <text x="600" y="668" font-size="15" text-anchor="middle" style="fill:#30a46c">bottleneck: clear decisions + honest tests</text>
+</svg>
