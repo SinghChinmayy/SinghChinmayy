@@ -29,6 +29,7 @@ import Pagination from "../../components/Pagination.astro";
 import ArticleIndexItem from "../../components/ArticleIndexItem.astro";
 import { getCollection } from "astro:content";
 import { pagesConfig } from "../../pages.config";
+import { getReadingTime } from "../../utils/readingTime";
 import type { GetStaticPaths } from "astro";
 
 /**
@@ -120,32 +121,41 @@ const conciseTopics: Record<string, string[]> = {
     type="website"
   />
 
-  <main class="page-container">
-    <header class="page-header article-index__header">
+  <main class="page-container section-front">
+    <header class="page-header section-front__header">
       <h1 class="page-title">{pagesConfig.writing.heading}</h1>
       <p class="page-intro">
         {pagesConfig.writing.intro}
       </p>
-      <p class="article-index__count">{String(totalArticles).padStart(2, "0")} articles</p>
     </header>
 
-    {
-      articles.length > 0 ? (
-        <div class="article-index__list">
-          {articles.map((article) => (
-            <ArticleIndexItem
-              title={article.data.title}
-              slug={article.id}
-              summary={article.data.description}
-              publishDate={article.data.publishDate}
-              topics={conciseTopics[article.id] ?? article.data.tags?.slice(0, 3)}
-            />
-          ))}
-        </div>
-      ) : (
-        <p class="empty-state">No articles published yet.</p>
-      )
-    }
+    <section aria-labelledby="article-index-label">
+      <h2 class="section-label" id="article-index-label">
+        <span>Latest</span>
+        <span class="section-label__count">
+          {String(totalArticles).padStart(2, "0")} articles{totalPages > 1 && ` · Page ${currentPage} of ${totalPages}`}
+        </span>
+      </h2>
+
+      {
+        articles.length > 0 ? (
+          <div class="section-front__list">
+            {articles.map((article) => (
+              <ArticleIndexItem
+                title={article.data.title}
+                slug={article.id}
+                summary={article.data.description}
+                publishDate={article.data.publishDate}
+                topics={conciseTopics[article.id] ?? article.data.tags?.slice(0, 3)}
+                readingTime={getReadingTime(article.body ?? "")}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="empty-state">No articles published yet.</p>
+        )
+      }
+    </section>
 
     <Pagination
       currentPage={currentPage}
@@ -156,34 +166,18 @@ const conciseTopics: Record<string, string[]> = {
 </BaseLayout>
 
 <style>
-  .page-container {
-    max-width: 1120px;
+  .section-front__header {
+    max-width: 44rem;
+    margin-bottom: 2.5rem;
   }
 
-  .article-index__header {
-    max-width: 46rem;
-    margin-bottom: 2rem;
+  .section-front__header .page-intro {
+    margin-bottom: 0;
   }
 
-  .article-index__header .page-title {
-    margin-bottom: 0.65rem;
-  }
-
-  .article-index__header .page-intro {
-    max-width: 43rem;
-    margin-bottom: 0.85rem;
-  }
-
-  .article-index__count {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .article-index__list {
-    max-width: 68rem;
+  @media (min-width: 768px) {
+    .section-front__header {
+      margin-bottom: 3rem;
+    }
   }
 </style>

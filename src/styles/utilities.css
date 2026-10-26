@@ -1,4 +1,4 @@
-/* Shared Utility Classes */
+/* Shared Utility Classes — editorial (newspaper) system. See design.md. */
 
 /* ============================================
    PAGE LAYOUT UTILITIES
@@ -7,7 +7,7 @@
 .page-container {
   max-width: var(--max-width-content);
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 2rem 1rem 4rem;
 }
 
 .page-header {
@@ -15,18 +15,60 @@
   margin-bottom: 2.5rem;
 }
 
+/* Section-front headline: big serif, tight leading */
 .page-title {
-  font-size: clamp(2.35rem, 11vw, 4rem);
-  margin-bottom: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 11vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
 }
 
-.page-intro {
-  font-size: 1rem;
-  line-height: 1.7;
+/* Deck: serif summary beneath a headline */
+.page-intro,
+.deck {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.45;
   color: var(--color-text-secondary);
-  max-width: 700px;
+  max-width: 40rem;
+}
+
+/* Kicker: small sans uppercase label above a headline */
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+/* Section label sitting on a heavy ink rule */
+.section-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-rule);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.section-label__count {
+  font-weight: 500;
+  color: var(--color-text-muted);
 }
 
 /* ============================================
@@ -34,18 +76,24 @@
    ============================================ */
 
 .tag {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.625rem;
-  background: var(--color-bg);
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.1875rem 0.5rem;
+  background: transparent;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   color: var(--color-text-secondary);
 }
 
 .tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.375rem;
   margin-bottom: 1rem;
 }
 
@@ -68,96 +116,76 @@
    ============================================ */
 
 .empty-state {
-  color: var(--color-text-secondary);
+  padding: 1.5rem 0;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.125rem;
+  color: var(--color-text-secondary);
 }
 
 /* ============================================
    BUTTON COMPONENTS
+   Ink buttons, 2px radius, no shadows or lifts.
    ============================================ */
 
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--color-text);
-  color: var(--color-bg);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  text-decoration: none;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  opacity: 0.9;
-  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .btn-primary:hover {
-  box-shadow: 0 6px 16px -6px rgba(255, 255, 255, 0.08);
-}
-
+.btn-primary,
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: 1px solid var(--color-text);
+}
+
+.btn-primary:hover {
+  background: var(--color-text-secondary);
+  border-color: var(--color-text-secondary);
+  color: var(--color-bg);
+}
+
+.btn-secondary {
   background: transparent;
   color: var(--color-text);
-  font-weight: 500;
-  font-size: 0.9375rem;
-  text-decoration: none;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-text);
 }
 
 .btn-secondary:hover {
-  border-color: var(--color-text-secondary);
-  background: var(--color-bg-secondary);
-  transform: translateY(-1px);
+  background: var(--color-text);
+  color: var(--color-bg);
 }
 
-.btn-secondary svg {
-  transition: transform 0.25s ease;
-}
-
-/* Pill variant for special contexts (e.g., resume buttons) */
+/* Former pill variant: kept for compatibility, now follows the 2px radius rule */
 .btn-primary.btn-pill,
 .btn-secondary.btn-pill {
-  border-radius: 9999px;
-  padding: 0.875rem 1.75rem;
+  border-radius: var(--border-radius-sm);
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE (mobile-first enhancements)
    ============================================ */
 
 @media (min-width: 769px) {
   .page-container { padding: 3rem 1.5rem 5rem; }
-  .page-title { font-size: clamp(2.4rem, 6vw, 4rem); }
-  .page-intro { font-size: 1.125rem; }
+  .page-title { font-size: clamp(3rem, 6vw, 4rem); }
+  .page-intro,
+  .deck { font-size: 1.25rem; }
   .card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 768px) {
-
-  .tags-list {
-    gap: 0.375rem;
-  }
-  .tag {
-    font-size: 0.6875rem;
-    padding: 0.1875rem 0.5rem;
-  }
 }

@@ -192,17 +192,18 @@ const shareUrls = {
     .share-buttons {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 1.25rem 0;
-        margin: 1.5rem 0;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        margin: 0.5rem 0;
+        font-family: var(--font-sans);
     }
 
     .share-label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--color-text-secondary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--color-text);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
     }
 
     .share-actions {
@@ -218,24 +219,19 @@ const shareUrls = {
         width: 40px;
         height: 40px;
         padding: 0;
-        background: var(--color-bg-secondary);
+        background: transparent;
         border: 1px solid var(--color-border);
-        border-radius: 8px;
-        color: var(--color-text-secondary);
+        border-radius: 50%;
+        color: var(--color-text);
         cursor: pointer;
         transition: all 0.2s ease;
         text-decoration: none;
     }
 
     .share-btn:hover {
-        background: var(--color-accent);
-        border-color: var(--color-accent);
-        color: white;
-        transform: translateY(-2px);
-    }
-
-    .share-btn:active {
-        transform: translateY(0);
+        background: var(--color-text);
+        border-color: var(--color-text);
+        color: var(--color-bg);
     }
 
     .copy-btn {
@@ -256,18 +252,12 @@ const shareUrls = {
     }
 
     .copy-btn.copied {
-        background: #22c55e;
-        border-color: #22c55e;
-        color: white;
+        background: var(--color-text);
+        border-color: var(--color-text);
+        color: var(--color-bg);
     }
 
     @media (max-width: 768px) {
-        .share-buttons {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.75rem;
-        }
-
         .share-actions {
             flex-wrap: wrap;
         }
@@ -275,6 +265,10 @@ const shareUrls = {
         .share-btn {
             width: 44px;
             height: 44px;
+        }
+
+        .share-label {
+            display: none;
         }
     }
 </style>

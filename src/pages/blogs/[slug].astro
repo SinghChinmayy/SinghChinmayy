@@ -30,6 +30,7 @@ import BackLink from "../../components/BackLink.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { getReadingTime } from "../../utils/readingTime";
+import { siteConfig } from "../../data";
 
 /**
  * Generates static paths for all published articles
@@ -78,6 +79,9 @@ const { title, description, publishDate, updatedDate, tags } = article.data;
  */
 const readingTime = getReadingTime(article.body || "");
 
+/** Section label above the headline, taken from the first tag (e.g. "ai-assisted-development" → "ai assisted development") */
+const kicker = tags?.[0]?.replace(/-/g, " ");
+
 /**
  * Formats a date object for display
  *
@@ -95,7 +99,6 @@ function formatDate(date: Date): string {
   }).format(date);
 }
 ---
-
 <BaseLayout>
   <SEO
     slot="head"
@@ -119,170 +122,353 @@ function formatDate(date: Date): string {
   />
 
   <main class="article">
-    <!-- Article Header -->
+    <!-- Article Header: kicker, headline, deck, byline -->
     <header class="article-header">
+      {kicker && <p class="article-kicker">{kicker}</p>}
       <h1>{title}</h1>
-      <div class="article-meta">
-        <time class="publish-date" datetime={publishDate.toISOString()}>
-          {formatDate(publishDate)}
-        </time>
-        <span class="meta-separator">·</span>
-        <span class="reading-time">{readingTime}</span>
-        {
-          updatedDate && (
-            <>
-              <span class="meta-separator">·</span>
-              <time class="updated-date" datetime={updatedDate.toISOString()}>
-                Updated {formatDate(updatedDate)}
-              </time>
-            </>
-          )
-        }
+      <p class="article-deck">{description}</p>
+      <div class="article-byline">
+        <span class="byline-author">By {siteConfig.author.name}</span>
+        <div class="article-meta">
+          <time class="publish-date" datetime={publishDate.toISOString()}>
+            {formatDate(publishDate)}
+          </time>
+          <span class="meta-separator" aria-hidden="true">·</span>
+          <span class="reading-time">{readingTime}</span>
+          {
+            updatedDate && updatedDate.getTime() !== publishDate.getTime() && (
+              <>
+                <span class="meta-separator" aria-hidden="true">·</span>
+                <time class="updated-date" datetime={updatedDate.toISOString()}>
+                  Updated {formatDate(updatedDate)}
+                </time>
+              </>
+            )
+          }
+        </div>
       </div>
-      {
-        tags && tags.length > 0 && (
-          <div class="article-tags">
-            {tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        )
-      }
+      <ShareButtons
+        title={title}
+        description={description}
+        url={Astro.url.href}
+      />
     </header>
 
-    <!-- Share Buttons -->
-    <ShareButtons
-      title={title}
-      description={description}
-      url={Astro.url.href}
-    />
-
     <!-- Table of Contents (conditionally rendered if 3+ sections) -->
-    <TableOfContents headings={headings} />
+    <div class="article-column">
+      <TableOfContents headings={headings} />
+    </div>
 
     <!-- Article Content -->
     <article class="article-content">
       <Content />
     </article>
 
-    <!-- Share Buttons (Bottom) -->
-    <ShareButtons
-      title={title}
-      description={description}
-      url={Astro.url.href}
-    />
-
-    <BackLink href="/blogs" text="All blogs" />
+    <footer class="article-footer">
+      {
+        tags && tags.length > 0 && (
+          <div class="article-topics">
+            <span class="topics-label">Topics</span>
+            <ul class="article-tags">
+              {tags.map((tag) => (
+                <li class="tag">{tag.replace(/-/g, " ")}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      <ShareButtons
+        title={title}
+        description={description}
+        url={Astro.url.href}
+      />
+      <BackLink href="/blogs" text="All blogs" />
+    </footer>
   </main>
 
   <ScrollToTop />
 
   <style>
     .article {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
+      --figure-width: min(760px, calc(100vw - 2rem));
+      padding: 3.5rem 1rem 4rem;
     }
 
+    .article-column,
+    .article-content,
+    .article-footer {
+      max-width: var(--max-width-article);
+      margin-inline: auto;
+    }
+
+    /* Header */
     .article-header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 2.5rem;
-      border-bottom: 1px solid var(--color-border);
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+
+    .article-kicker {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      margin-bottom: 1rem;
     }
 
     .article-header h1 {
-      font-size: 2.75rem;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
+      font-family: var(--font-serif);
+      font-size: clamp(2.125rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+
+    .article-deck {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+      max-width: var(--max-width-article);
+      margin: 0 auto 1.75rem;
+      text-wrap: pretty;
+    }
+
+    .article-byline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      padding-block: 1rem;
+      border-top: 1px solid var(--color-border);
+      max-width: var(--max-width-article);
+      margin: 0 auto 1rem;
+    }
+
+    .byline-author {
+      font-weight: 700;
       color: var(--color-text);
     }
 
     .article-meta {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9375rem;
-      color: var(--color-text-secondary);
-      margin-bottom: 1rem;
-    }
-
-    .meta-separator {
-      opacity: 0.5;
-    }
-
-    .article-tags {
-      display: flex;
-      flex-wrap: wrap;
+      justify-content: center;
       gap: 0.5rem;
-      margin-top: 1rem;
+      color: var(--color-text-muted);
     }
 
-    .tag {
-      font-size: 0.8125rem;
-      padding: 0.25rem 0.75rem;
-      background: var(--color-bg-secondary);
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      color: var(--color-text-secondary);
+    .article-header :global(.share-buttons),
+    .article-header :global(.share) {
+      justify-content: center;
     }
 
+    /* Body */
     .article-content {
-      font-size: 1.125rem;
-      line-height: 1.8;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.6;
       color: var(--color-text);
-      letter-spacing: 0.002em;
     }
 
     .article-content :global(h2) {
-      font-size: 1.875rem;
-      margin-top: 3rem;
-      margin-bottom: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      color: var(--color-text);
-      scroll-margin-top: 2rem;
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin: 3rem 0 1rem;
+      scroll-margin-top: 5rem;
     }
 
     .article-content :global(h3) {
-      font-size: 1.5rem;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.015em;
-      line-height: 1.4;
-      color: var(--color-text);
-      scroll-margin-top: 2rem;
+      font-family: var(--font-serif);
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 2.25rem 0 0.75rem;
+      scroll-margin-top: 5rem;
     }
 
     .article-content :global(h4) {
-      font-size: 1.125rem;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      line-height: 1.5;
-      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 2rem 0 0.5rem;
     }
 
     .article-content :global(p) {
-      margin-bottom: 1.75rem;
-      color: var(--color-text-secondary);
-      max-width: 70ch;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* Drop cap on the opening paragraph of the first section */
+    .article-content > :global(h2:first-of-type + p::first-letter) {
+      float: left;
+      font-size: 4.25rem;
+      line-height: 0.85;
+      font-weight: 700;
+      padding: 0.35rem 0.5rem 0 0;
     }
 
     .article-content :global(ul),
     .article-content :global(ol) {
       margin-bottom: 1.5rem;
       padding-left: 1.5rem;
-      color: var(--color-text-secondary);
+      color: var(--color-text);
     }
 
     .article-content :global(li) {
-      margin-bottom: 0.5rem;
-      line-height: 1.7;
+      margin-bottom: 0.6rem;
+      line-height: 1.55;
+    }
+
+    .article-content :global(li::marker) {
+      color: var(--color-text-muted);
+    }
+
+    .article-content :global(strong) {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .article-content :global(a) {
+      color: var(--color-text);
+      text-decoration: underline;
+      text-decoration-color: var(--color-accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .article-content :global(a:hover) {
+      color: var(--color-accent);
+    }
+
+    /* Figures: images break out of the text column; an emphasised line in
+       the same paragraph becomes the caption */
+    .article-content :global(p:has(> img)) {
+      width: var(--figure-width);
+      margin: 2.5rem 0 2.5rem 50%;
+      transform: translateX(-50%);
+    }
+
+    .article-content :global(img) {
+      width: 100%;
+      height: auto;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    .article-content :global(p:has(> img) > em) {
+      display: block;
+      margin-top: 0.6rem;
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: var(--color-text-muted);
+    }
+
+    .article-content :global(hr) {
+      width: 4rem;
+      margin: 3rem auto;
+      border: none;
+      border-top: 1px solid var(--color-text-muted);
+    }
+
+    /* Callouts: a tinted box with an ink rule, for interview excerpts and
+       rule summaries. Nothing inside adds trailing space. */
+    .article-content :global(blockquote) {
+      margin: 2.25rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid var(--color-rule);
+      border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+      background: var(--color-bg-elevated);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      font-style: normal;
+      color: var(--color-text);
+    }
+
+    .article-content :global(.callout-label) {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .article-content :global(blockquote > :first-child) {
+      margin-top: 0;
+    }
+
+    .article-content :global(blockquote > :last-child),
+    .article-content :global(blockquote li:last-child) {
+      margin-bottom: 0;
+    }
+
+    .article-content :global(blockquote p) {
+      margin-bottom: 0.9rem;
+    }
+
+    .article-content :global(blockquote ul) {
+      margin-bottom: 0;
+      padding-left: 1.25rem;
+    }
+
+    .article-content :global(blockquote li) {
+      margin-bottom: 0.4rem;
+    }
+
+    .article-content :global(blockquote code) {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      font-size: 0.8em;
+    }
+
+    /* Tables: sans, hairline rules, scroll inside the column on phones */
+    .article-content :global(table) {
+      display: block;
+      overflow-x: auto;
+      width: 100%;
+      margin: 2rem 0;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+
+    .article-content :global(th) {
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      padding: 0.6rem 0.75rem 0.6rem 0;
+      border-bottom: 2px solid var(--color-rule);
+    }
+
+    .article-content :global(td) {
+      vertical-align: top;
+      color: var(--color-text-secondary);
+      padding: 0.7rem 0.75rem 0.7rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .article-content :global(td code) {
+      font-size: 0.85em;
     }
 
     /* Task list / checklist styles */
@@ -327,16 +513,6 @@ function formatDate(date: Date): string {
       border: solid #fff;
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
-    }
-
-    .article-content :global(blockquote) {
-      margin: 2.5rem 0;
-      padding: 1.5rem 2rem;
-      border-left: 4px solid var(--color-accent);
-      background: var(--color-bg-secondary);
-      font-style: italic;
-      color: var(--color-text-secondary);
-      border-radius: 0 8px 8px 0;
     }
 
     /* GitHub-style callout/alert overrides */
@@ -409,70 +585,86 @@ function formatDate(date: Date): string {
     }
 
     .article-content :global(code) {
-      font-family:
-        ui-monospace, "JetBrains Mono", "Cascadia Code", Menlo, Consolas,
-        "Courier New", monospace;
-      font-size: 0.9em;
-      background: var(--color-bg-secondary);
-      padding: 0.2em 0.4em;
-      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      background: var(--color-bg-elevated);
+      padding: 0.15em 0.35em;
+      border-radius: var(--border-radius-sm);
       color: var(--color-text);
     }
 
     .article-content :global(pre) {
       margin: 2rem 0;
-      padding: 1.5rem;
-      background: var(--color-bg-secondary);
+      padding: 1.25rem;
+      background: var(--color-bg-elevated);
       border: 1px solid var(--color-border);
-      border-radius: 8px;
+      border-radius: var(--border-radius-md);
       overflow-x: auto;
     }
 
     .article-content :global(pre code) {
       background: none;
       padding: 0;
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       line-height: 1.6;
     }
 
-    .article-content :global(a) {
-      color: var(--color-accent);
-      text-decoration: underline;
+    /* Footer: topics, share, back link */
+    .article-footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--color-rule);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .article-content :global(a:hover) {
-      color: var(--color-accent-hover);
+    .article-topics {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-family: var(--font-sans);
     }
 
-    .article-content :global(img) {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
-
-    .article-content :global(hr) {
-      margin: 3rem 0;
-      border: none;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .article-content :global(strong) {
+    .topics-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--color-text);
-      font-weight: 600;
+    }
+
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tag {
+      margin: 0;
+      font-size: 0.8125rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--color-text-secondary);
+      text-transform: capitalize;
     }
 
     @media (max-width: 768px) {
       .article {
-        padding: 1.25rem 1rem 3rem;
+        padding: 2rem 1rem 3rem;
       }
 
-      .article-header h1 {
-        font-size: 2rem;
+      .article-deck {
+        font-size: 1.125rem;
       }
 
       .article-content {
-        font-size: 1rem;
+        font-size: 1.125rem;
       }
 
       .article-content :global(h2) {
@@ -483,17 +675,18 @@ function formatDate(date: Date): string {
         font-size: 1.25rem;
       }
 
-      .article-content :global(h4) {
-        font-size: 1.0625rem;
+      .article-content :global(p:has(> img)) {
+        margin-block: 2rem;
       }
 
       .article-content :global(pre) {
-        margin-inline: -0.25rem;
-        padding: .875rem;
-        max-width: calc(100vw - 1.5rem);
+        padding: 0.875rem;
       }
 
-      .article-content :global(.markdown-alert), .article-content :global(blockquote) { padding: 1rem; margin-inline: 0; }
+      .article-content :global(.markdown-alert) {
+        padding: 1rem;
+        margin-inline: 0;
+      }
     }
   </style>
 </BaseLayout>

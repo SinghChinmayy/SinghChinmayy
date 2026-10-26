@@ -75,3 +75,27 @@ function formatDate(date: Date): string {
   
   <ForwardLink text="Read article" />
 </BaseCard>
+
+<style>
+  /* Tags: small sans uppercase text in 2px-radius outline chips. */
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .tag {
+    padding: 0.1875rem 0.4375rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+</style>

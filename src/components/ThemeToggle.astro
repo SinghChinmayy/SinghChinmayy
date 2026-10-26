@@ -65,27 +65,28 @@
 </button>
 
 <style>
+  /* Quiet icon button: no fill, ink on hover, 44px touch target. */
   .theme-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 2.75rem;
+    height: 2.75rem;
     padding: 0;
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     border-radius: var(--border-radius-sm);
     color: var(--color-text-secondary);
     cursor: pointer;
     transition:
       color var(--transition-fast),
-      background var(--transition-fast);
+      border-color var(--transition-fast);
     flex-shrink: 0;
   }
 
   .theme-toggle:hover {
     color: var(--color-text);
-    background: var(--color-bg-secondary);
+    border-color: var(--color-border);
   }
 
   .theme-toggle:focus-visible {
@@ -118,10 +119,23 @@
     return "light";
   };
 
+  // Keep the browser UI colour in step with the paper token of the active theme
+  const syncThemeColor = () => {
+    const paper = getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-bg")
+      .trim();
+    if (paper) {
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", paper);
+    }
+  };
+
   // Apply theme to document
   const setTheme = (theme: "light" | "dark") => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
+    syncThemeColor();
   };
 
   // Toggle theme
@@ -141,4 +155,7 @@
 
   // Set initial theme
   setTheme(getTheme());
+
+  // View Transitions swap <head>, so re-apply the theme colour after each navigation
+  document.addEventListener("astro:page-load", syncThemeColor);
 </script>

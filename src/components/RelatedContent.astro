@@ -3,7 +3,8 @@
  * RelatedContent Component
  *
  * Displays related projects for cross-referencing content.
- * Fetches actual content data from slugs and renders compact cards.
+ * Fetches actual content data from slugs and renders an editorial list:
+ * a section label over an ink rule, then kicker + serif headline per item.
  *
  * @component
  *
@@ -41,134 +42,105 @@ const hasRelated = projects.length > 0;
 
 {
   hasRelated && (
-    <aside class="related-content">
-      <h2 class="related-title">{title}</h2>
-
-      <div class="related-grid">
-        {projects.length > 0 && (
-          <div class="related-section">
-            <h3 class="related-section-title">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-              </svg>
-              Case Studies
-            </h3>
-            <ul class="related-list">
-              {projects.map((project: any) => (
-                <li>
-                  <a href={`/projects/${project.id}`} class="related-item">
-                    <span class="related-item-meta">
-                      {project.data.role} · {project.data.year}
-                    </span>
-                    <span class="related-item-title">{project.data.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+    <aside class="related-content" aria-labelledby="related-content-title">
+      <div class="related-header">
+        <h2 class="related-title" id="related-content-title">{title}</h2>
+        <span class="related-section-title">Case studies</span>
       </div>
+
+      <ul class="related-list">
+        {projects.map((project: any) => (
+          <li>
+            <a href={`/projects/${project.id}`} class="related-item">
+              <span class="related-item-meta">
+                {project.data.role} · {project.data.year}
+              </span>
+              <span class="related-item-title">{project.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </aside>
   )
 }
 
 <style>
   .related-content {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
+    margin-top: 3.5rem;
   }
 
-  .related-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
+  /* Section label over a heavy ink rule */
+  .related-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-rule);
   }
 
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+  .related-title,
+  .related-section-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
   }
 
   .related-section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 500;
     color: var(--color-text-muted);
-    margin-bottom: 1rem;
-  }
-
-  .related-section-title svg {
-    opacity: 0.7;
   }
 
   .related-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     list-style: none;
-    padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    padding: 0;
+  }
+
+  .related-list li {
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .related-item {
     display: block;
-    padding: 1rem 1.25rem;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
+    padding: 1rem 0;
+    color: var(--color-text);
     text-decoration: none;
-    transition:
-      border-color 0.2s ease,
-      background 0.2s ease;
-  }
-
-  .related-item:hover {
-    border-color: var(--color-text-muted);
-    background: var(--color-bg-elevated);
   }
 
   .related-item-meta {
     display: block;
-    font-size: 0.6875rem;
-    font-weight: 500;
+    margin-bottom: 0.375rem;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--color-text-muted);
-    margin-bottom: 0.25rem;
   }
 
   .related-item-title {
     display: block;
-    font-size: 0.9375rem;
-    font-weight: 500;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
     color: var(--color-text);
-    line-height: 1.4;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
 
-  @media (max-width: 640px) {
-    .related-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .related-item {
-      padding: 0.875rem 1rem;
-    }
+  .related-item:hover .related-item-title {
+    text-decoration: underline;
   }
 </style>
