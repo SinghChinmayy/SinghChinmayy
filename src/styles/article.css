@@ -9,6 +9,13 @@
   padding: 3.5rem 1rem 4rem;
 }
 
+/* Notes are reference material (code, tables, diagrams, revision
+   questions), so on wide screens they get a wider column than essays. */
+.article--note {
+  --max-width-article: 760px;
+  --figure-width: min(920px, calc(100vw - 2rem));
+}
+
 .article-column,
 .article-content,
 .article-footer {
@@ -18,7 +25,7 @@
 
 /* Header */
 .article-header {
-  max-width: 760px;
+  max-width: max(760px, var(--max-width-article));
   margin: 0 auto 2.5rem;
   text-align: center;
 }
