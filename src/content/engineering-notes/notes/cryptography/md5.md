@@ -14,7 +14,8 @@ aliases: [md5, message digest 5, md5 hash]
 ## How I think about it
 
 ```text
-input  ──►  [ hash function ]  ──►  digest / hash value   (always 128 bits long)
+input  ──►  [ hash function ]  ──►  digest / hash value
+                                    (always 128 bits long)
 ```
 
 MD5 stands for **Message Digest 5**. Whatever goes in, a short sentence or a whole file, the same-sized fingerprint comes out. The same input always gives the same digest, and changing even one character gives a completely different one.
