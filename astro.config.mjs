@@ -25,6 +25,7 @@ import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import { remarkAlert } from 'remark-github-blockquote-alert';
 import remarkGfm from 'remark-gfm';
+import remarkNoteLinks from './src/utils/remarkNoteLinks.mjs';
 
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -148,7 +149,7 @@ export default defineConfig({
    * - Wrap: Enables line wrapping for long code lines
    */
   markdown: {
-    remarkPlugins: [remarkAlert, remarkGfm],
+    remarkPlugins: [remarkAlert, remarkGfm, remarkNoteLinks],
     shikiConfig: {
       themes: {
         light: 'github-light',

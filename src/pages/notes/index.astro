@@ -1,0 +1,254 @@
+---
+/**
+ * Engineering Notes Index
+ *
+ * Lists topic notes and practice problems, grouped by subject. Content is
+ * synced by CI from the Engineering-Notes repository.
+ *
+ * Route: /notes
+ *
+ * @page
+ */
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SEO from "../../components/SEO.astro";
+import { getCollection } from "astro:content";
+import { subjectLabel, noteHref, formatNoteDate } from "../../utils/notes";
+
+const entries = await getCollection("notes");
+const subjects = [...new Set(entries.map((entry) => entry.data.subject))].sort();
+const groups = subjects.map((subject) => {
+  const inSubject = entries.filter((entry) => entry.data.subject === subject);
+  return {
+    subject,
+    notes: inSubject
+      .filter((entry) => entry.data.kind === "note")
+      .sort((a, b) => b.data.updated.getTime() - a.data.updated.getTime()),
+    practice: inSubject
+      .filter((entry) => entry.data.kind === "practice")
+      .sort((a, b) => a.id.localeCompare(b.id)),
+  };
+});
+const noteCount = entries.filter((entry) => entry.data.kind === "note").length;
+const practiceCount = entries.length - noteCount;
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title="Engineering Notes"
+    description="What I'm learning as an engineer: one continuous note per topic, in my own words, with revision questions and solved practice problems."
+    type="website"
+  />
+
+  <main class="page-container notes-index">
+    <header class="page-header notes-index__header">
+      <h1 class="page-title">Engineering Notes</h1>
+      <p class="page-intro">
+        What I'm learning, one continuous note per topic: explained in my own
+        words, with the mistakes worth avoiding and a few questions to revise
+        from. Practice problems sit alongside with the reasoning behind each
+        solution.
+      </p>
+      <p class="notes-index__how">
+        Written from my notebook with the
+        <a href="/agent-skills#engineering-notes">engineering-notes skill</a>,
+        published from
+        <a href="https://github.com/SinghChinmayy/Engineering-Notes">SinghChinmayy/Engineering-Notes</a>.
+      </p>
+    </header>
+
+    {
+      groups.length === 0 && (
+        <p class="empty-state">No notes published yet.</p>
+      )
+    }
+
+    {
+      groups.map((group) => (
+        <section class="notes-subject" aria-labelledby={`subject-${group.subject}`}>
+          <h2 class="section-label" id={`subject-${group.subject}`}>
+            <span>{subjectLabel(group.subject)}</span>
+            <span class="section-label__count">
+              {group.notes.length} {group.notes.length === 1 ? "note" : "notes"}
+              {group.practice.length > 0 && ` · ${group.practice.length} practice`}
+            </span>
+          </h2>
+
+          <ul class="notes-list">
+            {group.notes.map((entry) => (
+              <li>
+                <a class="note-item" href={noteHref(entry)}>
+                  <span class="note-item__title">{entry.data.title}</span>
+                  <span class="note-item__summary">{entry.data.summary}</span>
+                  <span class="note-item__meta">
+                    {entry.data.status === "confident" ? "Confident" : "Still learning"}
+                    <span aria-hidden="true"> · </span>
+                    Updated <time datetime={entry.data.updated.toISOString()}>{formatNoteDate(entry.data.updated)}</time>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {group.practice.length > 0 && (
+            <>
+              <h3 class="notes-practice-label">Practice</h3>
+              <ul class="practice-list">
+                {group.practice.map((entry) => (
+                  <li>
+                    <a class="practice-item" href={noteHref(entry)}>
+                      <span class="practice-item__number">{entry.id.split("/").pop()?.slice(0, 3)}</span>
+                      <span class="practice-item__title">{entry.data.title}</span>
+                      {entry.data.difficulty && (
+                        <span class="practice-item__difficulty">{entry.data.difficulty}</span>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </section>
+      ))
+    }
+
+    <p class="notes-index__footer">
+      {noteCount} {noteCount === 1 ? "note" : "notes"} and {practiceCount} practice
+      {practiceCount === 1 ? "problem" : "problems"} so far. The list grows as I learn.
+    </p>
+  </main>
+</BaseLayout>
+
+<style>
+  .notes-index__header {
+    max-width: 44rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .notes-index__header .page-intro {
+    margin-bottom: 0.75rem;
+  }
+
+  .notes-index__how,
+  .notes-index__footer {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .notes-index__how a,
+  .notes-index__footer a {
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 3px;
+  }
+
+  .notes-subject {
+    margin-bottom: 3rem;
+  }
+
+  .notes-list,
+  .practice-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .notes-list li,
+  .practice-list li {
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .note-item {
+    display: grid;
+    gap: 0.3rem;
+    padding: 1.1rem 0;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .note-item:hover {
+    color: var(--color-text);
+  }
+
+  .note-item:hover .note-item__title,
+  .practice-item:hover .practice-item__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .note-item__title {
+    font-family: var(--font-serif);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .note-item__summary {
+    max-width: 44rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .note-item__meta {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+
+  .notes-practice-label {
+    margin: 1.75rem 0 0.25rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .practice-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 0;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .practice-item:hover {
+    color: var(--color-text);
+  }
+
+  .practice-item__number {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .practice-item__title {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+  }
+
+  .practice-item__difficulty {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-transform: capitalize;
+  }
+
+  @media (min-width: 768px) {
+    .notes-index__header {
+      margin-bottom: 3rem;
+    }
+  }
+</style>

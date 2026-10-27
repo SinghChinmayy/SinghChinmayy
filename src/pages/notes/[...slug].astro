@@ -1,0 +1,171 @@
+---
+/**
+ * Engineering Note Page
+ *
+ * Renders one topic note or practice problem with the shared article layout.
+ * Topic notes are at /notes/<subject>/<topic>; practice problems at
+ * /notes/practice/<subject>/<NNN-slug>.
+ *
+ * @page
+ */
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SEO from "../../components/SEO.astro";
+import StructuredData from "../../components/StructuredData.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import BackLink from "../../components/BackLink.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import { getReadingTime } from "../../utils/readingTime";
+import { subjectLabel, noteSlug, noteHref, sourceHref, formatNoteDate } from "../../utils/notes";
+import "../../styles/article.css";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("notes");
+  return entries.map((entry) => ({
+    params: { slug: noteSlug(entry) },
+    props: { entry, siblings: entries.filter((other) => other.data.subject === entry.data.subject && other.id !== entry.id) },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+  siblings: CollectionEntry<"notes">[];
+}
+
+const { entry, siblings } = Astro.props;
+const { Content, headings } = await render(entry);
+const { title, summary, subject, kind, status, difficulty, tags, created, updated } = entry.data;
+const isPractice = kind === "practice";
+const subjectName = subjectLabel(subject);
+const kicker = isPractice
+  ? `Practice · ${subjectName}${difficulty ? ` · ${difficulty}` : ""}`
+  : `Engineering notes · ${subjectName}`;
+const readingTime = getReadingTime(entry.body ?? "");
+const moreInSubject = siblings
+  .filter((other) => other.data.kind === "note")
+  .sort((a, b) => b.data.updated.getTime() - a.data.updated.getTime())
+  .slice(0, 5);
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title={`${title} - Notes`}
+    description={summary}
+    type="article"
+    publishDate={created}
+    updatedDate={updated}
+  />
+
+  <StructuredData
+    type="Article"
+    data={{
+      title,
+      description: summary,
+      publishDate: created,
+      updatedDate: updated,
+      tags,
+      url: Astro.url.href,
+    }}
+  />
+
+  <main class="article">
+    <header class="article-header">
+      <p class="article-kicker">{kicker}</p>
+      <h1>{title}</h1>
+      <p class="article-deck">{summary}</p>
+      <div class="article-byline">
+        <div class="article-meta">
+          {!isPractice && (
+            <>
+              <span>{status === "confident" ? "Confident" : "Still learning"}</span>
+              <span aria-hidden="true">·</span>
+            </>
+          )}
+          <span>
+            Updated <time datetime={updated.toISOString()}>{formatNoteDate(updated)}</time>
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-column">
+      <TableOfContents headings={headings} />
+    </div>
+
+    <article class="article-content article-content--note">
+      <Content />
+    </article>
+
+    <footer class="article-footer">
+      {
+        tags.length > 0 && (
+          <div class="article-topics">
+            <span class="topics-label">Topics</span>
+            <ul class="article-tags">
+              {tags.map((tag) => (
+                <li class="tag">{subjectLabel(tag)}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        moreInSubject.length > 0 && (
+          <nav class="note-more" aria-label={`More ${subjectName} notes`}>
+            <span class="topics-label">More in {subjectName}</span>
+            <ul>
+              {moreInSubject.map((other) => (
+                <li><a href={noteHref(other)}>{other.data.title}</a></li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+
+      <p class="note-source">
+        First written {formatNoteDate(created)}. Source and full history in
+        <a href={sourceHref(entry)}>Engineering-Notes on GitHub</a>.
+      </p>
+
+      <BackLink href="/notes" text="All notes" />
+    </footer>
+  </main>
+
+  <ScrollToTop />
+</BaseLayout>
+
+<style>
+  .note-more ul {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+  }
+
+  .note-more li {
+    margin: 0;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+  }
+
+  .note-more a,
+  .note-source a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 3px;
+  }
+
+  .note-source {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+</style>
