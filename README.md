@@ -2,61 +2,74 @@
 
 Early-career software engineer focused on backend development, infrastructure, and systems engineering.
 
-I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, learning by building public projects and writing about the decisions, trade-offs, and unfinished parts behind them.
+I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, learning by building public projects and writing about the decisions, trade-offs, and unfinished parts behind them. I like writing the failing test first, keeping a record of why each decision was made, and leaving systems easier to change than I found them.
 
-[Website](https://chinmaysingh.me) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
+[Website](https://chinmaysingh.me) · [Blog](https://chinmaysingh.me/blogs) · [Agent Skills](https://chinmaysingh.me/agent-skills) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
 
 ## What I’m working on
 
 - Backend services with clear APIs, persistence, and operational boundaries
 - Infrastructure that is understandable, observable, and safe to change
-- Systems projects that make fundamentals visible instead of hiding them behind abstractions
-- Technical writing about architecture, search, and lessons from building
-
-## Learning in public
-
-I keep an evolving set of notes and exercises in [learn-sql](https://github.com/SinghChinmayy/learn-sql) as I strengthen the database foundations behind the backend systems I build.
-
-`SQL` `PostgreSQL` `Database design`
+- Building with AI coding agents without giving up tests, reviews, or a readable history
+- Technical writing about architecture, reliability, and lessons from building
 
 ## Selected projects
 
-### [Car Dealership Inventory System](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System)
+### [Car Dealership Inventory System](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System) · [live demo](https://car-dealership-inventory-umber.vercel.app)
 
-A test-first kata with a [public demo](https://car-dealership-inventory-umber.vercel.app): a FastAPI and PostgreSQL inventory API with atomic purchases, soft delete, and audited restocks, plus a React SPA. CI gates every merge and migrates Neon before deploying to Vercel. Not a real dealership's production system.
+A full-stack inventory system built test-first with AI coding agents: a FastAPI and PostgreSQL API with atomic purchases (20 concurrent buyers, 5 cars, exactly 5 sales), soft delete, and audited restocks, plus a React SPA. Every merge passes four required CI checks, then CI migrates Neon before deploying to Vercel. A kata with a public demo, not a real dealership’s production system.
 
 `Python` `FastAPI` `PostgreSQL` `React` `TypeScript` `Playwright` `GitHub Actions`
 
-### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
+### [ChaosLab](https://github.com/SinghChinmayy/chaoslab-petclinic) · [dependency map](https://singhchinmayy.github.io/chaoslab-petclinic/)
 
-An ongoing Go backend project exploring incident detection, auditable remediation proposals, human approval, and recovery verification for self-hosted services.
+Guarded chaos experiments for the Spring PetClinic microservices: it maps service dependencies, predicts the user impact of a failure, injects one bounded fault, and reverts it automatically. In one recorded run, crashing the Visits service left the gateway returning HTTP 200 with the owner’s visits missing; the watchdog reverted the fault after 9.3 seconds. A local prototype.
 
-`Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
+`Python` `Spring Boot` `Docker Compose` `Prometheus` `Grafana` `Locust` `Zipkin`
 
 ### [Kidney Care](https://github.com/SinghChinmayy/kidney-care-health-tracker)
 
-An offline-first Flutter engineering prototype exploring local SQLite persistence and synchronization with Supabase/Postgres. This is a learning project, not a production medical system.
+An offline-first Flutter engineering prototype: every write lands in local SQLite first, then a sync engine reconciles it with Supabase/Postgres using last-write-wins and row-level security. This is a learning project, not a production medical system.
 
 `Flutter` `Dart` `Drift` `SQLite` `Supabase` `PostgreSQL`
 
-### [Searchy — NLP Search Engine Pipeline](https://github.com/SinghChinmayy/search-engine)
+### [Nextpage](https://github.com/SinghChinmayy/ai-journal)
 
-A modular Python pipeline for document ingestion, Unicode normalization, tokenization, and inverted-index experiments.
+A local-first Markdown journal for macOS that keeps every note as a plain `.md` file in a folder you choose, with atomic autosave and conflict detection when files change outside the app. Stage 1 makes no AI or sync requests; both are planned.
 
-`Python` `Regex` `NLP` `Information Retrieval`
+`Swift` `macOS` `Markdown`
+
+### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
+
+A Go platform I’m designing for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery. It’s at the design stage: the architecture and the first backend slice are planned, and implementation is next.
+
+`Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
+
+## Open source: agent skills
+
+[agent-skills](https://github.com/SinghChinmayy/agent-skills) holds the reusable instructions I give my coding agents: test-driven red-green-refactor, a one-question-at-a-time design interview, database planning, scoped builds, and terse replies. They work with Claude Code, Codex, Cursor, and other agents that read `SKILL.md` files.
+
+```bash
+npx skills add SinghChinmayy/agent-skills --skill tdd-red-green-refactor
+```
+
+## Learning in public
+
+- [Engineering-Notes](https://github.com/SinghChinmayy/Engineering-Notes): SQL concept notes and solved interview-style problems, with the reasoning behind each query.
+- [homelab](https://github.com/SinghChinmayy/homelab): a Docker Compose media stack managed with Portainer, with optional Tailscale access. Under construction.
+- [snippetbox](https://github.com/SinghChinmayy/snippetbox): a small Go web application for practising Go’s HTTP patterns.
+- NLP search pipeline: document ingestion, normalisation, tokenisation, and an inverted index in Python. The code is private for now; the [write-up](https://chinmaysingh.me/blogs/search-engine-stage-1) walks through the design.
 
 ## Writing
 
-I write about the engineering ideas I’m actively learning:
-
 - [Red, Green, Robot: How I Build Software with AI Agents Now](https://chinmaysingh.me/blogs/ai-assisted-tdd-workflow)
-- [Stage 1: Building an NLP Search Pipeline](https://chinmaysingh.me/blogs/search-engine-stage-1)
-- [Monoliths or Microservices? Choosing an Architecture](https://chinmaysingh.me/blogs/monolith-or-microservices-choosing-the-right-architecture-for-scale)
-- [More articles](https://chinmaysingh.me/blogs)
+- [Building Offline-First Local Persistence in Flutter with Kidney Care](https://chinmaysingh.me/blogs/offline-first-local-persistence-flutter-kidney-care)
+- [Building the Core of a Search Engine Step by Step (Stage 1)](https://chinmaysingh.me/blogs/search-engine-stage-1)
+- [Monolith or Microservices? Choosing the Right Architecture for Scale](https://chinmaysingh.me/blogs/monolith-or-microservices-choosing-the-right-architecture-for-scale)
 
 ## This repository
 
-This repository is the source for my personal portfolio website. It uses Astro, TypeScript, MDX, and native CSS, and is deployed through Cloudflare Pages.
+This repository is the source for my personal portfolio website. It uses Astro, TypeScript, MDX, and native CSS, and is deployed through Cloudflare Pages. The visual system is described in [design.md](design.md).
 
 ```bash
 npm install
