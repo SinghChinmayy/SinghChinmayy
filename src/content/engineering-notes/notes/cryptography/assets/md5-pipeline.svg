@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="MD5 pipeline: the message is padded with a 1 bit, zeros and its 64-bit length to whole 512-bit blocks. Each block becomes 16 words that go through 64 steps in four rounds (F, G, H, I) mixing four 32-bit registers A, B, C and D, then the results are added back. After the last block, A, B, C and D together are the 128-bit digest, written as 32 hex characters.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="81"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <path d="M40 5 V16" class="s"/><circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" style="fill:#2b2b2b"/><circle cx="52" cy="34" r="5" style="fill:#2b2b2b"/>
+      <path d="M31 45 Q40 52 49 45" class="s"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M18 68 L6 82 M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="450" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="20" y="40" width="160" height="64" rx="10" style="fill:#eef1f5;stroke:#8a94a3" class="s"/>
+    <path d="M184 72 L216 72" class="s" marker-end="url(#a)"/>
+    <rect x="220" y="40" width="220" height="64" rx="10" style="fill:#fff1c7;stroke:#c99a1e" class="s"/>
+    <path d="M444 72 L476 72" class="s" marker-end="url(#a)"/>
+    <rect x="480" y="44" width="94" height="56" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <rect x="582" y="44" width="94" height="56" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <rect x="684" y="44" width="94" height="56" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <rect x="20" y="138" width="760" height="186" rx="14" class="s" style="stroke:#7c5cd6" stroke-dasharray="8 6"/>
+    <path d="M527 104 L527 122 L180 122 L180 180" class="s" marker-end="url(#a)"/>
+    <rect x="40" y="184" width="170" height="74" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <path d="M214 221 L246 221" class="s" marker-end="url(#a)"/>
+    <rect x="250" y="184" width="220" height="74" rx="10" style="fill:#d3f3e1;stroke:#30a46c" class="s"/>
+    <path d="M474 221 L506 221" class="s" marker-end="url(#a)"/>
+    <rect x="510" y="190" width="56" height="56" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="574" y="190" width="56" height="56" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="638" y="190" width="56" height="56" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="702" y="190" width="56" height="56" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <path d="M640 250 C 640 284, 360 290, 360 262" class="s" stroke-dasharray="7 6" marker-end="url(#a)"/>
+    <path d="M740 250 L740 352 L300 352 L300 370" class="s" marker-end="url(#a)"/>
+    <rect x="150" y="374" width="230" height="60" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <path d="M384 404 L416 404" class="s" marker-end="url(#a)"/>
+    <rect x="420" y="374" width="360" height="60" rx="10" style="fill:#ffffff;stroke:#2b2b2b" class="s"/>
+  </g>
+  <text x="100.0" y="67.5" font-size="15" text-anchor="middle" font-weight="700">message</text>
+  <text x="100.0" y="87.0" font-size="13" text-anchor="middle" style="fill:#5b6573">any length</text>
+  <text x="330.0" y="67.5" font-size="15" text-anchor="middle" font-weight="700">1. pad</text>
+  <text x="330.0" y="87.0" font-size="13" text-anchor="middle" style="fill:#5b6573">1 bit, 0s, 64-bit length</text>
+  <text x="630" y="32" font-size="14" text-anchor="middle" style="fill:#5b6573">512-bit blocks</text>
+  <text x="527.0" y="76.9" font-size="14" text-anchor="middle">block 1</text>
+  <text x="629.0" y="76.9" font-size="14" text-anchor="middle">block 2</text>
+  <text x="731.0" y="76.9" font-size="14" text-anchor="middle">…</text>
+  <text x="34" y="160" font-size="14" text-anchor="start" font-weight="700" style="fill:#7c5cd6">3. for each block</text>
+  <text x="125.0" y="207.7" font-size="14" text-anchor="middle" font-weight="700">16 words</text>
+  <text x="125.0" y="225.9" font-size="12" text-anchor="middle" style="fill:#5b6573">M[0] … M[15]</text>
+  <text x="125.0" y="244.1" font-size="12" text-anchor="middle" style="fill:#5b6573">32 bits each</text>
+  <text x="360.0" y="207.7" font-size="14" text-anchor="middle" font-weight="700">64 steps</text>
+  <text x="360.0" y="225.9" font-size="12" text-anchor="middle" style="fill:#5b6573">4 rounds: F, G, H, I</text>
+  <text x="360.0" y="244.1" font-size="12" text-anchor="middle" style="fill:#5b6573">16 steps each</text>
+  <text x="640" y="176" font-size="13" text-anchor="middle" style="fill:#5b6573">2. registers, 32 bits each</text>
+  <text x="538.0" y="224.3" font-size="18" text-anchor="middle">A</text>
+  <text x="602.0" y="224.3" font-size="18" text-anchor="middle">B</text>
+  <text x="666.0" y="224.3" font-size="18" text-anchor="middle">C</text>
+  <text x="730.0" y="224.3" font-size="18" text-anchor="middle">D</text>
+  <text x="500" y="312" font-size="13" text-anchor="middle" style="fill:#5b6573">add back into A, B, C, D, then the next block</text>
+  <text x="265.0" y="399.5" font-size="15" text-anchor="middle" font-weight="700">4. A ‖ B ‖ C ‖ D</text>
+  <text x="265.0" y="419.0" font-size="13" text-anchor="middle" style="fill:#5b6573">4 × 32 = 128 bits</text>
+  <text x="600.0" y="399.8" font-size="14" text-anchor="middle" font-weight="700">b10a8db164e0754105b7a99be72e3fe5</text>
+  <text x="600.0" y="418.0" font-size="12" text-anchor="middle" class="mono" style="fill:#5b6573">32 hex characters (&quot;Hello World&quot;)</text>
+  <use href="#bot" x="52" y="362" width="52" height="72"/>
+</svg>

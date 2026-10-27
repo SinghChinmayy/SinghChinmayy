@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-label="One MD5 step: f of b, c and d is added to a, a message word M[g] and a constant K[i]. The sum is rotated left by s bits and added to b to give the new b. The other registers shift along: new a is the old d, new c is the old b, and new d is the old c.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="83"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <path d="M40 5 V16" class="s"/><circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" style="fill:#2b2b2b"/><circle cx="52" cy="34" r="5" style="fill:#2b2b2b"/>
+      <path d="M31 45 Q40 52 49 45" class="s"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M18 68 L6 82 M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="340" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="60" y="26" width="110" height="48" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="230" y="26" width="110" height="48" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="400" y="26" width="110" height="48" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="570" y="26" width="110" height="48" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="40" y="128" width="90" height="50" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <rect x="170" y="128" width="150" height="50" rx="10" style="fill:#fff1c7;stroke:#c99a1e" class="s"/>
+    <rect x="360" y="128" width="110" height="50" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <rect x="510" y="128" width="110" height="50" rx="10" style="fill:#eef1f5;stroke:#8a94a3" class="s"/>
+    <path d="M115 78 L90 124" class="s" marker-end="url(#a)"/>
+    <path d="M285 78 L245 124" class="s" marker-end="url(#a)"/>
+    <path d="M455 78 L245 124" class="s" marker-end="url(#a)"/>
+    <path d="M625 78 L245 124" class="s" marker-end="url(#a)"/>
+    <path d="M40 194 Q330 214 620 194" class="s"/>
+    <path d="M330 210 L330 232" class="s" marker-end="url(#a)"/>
+    <rect x="250" y="236" width="160" height="50" rx="10" style="fill:#d3f3e1;stroke:#30a46c" class="s"/>
+    <path d="M414 261 L446 261" class="s" marker-end="url(#a)"/>
+    <rect x="450" y="236" width="100" height="50" rx="10" style="fill:#ebe3fd;stroke:#7c5cd6" class="s"/>
+    <path d="M554 261 L586 261" class="s" marker-end="url(#a)"/>
+    <rect x="590" y="236" width="150" height="50" rx="10" style="fill:#d3f3e1;stroke:#30a46c" class="s"/>
+  </g>
+  <text x="115.0" y="56.3" font-size="18" text-anchor="middle">a</text>
+  <text x="285.0" y="56.3" font-size="18" text-anchor="middle">b</text>
+  <text x="455.0" y="56.3" font-size="18" text-anchor="middle">c</text>
+  <text x="625.0" y="56.3" font-size="18" text-anchor="middle">d</text>
+  <text x="745" y="56" font-size="14" text-anchor="middle" style="fill:#5b6573">before</text>
+  <text x="85.0" y="158.9" font-size="17" text-anchor="middle">a</text>
+  <text x="150" y="160" font-size="22" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">+</text>
+  <text x="245.0" y="148.5" font-size="15" text-anchor="middle" font-weight="700">f(b, c, d)</text>
+  <text x="245.0" y="168.0" font-size="13" text-anchor="middle" style="fill:#5b6573">round function</text>
+  <text x="340" y="160" font-size="22" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">+</text>
+  <text x="415.0" y="148.5" font-size="15" text-anchor="middle" font-weight="700">M[g]</text>
+  <text x="415.0" y="168.0" font-size="13" text-anchor="middle" style="fill:#5b6573">message word</text>
+  <text x="490" y="160" font-size="22" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">+</text>
+  <text x="565.0" y="148.5" font-size="15" text-anchor="middle" font-weight="700">K[i]</text>
+  <text x="565.0" y="168.0" font-size="13" text-anchor="middle" style="fill:#5b6573">constant</text>
+  <text x="330.0" y="256.5" font-size="15" text-anchor="middle" font-weight="700">&lt;&lt;&lt; s[i]</text>
+  <text x="330.0" y="276.0" font-size="13" text-anchor="middle" style="fill:#5b6573">rotate left</text>
+  <text x="500.0" y="266.9" font-size="17" text-anchor="middle">+ b</text>
+  <text x="665.0" y="266.9" font-size="17" text-anchor="middle">new b</text>
+  <text x="400" y="322" font-size="15" text-anchor="middle" style="fill:#2b2b2b">then the rest shift along:  new a = d,  new c = b,  new d = c</text>
+</svg>
