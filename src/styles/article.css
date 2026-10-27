@@ -170,7 +170,7 @@
 
 /* Figures: images break out of the text column; an emphasised line in
    the same paragraph becomes the caption */
-.article-content p:has(> img) {
+.article-content p:has(> img, > a.zoomable) {
   width: var(--figure-width);
   margin: 2.5rem 0 2.5rem 50%;
   transform: translateX(-50%);
@@ -183,7 +183,7 @@
   border-radius: 0;
 }
 
-.article-content p:has(> img) > em {
+.article-content p:has(> img, > a.zoomable) > em {
   display: block;
   margin-top: 0.6rem;
   font-family: var(--font-sans);
@@ -490,7 +490,7 @@
     font-size: 1.25rem;
   }
 
-  .article-content p:has(> img) {
+  .article-content p:has(> img, > a.zoomable) {
     margin-block: 2rem;
   }
 
@@ -567,3 +567,10 @@
   font-size: 1.0625rem;
 }
 
+
+/* Figures inside a collapsible section stay within its box */
+.article-content details p:has(> img, > a.zoomable) {
+  width: auto;
+  margin: 1rem 0 1.5rem;
+  transform: none;
+}
