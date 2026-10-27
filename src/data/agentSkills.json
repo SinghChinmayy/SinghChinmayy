@@ -57,7 +57,7 @@
       "name": "engineering-notes",
       "title": "Engineering Notes",
       "category": "learning",
-      "summary": "Turns photos of notebook pages and quick Markdown notes into one continuous note per topic, in your own words, with visible corrections, a revision block of takeaways and self-check questions, and a diagram only when it helps. Raw pages stay private; the notes are ready to publish.",
+      "summary": "Turns photos of notebook pages and quick Markdown notes into one continuous note per topic, in your own words, fact-checked with any mistakes fixed quietly, with a revision block of takeaways and self-check questions, and a diagram only when it helps. Raw pages stay private; the notes are ready to publish.",
       "useWhen": [
         "process my notes",
         "process the inbox",
