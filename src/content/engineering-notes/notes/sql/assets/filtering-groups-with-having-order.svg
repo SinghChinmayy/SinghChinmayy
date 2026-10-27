@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 270" role="img" aria-label="SQL evaluation order: FROM picks rows, WHERE filters rows, GROUP BY makes groups, HAVING filters groups, SELECT picks columns, ORDER BY sorts. Aggregates such as COUNT only exist from GROUP BY onwards, so they can be used in HAVING but not in WHERE.">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="71"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e5484d"/></marker>
+    <symbol id="bot" viewBox="0 0 80 110">
+      <path d="M40 5 V16" class="s"/><circle cx="40" cy="5" r="4" style="fill:#e5484d" class="s"/>
+      <rect x="10" y="16" width="60" height="40" rx="11" style="fill:#dde3ea" class="s"/>
+      <circle cx="28" cy="34" r="5" style="fill:#2b2b2b"/><circle cx="52" cy="34" r="5" style="fill:#2b2b2b"/>
+      <path d="M31 45 Q40 52 49 45" class="s"/>
+      <rect x="18" y="60" width="44" height="34" rx="8" style="fill:#c9d3df" class="s"/>
+      <circle cx="40" cy="77" r="5" style="fill:#30a46c" class="s"/>
+      <path d="M18 68 L6 82 M62 68 L74 82 M30 94 L30 106 M50 94 L50 106" class="s"/>
+    </symbol>
+    <style>
+      text{font-family:'Comic Neue','Chalkboard SE','Comic Sans MS','Marker Felt',cursive;fill:#2b2b2b}
+      .mono{font-family:'SF Mono',Menlo,Consolas,monospace}
+      .s{stroke:#2b2b2b;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="800" height="270" rx="18" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="22" y="92" width="112" height="64" rx="10" style="fill:#eef1f5;stroke:#8a94a3" class="s"/>
+    <rect x="152" y="92" width="112" height="64" rx="10" style="fill:#dbe7ff;stroke:#276ef1" class="s"/>
+    <path d="M134 124 L148 124" class="s" marker-end="url(#a)"/>
+    <rect x="282" y="92" width="112" height="64" rx="10" style="fill:#fff1c7;stroke:#c99a1e" class="s"/>
+    <path d="M264 124 L278 124" class="s" marker-end="url(#a)"/>
+    <rect x="412" y="92" width="112" height="64" rx="10" style="fill:#d3f3e1;stroke:#30a46c" class="s"/>
+    <path d="M394 124 L408 124" class="s" marker-end="url(#a)"/>
+    <rect x="542" y="92" width="112" height="64" rx="10" style="fill:#eef1f5;stroke:#8a94a3" class="s"/>
+    <path d="M524 124 L538 124" class="s" marker-end="url(#a)"/>
+    <rect x="672" y="92" width="112" height="64" rx="10" style="fill:#eef1f5;stroke:#8a94a3" class="s"/>
+    <path d="M654 124 L668 124" class="s" marker-end="url(#a)"/>
+    <path d="M282 178 L792 178" class="s" style="stroke:#30a46c" stroke-width="3"/>
+    <path d="M30 178 L262 178" class="s" style="stroke:#e5484d" stroke-dasharray="6 6" stroke-width="3"/>
+  </g>
+  <text x="78.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">FROM</text>
+  <text x="78.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">pick the table</text>
+  <text x="208.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">WHERE</text>
+  <text x="208.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">filter rows</text>
+  <text x="338.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">GROUP BY</text>
+  <text x="338.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">make groups</text>
+  <text x="468.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">HAVING</text>
+  <text x="468.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">filter groups</text>
+  <text x="598.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">SELECT</text>
+  <text x="598.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">pick columns</text>
+  <text x="728.0" y="119.5" font-size="15" text-anchor="middle" font-weight="700">ORDER BY</text>
+  <text x="728.0" y="139.0" font-size="13" text-anchor="middle" style="fill:#5b6573">sort</text>
+  <text x="400" y="40" font-size="17" text-anchor="middle" font-weight="700" style="fill:#2b2b2b">the order SQL actually runs a query</text>
+  <text x="540" y="200" font-size="14" text-anchor="middle" style="fill:#1f7a4f">COUNT(...), SUM(...) exist from here on</text>
+  <text x="146" y="200" font-size="14" text-anchor="middle" style="fill:#e5484d">no aggregates yet</text>
+  <text x="400" y="246" font-size="14" text-anchor="middle" class="mono" style="fill:#2b2b2b">so: WHERE COUNT(...) is an error, HAVING COUNT(...) works</text>
+</svg>

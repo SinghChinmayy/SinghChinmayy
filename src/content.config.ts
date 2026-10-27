@@ -134,6 +134,34 @@ const writingCollection = defineCollection({
   }),
 });
 /**
+ * Engineering Notes Collection
+ *
+ * Synced by CI from SinghChinmayy/Engineering-Notes into
+ * src/content/engineering-notes. Topic notes live in notes/<subject>/ and
+ * solved exercises in practice/<subject>/; both share this schema.
+ */
+const notesCollection = defineCollection({
+  loader: glob({ pattern: '{notes,practice}/*/*.md', base: './src/content/engineering-notes' }),
+  schema: z.object({
+    title: z.string(),
+    /** Folder name, e.g. "sql" or "system-design" */
+    subject: z.string(),
+    /** "practice" for exercises; topic notes leave it out */
+    kind: z.enum(['note', 'practice']).default('note'),
+    summary: z.string(),
+    tags: z.array(z.string()).default([]),
+    /** How sure I am about a topic note */
+    status: z.enum(['learning', 'confident']).optional(),
+    /** Practice difficulty */
+    difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
+    created: z.coerce.date(),
+    updated: z.coerce.date(),
+    aliases: z.array(z.string()).optional(),
+    related: z.array(z.string()).optional(),
+  }),
+});
+
+/**
  * Export all collections
  * 
  * This object is used by Astro to register all content collections
@@ -142,4 +170,5 @@ const writingCollection = defineCollection({
 export const collections = {
   projects: projectsCollection,
   writing: writingCollection,
+  notes: notesCollection,
 };
