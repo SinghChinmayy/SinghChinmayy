@@ -35,7 +35,7 @@ There are 2¹²⁸ ≈ **3.4 × 10³⁸** possible MD5 digests.
 ![MD5 pipeline: the message is padded with a 1 bit, zeros and its 64-bit length to a multiple of 512 bits, then split into 512-bit blocks. Each block becomes 16 words that go through 64 steps in four rounds (F, G, H, I) that mix four 32-bit registers A, B, C and D. The results are added back into A to D, and after the last block A, B, C and D together are the 128-bit digest, written as 32 hex characters.](./assets/md5-pipeline.svg)
 *From any input to a 128-bit digest: pad, split into blocks, mix each block into four registers.*
 
-> **Correction:** In my notebook I wrote "512 bit input → MD5 → 128 bits" and "pads values if shorter to 512 bits". MD5 accepts input of **any** length and processes it in 512-bit blocks. Padding is always added (even a message that is already exactly 512 bits gets a second block), and it is more than zeros: a `1` bit, then zeros, then the original length.
+MD5 accepts input of **any** length and works through it 512 bits at a time. Padding is always added, even to a message that is already exactly 512 bits long (it gets a second block), and it is more than zeros: a `1` bit, then zeros, then the original length.
 
 The simple version of the algorithm:
 
@@ -77,13 +77,13 @@ MD5 only uses cheap operations on 32-bit words:
 | OR | `\|` | 1 if either bit is 1 |
 | AND | `&` | 1 only if both bits are 1 |
 | XOR | `^` | 1 if the bits differ |
-| NOT | `~` | flips every bit |
+| NOT | `~` | flips every bit (the MD5 paper writes it as ¬) |
 | Rotate left | `<<<` | shifts bits left; bits pushed off the end come back in on the right |
 | Add | `+` | adds, wrapping around at 2³² |
 
-> **Correction:** I wrote NOT as `!`. In code, bitwise NOT is `~`; `!` means logical not (true/false) in languages like C. The MD5 paper writes it as ¬.
+Bitwise NOT is `~` in code. Don't confuse it with `!`, which is logical not (true/false) in languages like C.
 
-In my notebook, `110110 <<< 3` came out as `110110` again, and that is actually right: the pattern repeats every 3 bits, so rotating by 3 lands on itself. A clearer example: `110100 <<< 3` = `100110`. The leading `110` wraps around to the end.
+Rotation can look like it did nothing: `110110 <<< 3` is still `110110`, because the pattern repeats every 3 bits. A clearer example: `110100 <<< 3` = `100110`. The leading `110` wraps around to the end.
 
 ## Example: hashing in Python
 
@@ -97,8 +97,6 @@ hashlib.md5("Hello World".encode("utf-8")).hexdigest()
 - `.encode("utf-8")` turns the text into **bytes**. Hash functions work on bytes, not on text.
 - `hashlib.md5(...)` computes the 128-bit digest (16 bytes).
 - `.hexdigest()` shows those 16 bytes as 32 hex characters, because raw binary is long and unreadable.
-
-> **Correction:** I noted that UTF-8 encoding is there "to show chars". It is the other way round: `.encode()` converts characters into bytes for the hash function, and `.hexdigest()` is what turns the result into readable characters.
 
 ### MD5 from scratch
 
@@ -151,8 +149,7 @@ MD5 stores numbers little-endian (least significant byte first), which is why th
 - **The 128-bit size is a limit too.** Because of the birthday paradox, a collision is expected after about 2⁶⁴ tries, not 2¹²⁸, which is too few for a modern security hash.
 - **It was once used as a cryptographic checksum**, to prove a file had not been tampered with.
 - **It is still fine for error detection**: spotting accidental corruption in a download or a copied file, where nobody is trying to cheat.
-
-> **Correction:** I listed the alternatives as SHA1 / SHA2 / CRC. SHA-1 is broken as well: the first practical collision was published in 2017. For security, use **SHA-256** (from the SHA-2 family) or **SHA-3**. CRC is only for catching accidental errors, like MD5 today, and gives no security at all.
+- **Alternatives:** for security, use **SHA-256** (from the SHA-2 family) or **SHA-3**. Avoid SHA-1 too: it is broken as well, and the first practical collision was published in 2017. For catching accidental errors only, MD5 or a CRC is enough; neither gives any security.
 
 ## Further explanation
 
@@ -160,7 +157,7 @@ MD5 stores numbers little-endian (least significant byte first), which is why th
 
 ## My notebook pages
 
-The handwritten pages this note was written from, kept as they are, corrections and all. Click a page to open it full size.
+The handwritten pages this note was written from. Click a page to open it full size.
 
 <details>
 <summary>Show the three notebook pages</summary>
@@ -224,4 +221,4 @@ For accidental corruption, yes. If someone could tamper with the file, no: use S
 
 ## History
 
-- 2026-10-27: First notes, from three notebook pages on MD5 and the RareSkills video; added the step-by-step algorithm, a from-scratch implementation and corrections. The original pages are kept under [My notebook pages](#my-notebook-pages).
+- 2026-10-27: First notes, from three notebook pages on MD5 and the RareSkills video; added the step-by-step algorithm and a from-scratch implementation. The original pages are kept under [My notebook pages](#my-notebook-pages).
