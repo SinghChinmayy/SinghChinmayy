@@ -54,6 +54,19 @@
       "imageAlt": "A robot works inside a fenced sandbox labelled files in scope while the developer holds the key to the review gate."
     },
     {
+      "name": "engineering-notes",
+      "title": "Engineering Notes",
+      "category": "learning",
+      "summary": "Turns photos of notebook pages and quick Markdown notes into one continuous note per topic, in your own words, with visible corrections, a revision block of takeaways and self-check questions, and a diagram only when it helps. Raw pages stay private; the notes are ready to publish.",
+      "useWhen": [
+        "process my notes",
+        "process the inbox",
+        "digest my notes",
+        "add this to my notes"
+      ],
+      "imageAlt": "Workflow sketch: notebook pages and Markdown go into an inbox, an agent transcribes and merges them into topic notes and practice files, and CI publishes them to the website."
+    },
+    {
       "name": "caveman",
       "title": "Caveman",
       "category": "productivity",
