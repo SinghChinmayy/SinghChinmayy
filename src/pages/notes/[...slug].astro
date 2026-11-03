@@ -139,6 +139,29 @@ const moreInSubject = siblings
   <ScrollToTop />
 </BaseLayout>
 
+<script>
+  /**
+   * Make every image in a note open full size in a new tab: notebook pages
+   * are too detailed to read at column width, and diagrams are easier to
+   * study zoomed in. Runs on each client-side navigation.
+   */
+  function linkNoteImages() {
+    document.querySelectorAll<HTMLImageElement>(".article-content--note img").forEach((img) => {
+      if (img.closest("a")) return;
+      const link = document.createElement("a");
+      link.href = img.currentSrc || img.src;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.className = "zoomable";
+      link.setAttribute("aria-label", `Open full size: ${img.alt}`);
+      img.replaceWith(link);
+      link.appendChild(img);
+    });
+  }
+
+  document.addEventListener("astro:page-load", linkNoteImages);
+</script>
+
 <style>
   .note-more ul {
     list-style: none;
@@ -160,6 +183,17 @@ const moreInSubject = siblings
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-underline-offset: 3px;
+  }
+
+  .article-content--note :global(a.zoomable) {
+    display: block;
+    cursor: zoom-in;
+    text-decoration: none;
+  }
+
+  .article-content--note :global(a.zoomable:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
   }
 
   .note-source {
