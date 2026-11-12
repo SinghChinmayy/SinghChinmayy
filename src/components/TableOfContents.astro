@@ -229,7 +229,7 @@ const shouldRender = filteredHeadings.length >= 3;
         
         window.scrollTo({
           top: targetPosition,
-          behavior: 'smooth'
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
         });
 
         // Update URL without jumping

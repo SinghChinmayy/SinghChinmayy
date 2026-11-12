@@ -29,7 +29,7 @@ A monolithic system is a single, all-in-one application where every feature — 
 
 Think of it like a giant cake. If you want to change the frosting, you still have to bake the whole thing again.
 
-![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Monolithic-Architecture.png)
+![Monolithic kernel diagram: applications run in unprivileged mode above a single privileged kernel that contains file systems, networking, memory management, process management and drivers, all sitting on the hardware](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Monolithic-Architecture.png)
 
 [https://media.geeksforgeeks.org/wp-content/uploads/20231228170233/Monolithic-Architecture.png](https://media.geeksforgeeks.org/wp-content/uploads/20231228170233/Monolithic-Architecture.png)
 
@@ -60,13 +60,15 @@ Each service runs independently. It can use its own technology stack. It can be 
 
 If the payment service fails, the rest of the application doesn’t necessarily collapse.&#x20;
 
-![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/mermaid-diagram-2026-02-21-131905.png)That isolation improves resilience. Teams can also work in parallel, shipping updates faster because they’re not stepping on each other’s toes.
+![Tangled service graph: a user calls Auth, User, Product, Cart, Order, Notification, Payment and Inventory services that all call each other, labelled spaghetti architecture: tightly coupled, hard to maintain, cascading failures](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/mermaid-diagram-2026-02-21-131905.png)
+
+That isolation improves resilience. Teams can also work in parallel, shipping updates faster because they’re not stepping on each other’s toes.
 
 Of course, this flexibility introduces complexity. Distributed systems are harder to manage. But when scale becomes serious, that trade-off often makes sense.
 
 ---
 
-## ![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Screenshot%20from%202026-02-21%2013-34-51.png)
+![Side-by-side comparison: in the monolith, a client calls one application containing UI, auth, payments, inventory and users backed by a single database; in microservices, a client calls an API gateway that routes to separate Auth, Payment, Inventory and User services, each with its own database](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Screenshot%20from%202026-02-21%2013-34-51.png)
 
 ## Why Microservices Change the Autoscaling Equation
 
@@ -93,7 +95,7 @@ It’s efficient. It’s flexible. And at large scale, it’s often essential.
 
 ## Case Study: How Netflix Made the Shift
 
-![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Netflix-High-Level-System-Architecture.png)
+![Netflix high-level architecture: client devices reach an ELB and the Zuul gateway (Netty server with inbound, endpoint and outbound filters), which routes through Hystrix to microservices backed by EVCache, Cassandra and MySQL; Open Connect delivers video; new uploads are transcoded by async workers; events flow through Chukwa and Kafka to S3, EMR, Elasticsearch and Spark](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/Netflix-High-Level-System-Architecture.png)
 
 [https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210128214233/Netflix-High-Level-System-Architecture.png](https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210128214233/Netflix-High-Level-System-Architecture.png)
 
@@ -110,7 +112,7 @@ This shift allowed them to:
 * Deploy updates continuously without full-system redeployments
 * Improve resilience using tools like Chaos Monkey, which intentionally simulates service failures
 
-![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/a48140b7-2b76-40b2-89d3-13ca6d4e795f.jpg)
+![Netflix backend on AWS: client devices connect through AWS ELB to an API gateway service, then the Signup, Discovery and Play application APIs call microservices that use a cache and datastores, and publish to a stream processing pipeline feeding S3, Hadoop and datastores](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/a48140b7-2b76-40b2-89d3-13ca6d4e795f.jpg)
 
 That last point matters. Netflix didn’t just move to microservices — they embraced failure as part of the design.
 
@@ -120,7 +122,9 @@ Companies like Amazon, Uber, and Spotify followed similar paths, proving that ar
 
 ---
 
-## ![](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/image.png)When Microservices Are NOT the Right Choice
+![Monolith scaling: a search traffic spike hits a load balancer that must scale three full instances, each containing UI, auth, search, orders and payments, so unused components are scaled too and resources are wasted](./_assets/monolith-or-microservices-choosing-the-right-architecture-for-scale/image.png)
+
+## When Microservices Are NOT the Right Choice
 
 Here’s the part people sometimes gloss over: microservices aren’t always the answer.
 

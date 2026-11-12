@@ -23,8 +23,10 @@ const siteURL = siteConfig.url.endsWith("/")
   ? siteConfig.url.slice(0, -1)
   : siteConfig.url;
 
-// Build social links array from config
-const socialLinks = Object.values(siteConfig.social).filter(Boolean);
+// Profile URLs for Person.sameAs (schema.org expects URL strings)
+const socialLinks: string[] = siteConfig.social
+  .map((entry) => entry?.url)
+  .filter((url): url is string => typeof url === "string" && /^https?:\/\//.test(url));
 
 /**
  * Generate JSON-LD structured data based on type
@@ -46,14 +48,6 @@ function generateStructuredData(type: string, data: Record<string, any>) {
           name: siteConfig.author.name,
           jobTitle: siteConfig.author.title,
           url: siteURL,
-        },
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `${siteURL}/blogs?q={search_term_string}`,
-          },
-          "query-input": "required name=search_term_string",
         },
       };
 
