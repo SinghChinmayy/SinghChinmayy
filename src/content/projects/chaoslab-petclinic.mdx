@@ -1,0 +1,174 @@
+---
+title: ChaosLab
+role: Solo Developer
+year: 2026
+duration: 2 days
+teamSize: 1
+outcomeSummary: >-
+  Built a local chaos-engineering prototype for the Spring PetClinic
+  microservices. In one recorded run, crashing the Visits service left the
+  gateway returning HTTP 200 with the owner's six baseline visits missing; the
+  watchdog reverted the fault after 9.3 seconds, and the run did not claim full
+  recovery. A two-day local prototype, not a production fault-injection service.
+overview: >-
+  ChaosLab runs guarded failure experiments against the Spring PetClinic
+  microservices on Docker Compose. It maps how the services depend on each
+  other, predicts which user actions a given failure should break, injects one
+  bounded fault into an allowlisted service, and reverts it automatically. It
+  then compares what it predicted with what users actually received, and it
+  separates "the request succeeded" from "the data was complete". Results are
+  published as a read-only dashboard and a saved dependency map, so both can be
+  explored without starting Docker.
+problem: >-
+  A healthy status code does not mean a system is healthy. PetClinic's gateway
+  has fallbacks, so a failed backend can still produce a 200 response that is
+  quietly missing data. Plain error-rate monitoring would not notice. I wanted
+  to see that gap with a real experiment, learn which signals expose it, and
+  build the experiment so a fault could never be left running.
+constraints:
+  - Local sandbox only — Docker Compose on one machine, not a cloud or shared environment
+  - Faults may only target allowlisted local services, one fault at a time
+  - A healthy baseline is required before any fault is injected
+  - >-
+    The Spring PetClinic services are the upstream sample application; ChaosLab
+    adds the experiment tooling around them
+  - >-
+    Zipkin had no recent traces when the dependency map was generated, so some
+    routes are labelled unknown or backed by source code rather than measured
+  - >-
+    The AI planner and separate analysis agent described in the repository are
+    planned, not implemented; the operator chooses the fault today
+  - Built as a two-day prototype
+approach: >-
+  The Python controller runs each experiment in a fixed order: check a healthy
+  steady state, inject one fault, watch users every second, revert, then measure
+  recovery. A watchdog aborts on error rate, p95 latency, or throughput
+  thresholds, a kill switch reverts active faults on demand, and a dead-man's
+  switch reverts them even if the controller dies. Locust supplies steady
+  simulated traffic, and an owner-data probe checks that the owner-details
+  response still contains the expected visits. A dependency map built from
+  Docker Compose, Docker, Eureka, Prometheus, and Locust observations (plus
+  Zipkin traces where available) feeds a qualitative blast-radius prediction,
+  which each run is later compared against.
+keyDecisions:
+  - decision: Check data correctness, not only HTTP status
+    reasoning: >-
+      The gateway's fallback returns 200 when the Visits service is down, so
+      status codes and error rates alone looked fine. The owner-details probe
+      compares the response with a known baseline of six visits, which is what
+      exposed the missing data.
+    alternatives:
+      - Error rate and latency only (misses silent degradation)
+      - Manual inspection of responses (not repeatable)
+  - decision: Make every fault bounded and self-reverting
+    reasoning: >-
+      An experiment tool that can leave a service broken is a hazard. The
+      allowlist, watchdog, kill switch, and dead-man's switch each cover a
+      different way the run could go wrong, including the controller itself
+      failing.
+    alternatives:
+      - Manual cleanup after each run (easy to forget)
+      - A single timeout (does not cover controller failure)
+  - decision: Predict impact first, then compare with what was observed
+    reasoning: >-
+      Writing down which user actions should break before injecting the fault
+      turns a demo into a test of the dependency model, and makes wrong
+      predictions visible. Actions with too few finished requests are left
+      unobserved rather than counted as contradicted.
+    alternatives:
+      - Inject faults and report whatever happens (no check on the model)
+  - decision: Label evidence as measured, inferred, or stale
+    reasoning: >-
+      The saved map and the recorded run were captured at different times, and
+      Zipkin had no recent traces. Showing source timestamps and manual
+      corrections beside each claim keeps the output honest about what is
+      measured and what is inferred.
+    alternatives:
+      - Present one clean topology with no uncertainty shown
+  - decision: Publish a read-only recording instead of a live dashboard
+    reasoning: >-
+      A saved export can be opened by anyone without Docker, and it never
+      injects faults or polls live services. The dashboard marks that it is a
+      recording and states the demo date.
+    alternatives:
+      - Host a live sandbox (cost and safety exposure for a public site)
+techStack:
+  - Python
+  - Spring Boot
+  - Docker Compose
+  - Locust
+  - Prometheus
+  - Grafana
+  - Zipkin
+impact:
+  metrics:
+    - label: Recorded Run
+      value: Visits service crash, 2026-10-10
+    - label: Gateway Response
+      value: HTTP 200 with all six baseline visits missing
+    - label: Time to Revert
+      value: Watchdog reverted the fault after 9.3 seconds
+    - label: Recovery
+      value: Not confirmed — two baseline visits still missing at the last probe
+    - label: Fault Types
+      value: Crash, freeze, network delay, packet loss, CPU starvation, traffic spike
+  qualitative: >-
+    The recorded run shows the point of the project: the gateway answered 200
+    while the owner's visit data was gone, and the watchdog reverted the fault
+    after 9.3 seconds because throughput dropped below its threshold. The last
+    recovery probe still lacked two baseline visits, so the run does not claim
+    full recovery. Later experiments write a canary visit before injection and
+    can report a service that recovered with lost data, but the committed
+    recording predates that change and keeps its original outcome. This is a
+    local prototype, not a validated or production fault-injection service.
+learnings:
+  - >-
+    A 200 response is not evidence of a correct response — correctness needs its
+    own probe with a known baseline
+  - >-
+    Safety controls should each cover a different failure, including the failure
+    of the tool that is injecting faults
+  - >-
+    Predictions are only useful if they are written down before the experiment
+    and compared with it afterwards
+  - >-
+    Labelling evidence as measured, inferred, or stale is part of the result, not
+    decoration around it
+  - >-
+    A recording that says what it does not prove is more useful than a polished
+    demo that hides it
+featured: true
+status: completed
+order: 0.5
+repo: https://github.com/SinghChinmayy/chaoslab-petclinic
+demo: https://singhchinmayy.github.io/chaoslab-petclinic/
+nowBuilding: Guarded chaos experiments for the Spring PetClinic microservices, with a recorded Visits crash that returned HTTP 200 while visits were missing.
+relatedProjects: []
+---
+
+ChaosLab is a local prototype built around a saved recording. It is not a
+production fault-injection service, and it has not been run against anything
+outside its own Docker Compose sandbox.
+
+## Architecture Overview
+
+The operator selects a fault. The controller uses the saved dependency map to
+predict impact, checks a healthy baseline, and injects one bounded fault into an
+allowlisted service. Locust signals and an owner-data probe feed the watchdog, and
+the resulting run record and dependency snapshot feed read-only reports. The
+`demo` link above opens the published dependency map; the resilience dashboard is
+in the repository.
+
+## What's Built
+
+- **Dependency analysis**: A map combining source-backed PetClinic semantics with Docker Compose, Eureka, Prometheus, Zipkin, and Locust observations, with uncertain and stale evidence labelled
+- **Qualitative prediction**: Which user actions become unavailable or degraded for a selected service failure, including gateway fallbacks
+- **Controlled injection**: Crash, freeze, network delay, packet loss, CPU starvation, and traffic spike against allowlisted local services
+- **Safety and recovery**: Healthy-baseline check, watchdog thresholds, a kill switch, and a dead-man's switch
+- **Measured outcomes**: Per-run timelines and audit events, plus a comparison of predicted and observed responses
+
+## What's Next
+
+- **AI planner and analysis agent**: Described in the repository as planned; the current controller provides the safety boundary and evidence they would use
+- **Re-record the Visits run**: The committed recording predates the canary-visit check and still shows "recovery not confirmed"
+- **Fresher map**: The published dependency map is a snapshot, so runtime observations become stale as time passes

@@ -74,6 +74,12 @@
       "children": []
     },
     {
+      "label": "Resume",
+      "href": "/resume",
+      "show": true,
+      "children": []
+    },
+    {
       "label": "Contact",
       "href": "/contact",
       "show": true,
