@@ -91,7 +91,16 @@ const {
   learnings,
   relatedProjects,
   status,
+  repo,
+  demo,
+  links,
 } = project.data;
+
+const projectLinks = [
+  repo && { label: 'Source on GitHub', url: repo, external: true },
+  demo && { label: 'Live demo', url: demo, external: true },
+  ...(links ?? []).map((link) => ({ ...link, external: /^https?:\/\//.test(link.url) })),
+].filter(Boolean) as { label: string; url: string; external: boolean }[];
 
 // Status display configuration
 const statusConfig = {
@@ -152,6 +161,20 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
       </p>
       <h1>{title}</h1>
       <p class="outcome-summary">{outcomeSummary}</p>
+      {projectLinks.length > 0 && (
+        <ul class="project-links" aria-label="Project links">
+          {projectLinks.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {link.label}<span aria-hidden="true"> {link.external ? '↗' : '→'}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
       <div class="case-study-meta">
         <span class="meta-item meta-author">By {siteConfig.author.name}</span>
         {duration && (
@@ -327,6 +350,32 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
       font-size: 1.125rem;
       line-height: 1.45;
       color: var(--color-text-secondary);
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0 1.25rem;
+      margin: 0 0 1.25rem;
+      padding: 0;
+      list-style: none;
+      font-family: var(--font-sans);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+    }
+
+    .project-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .project-links a:hover {
+      color: var(--color-accent-hover);
     }
 
     .case-study-meta {

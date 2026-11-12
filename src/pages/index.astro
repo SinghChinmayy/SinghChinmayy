@@ -5,6 +5,8 @@ import StructuredData from '../components/StructuredData.astro';
 import ForwardLink from '../components/ForwardLink.astro';
 import ProjectIndexItem from '../components/ProjectIndexItem.astro';
 import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import profilePic from '../assets/images/profilePic.png';
 import { siteConfig } from '../data/index';
 import awsBadge from '../assets/Certifications/AWS/aws-academy-graduate-cloud-foundations-training-bad.png';
 import awsCertificate from '../assets/Certifications/AWS/AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260716-8-2s66j3.pdf';
@@ -27,7 +29,7 @@ import bootDevLinux from '../assets/Certifications/boot.dev/ac713580-a863-4970-9
 import bootDevPython from '../assets/Certifications/boot.dev/bdeedf6a-e1ef-4174-86d4-707cdfd094a6.jpeg';
 
 const projects = await getCollection('projects');
-const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order || 999) - (b.data.order || 999)).slice(0, 2);
+const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)).slice(0, 2);
 const currentProject = featuredProjects[0];
 const allPosts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 const posts = allPosts.slice(0, 3);
@@ -133,7 +135,19 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
           <div class="hero-cta"><a href="/projects" class="btn-primary">View selected work <span aria-hidden="true">→</span></a><a class="profile-link btn-secondary" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
         <figure class="hero-portrait">
-          <img src={siteConfig.author.profilePic} alt="Portrait of Chinmay Singh" width="480" height="600" fetchpriority="high" />
+          <Picture
+            src={profilePic}
+            alt="Portrait of Chinmay Singh"
+            formats={['avif', 'webp']}
+            fallbackFormat="jpeg"
+            widths={[176, 288, 368]}
+            sizes="(min-width: 900px) 288px, 176px"
+            width={368}
+            height={460}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
           <figcaption>{siteConfig.author.name} · {siteConfig.author.location}</figcaption>
         </figure>
       </section>
@@ -142,7 +156,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     {currentProject && <a href={`/projects/${currentProject.id}`} class="now-building">
       <span class="now-label"><span class="now-dot" aria-hidden="true"></span>Now building</span>
       <span class="now-title">{currentProject.data.title}</span>
-      <span class="now-description">An auditable workflow for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery.</span>
+      <span class="now-description">{currentProject.data.nowBuilding ?? currentProject.data.outcomeSummary}</span>
       <span class="now-link">Read the case study <span aria-hidden="true">→</span></span>
     </a>}
 
