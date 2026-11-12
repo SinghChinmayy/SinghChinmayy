@@ -366,44 +366,25 @@
   margin-bottom: 0;
 }
 
-/* Note - blue */
-.article-content .markdown-alert-note {
-  border-left: 4px solid #4493f8;
-}
-.article-content .markdown-alert-note .markdown-alert-title {
-  color: #4493f8;
-}
+/* Alert colours: light values meet WCAG AA (>=4.5:1) on #fff;
+   dark values (GitHub dark palette) meet it on the dark surface. */
+.article-content .markdown-alert-note { --alert-color: #0969da; }
+.article-content .markdown-alert-tip { --alert-color: #1a7f37; }
+.article-content .markdown-alert-important { --alert-color: #8250df; }
+.article-content .markdown-alert-warning { --alert-color: #9a6700; }
+.article-content .markdown-alert-caution { --alert-color: #d1242f; }
 
-/* Tip - green */
-.article-content .markdown-alert-tip {
-  border-left: 4px solid #3fb950;
-}
-.article-content .markdown-alert-tip .markdown-alert-title {
-  color: #3fb950;
-}
+[data-theme="dark"] .article-content .markdown-alert-note { --alert-color: #4493f8; }
+[data-theme="dark"] .article-content .markdown-alert-tip { --alert-color: #3fb950; }
+[data-theme="dark"] .article-content .markdown-alert-important { --alert-color: #a371f7; }
+[data-theme="dark"] .article-content .markdown-alert-warning { --alert-color: #d29922; }
+[data-theme="dark"] .article-content .markdown-alert-caution { --alert-color: #f85149; }
 
-/* Important - purple */
-.article-content .markdown-alert-important {
-  border-left: 4px solid #a371f7;
+.article-content .markdown-alert[class*="markdown-alert-"] {
+  border-left: 4px solid var(--alert-color);
 }
-.article-content .markdown-alert-important .markdown-alert-title {
-  color: #a371f7;
-}
-
-/* Warning - yellow/orange */
-.article-content .markdown-alert-warning {
-  border-left: 4px solid #d29922;
-}
-.article-content .markdown-alert-warning .markdown-alert-title {
-  color: #d29922;
-}
-
-/* Caution - red */
-.article-content .markdown-alert-caution {
-  border-left: 4px solid #f85149;
-}
-.article-content .markdown-alert-caution .markdown-alert-title {
-  color: #f85149;
+.article-content .markdown-alert .markdown-alert-title {
+  color: var(--alert-color);
 }
 
 .article-content code {

@@ -197,6 +197,29 @@ if (siteConfig.favicon) {
         flex: 1;
       }
 
+      main:focus {
+        outline: none;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 200;
+        padding: 0.5rem 1rem;
+        background: var(--color-bg, #fff);
+        color: var(--color-text, #111);
+        border: 2px solid currentColor;
+        border-radius: 4px;
+        text-decoration: none;
+        transform: translateY(-200%);
+      }
+
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        transform: none;
+      }
+
       .site-header {
         position: sticky;
         top: 0;
@@ -205,10 +228,11 @@ if (siteConfig.favicon) {
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header" transition:persist>
       <Navigation />
     </header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />

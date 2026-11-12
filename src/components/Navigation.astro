@@ -68,8 +68,7 @@ const isActive = (href: string) => {
 <div class="masthead">
 <nav class="site-nav" aria-label="Main navigation">
   <a class="nav-brand" href="/" aria-label={`${siteConfig.author.name} home`}>{siteConfig.author.name}</a>
-  <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
-    <span class="visually-hidden">Open navigation</span>
+  <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation">
     <span aria-hidden="true">Menu</span>
   </button>
   <div class="nav-scroll" id="primary-navigation">
@@ -152,12 +151,12 @@ const isActive = (href: string) => {
   menuToggle?.addEventListener('click', () => {
     const open = nav?.classList.toggle('nav-open') ?? false;
     menuToggle.setAttribute('aria-expanded', String(open));
-    menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
   document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('click', () => {
     nav?.classList.remove('nav-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
-    menuToggle?.setAttribute('aria-label', 'Open navigation');
+    menuToggle?.setAttribute('aria-label', 'Open menu');
   }));
 
   function updateActiveNav() {

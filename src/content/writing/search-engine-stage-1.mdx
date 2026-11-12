@@ -10,7 +10,7 @@ tags:
   - search-engine
 draft: false
 ---
-![](./_assets/search-engine-stage-1/WhatsApp%20Image%202026-02-23%20at%2004.01.35.jpeg)
+![Handwritten notebook pages planning the search engine: documents to tokens, lowercasing and punctuation removal, stopword removal, a posting list per term, and later ideas such as term positions, TF-IDF ranking, proximity queries and snippet highlighting](./_assets/search-engine-stage-1/WhatsApp%20Image%202026-02-23%20at%2004.01.35.jpeg)
 
 ## TLDR
 
@@ -20,9 +20,11 @@ The repository is private for now, so the code excerpts below are the source of 
 
 ---
 
-# Stage 1: Designing the Pipeline Before Writing Code
+## Stage 1: Designing the Pipeline Before Writing Code
 
-![](./_assets/search-engine-stage-1/mermaid-diagram-2026-02-23-021754.png)What happened here
+![Pipeline diagram: Sources (text files, a future Wikipedia dump) flow into Ingestion loaders, then Preprocessing (normalization and tokenization), then Representation (inverted index and document table)](./_assets/search-engine-stage-1/mermaid-diagram-2026-02-23-021754.png)
+
+### What happened here
 
 I did not want to write just another script that reads files and prints words. That works for about five minutes. Then it becomes chaos.
 
@@ -49,9 +51,9 @@ pipeline/
 
 ---
 
-# Stage 2: Building the Internal Processing Flow
+## Stage 2: Building the Internal Processing Flow
 
-![](./_assets/search-engine-stage-1/mermaid-diagram-2026-02-23-022455.png)
+![Processing flow: a text file path goes to TxtLoader, which loads the file contents, then TextNormalization (Unicode, case and line cleanup), then TextTokenize (regex tokenization), producing a token list](./_assets/search-engine-stage-1/mermaid-diagram-2026-02-23-022455.png)
 
 ### What happened here
 
@@ -79,7 +81,7 @@ Honestly, this small design choice is what makes the system readable and extensi
 
 ---
 
-# Stage 3: Connecting Everything Through the Main Entry Point
+## Stage 3: Connecting Everything Through the Main Entry Point
 
 Once the pipeline worked internally, I needed something to drive it.
 
@@ -109,7 +111,7 @@ for file_path in folder.iterdir():
 
 ---
 
-# Stage 4: Cleaning Text Like It Actually Matters
+## Stage 4: Cleaning Text Like It Actually Matters
 
 ### What happened here
 
@@ -143,9 +145,9 @@ Think about tokens like "cafe", "naive", and "resume." Unicode handling is not t
 
 ---
 
-# Stage 5: Tokenization Decisions That Shape Search
+## Stage 5: Tokenization Decisions That Shape Search
 
-![](./_assets/search-engine-stage-1/Screenshot%20from%202026-02-23%2002-33-58.png)
+![Terminal output of main.py printing the token list for each dataset file, such as t-rex.txt and brachiosaurus.txt, as lowercase words like name, tyrannosaurus, rex, period, late, cretaceous](./_assets/search-engine-stage-1/Screenshot%20from%202026-02-23%2002-33-58.png)
 
 ### What happened here
 
@@ -178,9 +180,9 @@ Tokenization is not about perfection. It is about consistency.
 
 ---
 
-# Stage 6: Assigning Document IDs in the Main Coordinator
+## Stage 6: Assigning Document IDs in the Main Coordinator
 
-![](./_assets/search-engine-stage-1/image.png)
+![Terminal running main.py: entering the search word tall returns Found in doc: 1, 2, 4, 5, 6](./_assets/search-engine-stage-1/image.png)
 
 ### What happened here
 
@@ -211,9 +213,9 @@ This mirrors how real search engines separate document metadata from term storag
 
 ---
 
-# Stage 7: Building the Inverted Index
+## Stage 7: Building the Inverted Index
 
-![](./_assets/search-engine-stage-1/inverted-index-diagram.png)
+![Inverted index example: dinosaur maps to documents 1, 2 and 5; tall to 1, 4 and 6; herbivore to 2 and 3; predator to 1 and 5](./_assets/search-engine-stage-1/inverted-index-diagram.png)
 
 ### What happened here
 
@@ -239,11 +241,11 @@ for term in tokens:
 
 ---
 
-![](./_assets/search-engine-stage-1/image.png)
+![Terminal running main.py: entering the search word tall returns Found in doc: 1, 2, 4, 5, 6](./_assets/search-engine-stage-1/image.png)
 
-# Stage 8: Basic Keyword Lookup
+## Stage 8: Basic Keyword Lookup
 
-![](./_assets/search-engine-stage-1/Screenshot%20from%202026-02-23%2002-45-33.png)
+![Terminal session: searching for the word tall prints Found in doc: 1, 2, 4, 5, 6](./_assets/search-engine-stage-1/Screenshot%20from%202026-02-23%2002-45-33.png)
 
 ### What happened here
 
@@ -269,7 +271,7 @@ Single term lookup works. It is basic, but it is real. Next comes boolean logic 
 
 ---
 
-# Summary
+## Summary
 
 The important shift here was architectural.
 
@@ -281,7 +283,7 @@ We are not just parsing text anymore. We are building a search engine foundation
 
 ---
 
-# Implementation Checklist
+## Implementation Checklist
 
 ### Done in this phase
 
