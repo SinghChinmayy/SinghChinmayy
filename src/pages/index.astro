@@ -4,7 +4,6 @@ import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
 import ForwardLink from '../components/ForwardLink.astro';
 import ProjectIndexItem from '../components/ProjectIndexItem.astro';
-import agentSkills from '../data/agentSkills.json';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../data/index';
 import awsBadge from '../assets/Certifications/AWS/aws-academy-graduate-cloud-foundations-training-bad.png';
@@ -32,13 +31,9 @@ const featuredProjects = projects.filter((project) => project.data.featured).sor
 const currentProject = featuredProjects[0];
 const allPosts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 const posts = allPosts.slice(0, 3);
-const teaserSkills = ['tdd-red-green-refactor', 'grill-me', 'engineering-notes']
-  .map((name) => agentSkills.skills.find((skill) => skill.name === name))
-  .filter((skill) => skill !== undefined);
 const numbers = [
   { value: String(projects.length), label: 'public case studies' },
   { value: '221', label: 'tests in my latest build' },
-  { value: String(agentSkills.skills.length), label: 'open-source agent skills' },
   { value: String(allPosts.length), label: 'articles on what I learned' },
 ];
 const githubProfile = siteConfig.social.find(({ platform }) => platform === 'github')?.url ?? 'https://github.com/SinghChinmayy';
@@ -190,24 +185,6 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
           techStack={project.data.techStack}
         />)}
       </div>
-    </section>
-
-    <section class="skills-teaser" aria-labelledby="skills-heading">
-      <div class="section-header">
-        <p class="section-kicker">Open source</p>
-        <ForwardLink href="/agent-skills" text="All skills" variant="muted" />
-      </div>
-      <h2 class="section-title" id="skills-heading">Skills for your coding agent</h2>
-      <p class="section-deck">The instructions I give Claude Code and Codex, packaged so you can install them with one command.</p>
-      <ul class="skills-list">
-        {teaserSkills.map((skill) => <li>
-          <a class="skill-row" href={`/agent-skills#${skill.name}`}>
-            <span class="skill-row-title">{skill.title}</span>
-            <span class="skill-row-summary">{skill.summary.split('. ')[0].replace(/\.$/, '')}.</span>
-          </a>
-        </li>)}
-      </ul>
-      <p class="skills-install"><span>Try one:</span> <code>npx skills add {agentSkills.repo} --skill grill-me</code></p>
     </section>
 
     <section class="stack-section" aria-labelledby="stack-heading">
@@ -930,7 +907,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     }
   }
 
-  /* ---------- Front-page extras: now-building row, numbers, skills ---------- */
+  /* ---------- Front-page extras: now-building row, numbers ---------- */
 
   .now-building {
     display: grid;
@@ -1010,14 +987,13 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     line-height: 1.5;
   }
 
-  .numbers,
-  .skills-teaser {
+  .numbers {
     padding-top: clamp(2rem, 5vw, 3rem);
   }
 
   .numbers-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     list-style: none;
     margin: 0;
     padding: 0;
@@ -1047,77 +1023,9 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     color: var(--color-text-muted);
   }
 
-  .skills-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .skills-list li {
-    margin: 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .skill-row {
-    display: grid;
-    gap: 0.25rem;
-    padding: 1rem 0;
-    color: var(--color-text);
-    text-decoration: none;
-  }
-
-  .skill-row:hover {
-    color: var(--color-text);
-  }
-
-  .skill-row:hover .skill-row-title {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-  }
-
-  .skill-row-title {
-    font-family: var(--font-serif);
-    font-size: 1.125rem;
-    font-weight: 700;
-  }
-
-  .skill-row-summary {
-    color: var(--color-text-secondary);
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    line-height: 1.45;
-  }
-
-  .skills-install {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
-
-  .skills-install code {
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    font-size: 0.8125rem;
-  }
-
-  @media (min-width: 768px) {
-    .skill-row {
-      grid-template-columns: 14rem minmax(0, 1fr);
-      gap: 1.5rem;
-      align-items: baseline;
-    }
-  }
-
   @media (min-width: 768px) {
     .numbers-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .number-cell {

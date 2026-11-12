@@ -70,6 +70,7 @@ export default defineConfig({
   redirects: {
     '/rss': '/rss.xml',
     '/writing': '/blogs',
+    '/agent-skills': '/',
   },
 
   /**
