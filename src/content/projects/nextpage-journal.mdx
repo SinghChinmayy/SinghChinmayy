@@ -1,0 +1,132 @@
+---
+title: Nextpage
+role: Solo Developer
+year: 2026
+teamSize: 1
+outcomeSummary: >-
+  A local-first Markdown journal for macOS that keeps every note as a plain .md
+  file in a folder you choose, with debounced atomic autosave and conflict
+  detection when files change outside the app. Stage 1 makes no AI or sync
+  requests; both are planned.
+overview: >-
+  Nextpage stores each journal entry as an ordinary Markdown file in a folder the
+  user picks, so notes stay readable and editable outside the app. Stage 1
+  provides folder and file navigation, create, read, edit, rename, and delete
+  flows, GitHub-flavored Markdown preview with task lists, debounced atomic
+  autosave, detection of changes made outside the app, and security-scoped access
+  to the chosen folder. It is a thin fork of MiaoYan's macOS app, with
+  unrelated features removed. AI-assisted journaling and Git synchronization
+  come later.
+problem: >-
+  Most note apps keep your writing in their own database. I wanted a journal
+  where the plain-text file is the source of truth, so the notes outlive the app,
+  can be edited in Finder or tracked in Git, and are never silently overwritten
+  when the same file changes in two places.
+constraints:
+  - Native macOS app targeting macOS 12 or later, built with Xcode 16 or later
+  - Stage 1 is deliberately small — no AI, no sync, no database
+  - >-
+    Built on a fork of MiaoYan's macOS app rather than from scratch, so the
+    inherited file and editor pipeline has to be trimmed carefully
+  - Markdown text is authoritative; rendered HTML is derived and never saved over the source
+  - Every write must be atomic, and a file changed both in the app and on disk must not lose either version
+approach: >-
+  I chose a thin fork of an existing macOS Markdown editor and kept its proven
+  file and editor pipeline, then removed cloud sync, mobile support,
+  presentations, wikilinks, tags, encryption, image upload, export, auto-update,
+  and AI integration from the Stage 1 build. File rules live behind a small
+  storage interface, writes go through a debounced atomic save that is flushed
+  when switching files or quitting, and a file watcher reports outside edits so
+  a divergent file produces a recoverable conflict instead of an overwrite. The
+  codebase is organised into Business, Controllers, Views, Helpers, Extensions,
+  Resources, and XCTest modules.
+keyDecisions:
+  - decision: Fork an existing editor instead of starting a new UI project
+    reasoning: >-
+      The three-pane sidebar, file list, editor, and preview were already proven.
+      Keeping them let Stage 1 focus on journal-specific storage rules rather
+      than rebuilding an editor.
+    alternatives:
+      - A new SwiftUI app (more rebuild work before the first usable version)
+  - decision: One Markdown file per entry, no database
+    reasoning: >-
+      The file is the source of truth, so the journal stays portable and can be
+      edited in Finder or tracked with Git. Rendered HTML is derived and never
+      written back.
+    alternatives:
+      - A local database (hides notes from other tools)
+  - decision: Atomic writes with conflict detection
+    reasoning: >-
+      Autosave is debounced and flushed on file switch and quit. If a file
+      changed both in Nextpage and on disk, the app produces a recoverable
+      conflict copy or asks for an explicit choice instead of overwriting.
+    alternatives:
+      - Last write wins (can silently lose content)
+  - decision: Security-scoped bookmark for the journal folder
+    reasoning: >-
+      Lets a direct-download app reopen the user-selected folder after relaunch
+      without asking again.
+    alternatives:
+      - Ask for the folder on every launch
+techStack:
+  - Swift 6
+  - AppKit
+  - WKWebView
+  - swift-cmark-gfm
+  - XCTest
+  - Markdown
+impact:
+  metrics:
+    - label: Platform
+      value: macOS 12 or later
+    - label: Storage
+      value: One plain .md file per entry
+    - label: Network Requests
+      value: None in Stage 1 — no AI or sync
+    - label: Test Files
+      value: 18 XCTest files in the repository
+  qualitative: >-
+    Stage 1 is a dependable local Markdown journal: pick a folder, navigate its
+    files, write, preview, and rely on atomic autosave and outside-edit detection
+    not to lose text. It is a fork with unrelated features removed, so much of the
+    editor pipeline comes from the upstream project and my work is the Stage 1
+    scope, storage rules, and the journal-specific direction. AI prompt settings
+    are designed in the repository but not implemented, and Git synchronization
+    is not started.
+learnings:
+  - >-
+    Starting from a proven editor let me spend the effort on the storage and
+    conflict rules, which is where a journal can actually lose data
+  - >-
+    Making the plain file the source of truth simplifies everything else:
+    previews are derived, and other tools can edit the same notes
+  - >-
+    Removing features deliberately, and leaving them in Git history instead of
+    disabled in the app, keeps a fork small enough to reason about
+  - >-
+    Writing down a definition of done for Stage 1 made it clear what to leave out
+featured: false
+status: ongoing
+order: 4
+repo: https://github.com/SinghChinmayy/ai-journal
+nowBuilding: A local-first Markdown journal for macOS that keeps every note as a plain .md file, with atomic autosave and conflict detection.
+relatedProjects: []
+---
+
+Nextpage is an early-stage macOS app. Stage 1 is local only: it makes no AI requests
+and no sync requests, and both are planned rather than built.
+
+## What's Built
+
+- **Navigation**: Folder and Markdown-file navigation for a folder you choose
+- **Editing**: Create, read, edit, rename, and delete flows
+- **Preview**: GitHub-flavored Markdown rendering, including task lists
+- **Autosave**: Debounced atomic saves, flushed on file switch and quit
+- **External changes**: Detection of outside edits with recoverable conflicts
+- **Folder access**: Security-scoped access to the selected journal folder
+
+## What's Next
+
+- **AI-assisted journaling**: A design for global and per-project AI prompt settings exists in the repository; it is planned, not implemented
+- **Git synchronization**: Planned for a later stage
+- **Manual smoke test**: Stage 1 is only complete once the create, edit, preview, rename, delete, relaunch, and external-edit flows are confirmed on a user-selected folder

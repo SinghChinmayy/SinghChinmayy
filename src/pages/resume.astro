@@ -1,0 +1,240 @@
+---
+/**
+ * Resume Page
+ *
+ * Accessible, print-friendly resume. Use the browser's Print dialog and choose
+ * "Save as PDF". The print stylesheet hides the site chrome and renders black
+ * on white, aiming for a single page.
+ *
+ * Content comes only from facts already published on the site: site.json,
+ * the project case studies, the README and the certifications section of the
+ * home page. Anything not verified there (dates, grades, employers) is left out.
+ *
+ * Route: /resume
+ *
+ * @page
+ */
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SEO from "../components/SEO.astro";
+import { siteConfig } from "../data/index";
+
+const social = (platform: string) =>
+  siteConfig.social.find((link) => link.platform === platform)?.url ?? "";
+const github = social("github");
+const linkedin = social("linkedin");
+const bare = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+
+const education = {
+  school: "Manipal Institute of Technology",
+  degree: "B.Tech, Computer Science & Engineering (AI)",
+};
+
+const projects = [
+  {
+    name: "Car Dealership Inventory System",
+    href: "/projects/car-dealership-inventory",
+    status: "Kata with public demo",
+    stack: "Python, FastAPI, PostgreSQL, React, TypeScript, Playwright, GitHub Actions",
+    outcome:
+      "Built test-first with AI coding agents: atomic purchases (20 concurrent buyers, 5 cars, exactly 5 sales), soft delete, audited restocks, and CI that migrates Neon before deploying to Vercel.",
+  },
+  {
+    name: "ChaosLab",
+    href: "/projects/chaoslab-petclinic",
+    status: "Local prototype",
+    stack: "Python, Spring Boot, Docker Compose, Locust, Prometheus, Zipkin",
+    outcome:
+      "Guarded chaos experiments for Spring PetClinic. A recorded Visits crash left the gateway returning HTTP 200 with visits missing; the watchdog reverted the fault after 9.3 s.",
+  },
+  {
+    name: "Kidney Care",
+    href: "/projects/kidney-care",
+    status: "Engineering prototype, not a medical product",
+    stack: "Flutter, Dart, drift/SQLite, Supabase, PostgreSQL",
+    outcome:
+      "Offline-first vitals logging with a local SQLite source of truth and a registry-driven sync engine (last-write-wins, row-level security); 20+ unit tests.",
+  },
+  {
+    name: "NLP Search Engine",
+    href: "/projects/nlp-search-engine",
+    status: "Learning project, code private",
+    stack: "Python",
+    outcome:
+      "Modular ingestion, normalisation, tokenisation and inverted-index pipeline with keyword lookup.",
+  },
+  {
+    name: "Aegis, Controlled Remediation Platform",
+    href: "/projects/aegis-observability-remediation",
+    status: "Design stage",
+    stack: "Go, REST, PostgreSQL, Prometheus, OpenTelemetry",
+    outcome:
+      "Designing an auditable workflow to detect failures, propose remediation, require human approval and verify recovery; first backend slice planned.",
+  },
+];
+
+const skills = [
+  { label: "Languages", items: "Go, Python, Dart, TypeScript, Swift, C++, Java" },
+  { label: "Backend & data", items: "FastAPI, REST, PostgreSQL, SQLAlchemy, Alembic, Supabase, SQLite" },
+  { label: "Infrastructure & observability", items: "Docker, Docker Compose, GitHub Actions, Linux, AWS (foundations), Prometheus, Grafana, OpenTelemetry, Zipkin" },
+  { label: "Frontend & mobile", items: "React, Flutter" },
+  { label: "Testing", items: "Test-first workflow, Testcontainers, Playwright, Vitest, XCTest, Locust" },
+];
+
+const certifications = [
+  { title: "AWS Academy Graduate, Cloud Foundations", year: "2026" },
+  { title: "IBM SkillsBuild, Web Development Fundamentals", year: "2026" },
+  { title: "IBM SkillsBuild labs and courses: RAG, AI agents, Amazon Bedrock, Amazon OpenSearch, IBM Granite", year: "2025" },
+  { title: "Boot.dev, Learn Linux and Learn to Code in Python", year: "2025" },
+  { title: "Coursera: Docker for Absolute Beginners; Java and OOP (Penn); Ordered Data Structures (Illinois); Digital Systems (UAB); C programming; Linear Regression with Python", year: "2024 to 2025" },
+  { title: "AMFI Registered Mutual Fund Distributor", year: "2024" },
+];
+---
+
+<BaseLayout>
+  <SEO
+    slot="head"
+    title="Resume"
+    description={`Resume of ${siteConfig.author.name}: early-career backend and systems engineer, B.Tech CSE (AI) student at Manipal Institute of Technology.`}
+    type="website"
+  />
+
+  <div class="page-container resume-page">
+    <article class="resume" aria-labelledby="resume-name">
+      <header class="resume-header">
+        <p class="kicker no-print">Resume</p>
+        <h1 id="resume-name" class="resume-name">{siteConfig.author.name}</h1>
+        <p class="resume-role">{siteConfig.author.title}</p>
+        <ul class="resume-contact" aria-label="Contact">
+          <li><a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a></li>
+          <li><a href={siteConfig.url}>{bare(siteConfig.url)}</a></li>
+          {github && <li><a href={github}>{bare(github)}</a></li>}
+          {linkedin && <li><a href={linkedin}>{bare(linkedin)}</a></li>}
+          <li>{siteConfig.author.location}</li>
+        </ul>
+        <p class="no-print resume-print-hint">
+          To save a PDF, use your browser's Print dialog and choose "Save as PDF".
+        </p>
+      </header>
+
+      <section aria-labelledby="summary-h">
+        <h2 id="summary-h" class="section-label">Summary</h2>
+        <p>
+          Early-career software engineer interested in backend development,
+          infrastructure, and how systems behave in production. I build small,
+          explainable systems in public, write the failing test first, and label
+          each project as prototype or production.
+        </p>
+      </section>
+
+      <section aria-labelledby="education-h">
+        <h2 id="education-h" class="section-label">Education</h2>
+        <p><strong>{education.school}</strong>. {education.degree}.</p>
+      </section>
+
+      <section aria-labelledby="projects-h">
+        <h2 id="projects-h" class="section-label">Projects</h2>
+        <ul class="resume-list">
+          {projects.map((project) => (
+            <li>
+              <p class="resume-item-head">
+                <a href={project.href}><strong>{project.name}</strong></a>
+                <span class="resume-meta">{project.status}</span>
+              </p>
+              <p>{project.outcome}</p>
+              <p class="resume-meta">{project.stack}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="skills-h">
+        <h2 id="skills-h" class="section-label">Skills</h2>
+        <dl class="resume-skills">
+          {skills.map((group) => (
+            <div>
+              <dt>{group.label}</dt>
+              <dd>{group.items}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section aria-labelledby="certs-h">
+        <h2 id="certs-h" class="section-label">Certifications</h2>
+        <ul class="resume-certs">
+          {certifications.map((cert) => (
+            <li>{cert.title} <span class="resume-meta">({cert.year})</span></li>
+          ))}
+        </ul>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .resume { max-width: 46rem; margin-inline: auto; }
+  .resume-header { margin-bottom: 1.5rem; }
+  .resume-name {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .resume-role {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.75rem;
+  }
+  .resume-contact {
+    display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem;
+    list-style: none; font-size: 0.875rem;
+  }
+  .resume-contact a { display: inline-block; padding-block: 0.5rem; }
+  .resume-print-hint { margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-muted); }
+  .resume section { margin-top: 1.75rem; }
+  .resume section > p, .resume-list p, .resume-certs li, .resume-skills dd {
+    font-family: var(--font-serif);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  .resume .section-label { margin-bottom: 0.75rem; }
+  .resume-list, .resume-certs { list-style: none; }
+  .resume-list > li { padding-block: 0.75rem; border-bottom: 1px solid var(--color-border); }
+  .resume-list > li:last-child { border-bottom: 0; }
+  .resume-item-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; }
+  .resume-item-head a { color: var(--color-text); }
+  .resume-meta { font-family: var(--font-sans); font-size: 0.8125rem; color: var(--color-text-muted); }
+  .resume-skills > div { padding-block: 0.25rem; }
+  .resume-skills dt { font-family: var(--font-sans); font-size: 0.875rem; font-weight: 700; color: var(--color-text); }
+  .resume-certs li { padding-block: 0.25rem; }
+</style>
+
+<style is:global>
+  @media print {
+    @page { size: A4; margin: 11mm 13mm; }
+    html, html[data-theme], body {
+      background: #fff !important; color: #000 !important;
+      font-size: 9.5pt; min-height: 0 !important; display: block !important;
+    }
+    .site-header, .site-footer, .scroll-to-top, .no-print { display: none !important; }
+    .resume-page { padding: 0 !important; max-width: none !important; }
+    .resume { max-width: none; }
+    .resume *, .resume a { color: #000 !important; background: none !important; }
+    .resume a { text-decoration: none; }
+    .resume-name { font-size: 22pt; }
+    .resume-role { font-size: 11pt; margin-bottom: 4pt; }
+    .resume-header { margin-bottom: 8pt; }
+    .resume section { margin-top: 9pt; break-inside: avoid; }
+    .resume .section-label { border-bottom: 1px solid #000 !important; margin-bottom: 4pt; padding-bottom: 2pt; }
+    .resume-contact { font-size: 9pt; gap: 0 12pt; }
+    .resume-contact a { padding: 0; }
+    .resume-list > li { padding-block: 3pt; border-bottom: 0; break-inside: avoid; }
+    .resume section > p, .resume-list p, .resume-certs li, .resume-skills dd { font-size: 9.5pt; line-height: 1.35; }
+    .resume-meta { font-size: 8.5pt; }
+    .resume-certs li { padding-block: 0; }
+    .resume-skills > div { padding-block: 0; }
+  }
+</style>

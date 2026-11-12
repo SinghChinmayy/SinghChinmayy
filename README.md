@@ -4,7 +4,7 @@ Early-career software engineer focused on backend development, infrastructure, a
 
 I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, learning by building public projects and writing about the decisions, trade-offs, and unfinished parts behind them. I like writing the failing test first, keeping a record of why each decision was made, and leaving systems easier to change than I found them.
 
-[Website](https://chinmaysingh.me) · [Blog](https://chinmaysingh.me/blogs) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
+[Website](https://chinmaysingh.me) · [Blog](https://chinmaysingh.me/blogs) · [Resume](https://chinmaysingh.me/resume) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
 
 ## What I’m working on
 
@@ -45,12 +45,17 @@ A Go platform I’m designing for detecting service failures, proposing safe rem
 
 `Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
 
+### NLP Search Engine
+
+A search engine built from scratch in Python to learn how retrieval works: four isolated stages (loader, normaliser, tokenizer, index manager) producing an inverted index with keyword lookup. Stage 1 only, with no ranking or semantic search yet. The code is private for now; the [write-up](https://chinmaysingh.me/blogs/search-engine-stage-1) walks through the design.
+
+`Python` `Regex` `Unicode (NFKC)`
+
 ## Learning in public
 
 - [Engineering-Notes](https://github.com/SinghChinmayy/Engineering-Notes): SQL concept notes and solved interview-style problems, with the reasoning behind each query.
 - [homelab](https://github.com/SinghChinmayy/homelab): a Docker Compose media stack managed with Portainer, with optional Tailscale access. Under construction.
 - [snippetbox](https://github.com/SinghChinmayy/snippetbox): a small Go web application for practising Go’s HTTP patterns.
-- NLP search pipeline: document ingestion, normalisation, tokenisation, and an inverted index in Python. The code is private for now; the [write-up](https://chinmaysingh.me/blogs/search-engine-stage-1) walks through the design.
 
 ## Writing
 
