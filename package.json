@@ -1,21 +1,20 @@
 {
-  "name": "case-site",
+  "name": "chinmaysingh-me",
   "type": "module",
   "version": "1.1.0",
-  "description": "A case-study-first portfolio theme for Astro",
+  "description": "Personal portfolio of Chinmay Singh: backend and systems engineering case studies, articles and notes.",
   "keywords": [
     "astro",
-    "theme",
     "portfolio",
-    "case-study",
-    "professional"
+    "backend",
+    "systems-engineering"
   ],
-  "author": "Erland <hello@erland.me>",
+  "author": "Chinmay Singh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erlandv/case.git"
+    "url": "https://github.com/SinghChinmayy/SinghChinmayy.git"
   },
-  "homepage": "https://case.erland.me",
+  "homepage": "https://chinmaysingh.me",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

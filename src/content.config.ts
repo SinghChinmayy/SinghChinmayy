@@ -95,6 +95,21 @@ const projectsCollection = defineCollection({
     /** Custom sort order (lower numbers first) */
     order: z.number().optional(),
 
+    /** Optional short line for the homepage "Now building" block (falls back to outcomeSummary) */
+    nowBuilding: z.string().optional(),
+
+    /** Public source repository URL */
+    repo: z.string().url().optional(),
+
+    /** Live demo URL */
+    demo: z.string().url().optional(),
+
+    /** Extra links shown at the top of the case study (URL may be site-relative) */
+    links: z.array(z.object({
+      label: z.string(),
+      url: z.string(),
+    })).optional(),
+
     /** Related project slugs for cross-referencing */
     relatedProjects: z.array(z.string()).optional(),
 
