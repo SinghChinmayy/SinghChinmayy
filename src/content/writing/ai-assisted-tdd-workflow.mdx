@@ -74,7 +74,7 @@ Why this works better than "here is the ticket, go":
 - **I still own every decision.** The recommendation is a default, not a verdict. For purchases, I chose to let administrators buy cars too, and the architecture decision record was updated to match.
 - **One question at a time** stops the agent from dumping a 30-point plan that I approve without reading.
 
-I keep this interview as a reusable skill called [`grill-me`](/agent-skills#grill-me), so I can start it in any project by saying "grill me". You can [install it](#install-the-skills) too.
+I keep this interview as a reusable skill called `grill-me`, so I can start it in any project by saying "grill me".
 
 ## Step 2: Write it down, because agents forget
 
@@ -195,36 +195,13 @@ None of these reached users. That is the whole point: the agent will be wrong re
 
 ## Try it in your project
 
-I have generalized the TDD skill so it works in any language or framework: it discovers your test runner instead of assuming pytest, and the concurrency recipe applies to any shared-state write (stock, balances, seat bookings). It and the `grill-me` interview are open source in [SinghChinmayy/agent-skills](https://github.com/SinghChinmayy/agent-skills), and you can install them with one command each.
-
-### Install the skills
-
-Run these from your project. They use the open [`skills`](https://github.com/vercel-labs/skills) installer, which works with Claude Code, Codex, Cursor, Copilot and most other agents, and asks which ones to install for:
-
-```bash
-npx skills add SinghChinmayy/agent-skills --skill tdd-red-green-refactor
-npx skills add SinghChinmayy/agent-skills --skill grill-me
-```
-
-Add `-g` to install for every project on your machine instead of just this one. To skip the prompts and install straight into Claude Code:
-
-```bash
-npx skills add SinghChinmayy/agent-skills --skill tdd-red-green-refactor --skill grill-me -g -a claude-code -y
-```
-
-No Node on the machine? A skill is just a folder with a `SKILL.md` file, so this works too (Claude Code shown):
-
-```bash
-mkdir -p ~/.claude/skills/tdd-red-green-refactor && curl -fsSL https://raw.githubusercontent.com/SinghChinmayy/agent-skills/main/skills/engineering/tdd-red-green-refactor/SKILL.md -o ~/.claude/skills/tdd-red-green-refactor/SKILL.md
-```
-
-The rest of my skills (database planning, scoped builds, terse replies) are on the [Agent Skills](/agent-skills) page.
+I have generalized the TDD skill so it works in any language or framework: it discovers your test runner instead of assuming pytest, and the concurrency recipe applies to any shared-state write (stock, balances, seat bookings). A skill is just a folder with a `SKILL.md` file of instructions, so you can write your own in a few minutes.
 
 ### The minimum setup
 
 1. **Add an `AGENTS.md`** (or `CLAUDE.md`) with your rules: test first, one behaviour per commit, never squash.
-2. **Install the TDD skill** (above) and tell the agent to use it for every feature or bug fix. The [project-specific original](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/blob/main/.agents/skills/tdd-red-green-refactor/SKILL.md) is still in the dealership repo if you want to see where it started.
-3. **Start each feature with an interview.** Say "grill me" with the `grill-me` skill installed, or ask the agent to question you one item at a time, with a recommended answer for each.
+2. **Write a TDD skill** (red, green, refactor as separate commits) and tell the agent to use it for every feature or bug fix. The [project-specific original](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/blob/main/.agents/skills/tdd-red-green-refactor/SKILL.md) is still in the dealership repo if you want to see where it started.
+3. **Start each feature with an interview.** Say "grill me" with a `grill-me` skill, or ask the agent to question you one item at a time, with a recommended answer for each.
 4. **Write decisions down** as short ADRs and a glossary as you go.
 5. **Protect `main`**: required CI checks, rebase or merge commits only, no bypass for yourself.
 6. **Run a fresh-agent audit** before you call anything done.

@@ -4,7 +4,7 @@ Early-career software engineer focused on backend development, infrastructure, a
 
 I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology, learning by building public projects and writing about the decisions, trade-offs, and unfinished parts behind them. I like writing the failing test first, keeping a record of why each decision was made, and leaving systems easier to change than I found them.
 
-[Website](https://chinmaysingh.me) · [Blog](https://chinmaysingh.me/blogs) · [Agent Skills](https://chinmaysingh.me/agent-skills) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
+[Website](https://chinmaysingh.me) · [Blog](https://chinmaysingh.me/blogs) · [LinkedIn](https://www.linkedin.com/in/singhchinmayy/) · [Email](mailto:dev@chinmaysingh.me)
 
 ## What I’m working on
 
@@ -44,14 +44,6 @@ A local-first Markdown journal for macOS that keeps every note as a plain `.md` 
 A Go platform I’m designing for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery. It’s at the design stage: the architecture and the first backend slice are planned, and implementation is next.
 
 `Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
-
-## Open source: agent skills
-
-[agent-skills](https://github.com/SinghChinmayy/agent-skills) holds the reusable instructions I give my coding agents: test-driven red-green-refactor, a one-question-at-a-time design interview, database planning, scoped builds, and terse replies. They work with Claude Code, Codex, Cursor, and other agents that read `SKILL.md` files.
-
-```bash
-npx skills add SinghChinmayy/agent-skills --skill tdd-red-green-refactor
-```
 
 ## Learning in public
 

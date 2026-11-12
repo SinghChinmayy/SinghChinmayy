@@ -75,12 +75,6 @@
       "children": []
     },
     {
-      "label": "Agent Skills",
-      "href": "/agent-skills",
-      "show": true,
-      "children": []
-    },
-    {
       "label": "Contact",
       "href": "/contact",
       "show": true,
