@@ -5,7 +5,7 @@ summary: "MD5 turns input of any length into a 128-bit digest by mixing 32-bit w
 tags: [cryptography, hashing, md5, checksums]
 status: learning
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-11-13
 aliases: [md5, message digest 5, md5 hash]
 ---
 
@@ -152,9 +152,9 @@ MD5 stores numbers little-endian (least significant byte first), which is why th
 - **It is still fine for error detection**: spotting accidental corruption in a download or a copied file, where nobody is trying to cheat.
 - **Alternatives:** for security, use **SHA-256** (from the SHA-2 family) or **SHA-3**. Avoid SHA-1 too: it is broken as well, and the first practical collision was published in 2017. For catching accidental errors only, MD5 or a CRC is enough; neither gives any security.
 
-## Further explanation
+## Resources I used
 
-- Video: [How the MD5 hash function works (from scratch)](https://www.youtube.com/watch?v=5MiMK45gkTY) by RareSkills walks through the algorithm step by step.
+- Video: [How the MD5 hash function works (from scratch)](https://www.youtube.com/watch?v=5MiMK45gkTY) by RareSkills, the whole video: walks through the algorithm step by step.
 
 ## My notebook pages
 
@@ -223,3 +223,4 @@ For accidental corruption, yes. If someone could tamper with the file, no: use S
 ## History
 
 - 2026-10-27: First notes, from three notebook pages on MD5 and the RareSkills video; added the step-by-step algorithm and a from-scratch implementation. The original pages are kept under [My notebook pages](#my-notebook-pages).
+- 2026-11-13: Renamed "Further explanation" to "Resources I used" and noted which part of the video was used.
