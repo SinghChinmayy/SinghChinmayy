@@ -7,6 +7,8 @@
  * them to site URLs:
  *   notes/<subject>/<topic>.md        -> /notes/<subject>/<topic>
  *   practice/<subject>/<file>.md      -> /notes/practice/<subject>/<file>
+ * External http(s) links (the "Resources I used" books, articles and videos)
+ * open in a new tab.
  * Only files inside src/content/engineering-notes are touched.
  */
 
@@ -31,6 +33,11 @@ export default function remarkNoteLinks() {
     const contentRoot = filePath.slice(0, rootIndex + CONTENT_ROOT.length);
 
     visit(tree, 'link', (node) => {
+      if (/^https?:\/\//i.test(node.url)) {
+        node.data = node.data || {};
+        node.data.hProperties = { ...(node.data.hProperties || {}), target: '_blank', rel: 'noopener noreferrer' };
+        return;
+      }
       const [target, hash] = node.url.split('#');
       if (!target || /^[a-z]+:/i.test(target) || !target.endsWith('.md')) return;
       const absolute = path.resolve(path.dirname(filePath), target);

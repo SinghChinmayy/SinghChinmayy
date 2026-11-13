@@ -7,7 +7,7 @@
 
 import type { CollectionEntry } from 'astro:content';
 
-const ACRONYMS = new Set(['sql', 'os', 'dns', 'http', 'tcp', 'udp', 'api', 'aws', 'ci', 'cd', 'dsa', 'ml', 'ai', 'llm']);
+const ACRONYMS = new Set(['sql', 'os', 'dns', 'http', 'tcp', 'udp', 'api', 'aws', 'ci', 'cd', 'dsa', 'ml', 'ai', 'llm', 'rest', 'uri', 'url', 'json']);
 
 /** "sql" -> "SQL", "system-design" -> "System Design", "operating-systems" -> "Operating Systems" */
 export function subjectLabel(subject: string): string {
