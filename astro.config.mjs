@@ -31,6 +31,7 @@ import { shikiContrast } from './src/utils/shikiTransformers.mjs';
 
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import noRocketLoader from './integrations/noRocketLoader.mjs';
 
 /**
  * Load site configuration from local settings instead of .env
@@ -84,6 +85,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap(),
+    noRocketLoader(),
   ],
 
   /**
