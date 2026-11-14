@@ -26,6 +26,8 @@ import cloudflare from '@astrojs/cloudflare';
 import { remarkAlert } from 'remark-github-blockquote-alert';
 import remarkGfm from 'remark-gfm';
 import remarkNoteLinks from './src/utils/remarkNoteLinks.mjs';
+import remarkHighlight from './src/utils/remarkHighlight.mjs';
+import { shikiContrast } from './src/utils/shikiTransformers.mjs';
 
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -142,22 +144,27 @@ export default defineConfig({
 
   /**
    * Markdown configuration
-   * 
-   * Configures markdown processing and syntax highlighting.
-   * 
-   * Shiki Configuration:
-   * - Theme: GitHub Dark for consistent code highlighting
-   * - Wrap: Enables line wrapping for long code lines
+   *
+   * Remark plugins: GitHub alerts, GFM, note link rewriting, and
+   * `==text==` -> <mark> highlights (src/utils/remarkHighlight.mjs).
+   *
+   * Shiki: dual themes emitted as CSS variables only (defaultColor: false).
+   * src/styles/code-and-highlights.css picks --shiki-light or --shiki-dark
+   * from the <html data-theme> attribute set by the theme toggle.
+   * - Light: github-light-default (comment grey darkened for AA contrast)
+   * - Dark: catppuccin-mocha (every token >= 5.7:1 on the dark code surface)
+   * - wrap: false so long lines scroll inside the block, keeping indentation
    */
   markdown: {
-    remarkPlugins: [remarkAlert, remarkGfm, remarkNoteLinks],
+    remarkPlugins: [remarkAlert, remarkGfm, remarkNoteLinks, remarkHighlight],
     shikiConfig: {
       themes: {
-        light: 'github-light',
-        dark: 'github-dark',
+        light: 'github-light-default',
+        dark: 'catppuccin-mocha',
       },
       defaultColor: false,
-      wrap: true
+      wrap: false,
+      transformers: [shikiContrast],
     }
   }
 });

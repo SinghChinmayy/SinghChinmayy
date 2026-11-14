@@ -199,10 +199,12 @@ const shouldRender = filteredHeadings.length >= 3;
 
 <script>
   function initTOC() {
-    const toggle = document.querySelector('.toc-toggle');
+    const toggle = document.querySelector<HTMLElement>('.toc-toggle');
     const list = document.querySelector('.toc-list');
-    
-    if (!toggle || !list) return;
+
+    // Bind once per page: binding twice made one click open and close it again.
+    if (!toggle || !list || toggle.dataset.bound) return;
+    toggle.dataset.bound = 'true';
 
     // Toggle expand/collapse
     toggle.addEventListener('click', () => {
@@ -238,9 +240,6 @@ const shouldRender = filteredHeadings.length >= 3;
     });
   }
 
-  // Run on initial load
-  initTOC();
-
-  // Re-run on Astro page transitions
-  document.addEventListener('astro:after-swap', initTOC);
+  // Runs on the first load and after every View Transitions navigation
+  document.addEventListener('astro:page-load', initTOC);
 </script>

@@ -15,6 +15,7 @@ import StructuredData from "../../components/StructuredData.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
 import ScrollToTop from "../../components/ScrollToTop.astro";
 import BackLink from "../../components/BackLink.astro";
+import ReadingWidthToggle from "../../components/ReadingWidthToggle.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { getReadingTime } from "../../utils/readingTime";
 import { subjectLabel, noteSlug, noteHref, sourceHref, formatNoteDate } from "../../utils/notes";
@@ -42,6 +43,21 @@ const kicker = isPractice
   ? `Practice · ${subjectName}${difficulty ? ` · ${difficulty}` : ""}`
   : `Engineering notes · ${subjectName}`;
 const readingTime = getReadingTime(entry.body ?? "");
+/** Count of bullets under "## Resources I used" (books, articles, videos used for this note) */
+const resourcesSection = (entry.body ?? "").split(/^## Resources I used\s*$/m)[1]?.split(/^## /m)[0] ?? "";
+/** Each bullet: "- Kind: [Title](https://...) by Author, <portion>: <what it covers>" */
+const resources = resourcesSection
+  .split("\n")
+  .map((line) => line.match(/^- (\w+): \[([^\]]+)\]\((https?:\/\/[^)\s]+)\)(.*)$/))
+  .filter((m): m is RegExpMatchArray => m !== null)
+  .map(([, kind, title, url, rest]) => ({
+    kind,
+    title,
+    url,
+    // "by Author, portion" without the trailing description, and without Markdown marks
+    detail: rest.replace(/[`*_]/g, "").replace(/:\s.*$/, "").replace(/^[\s,]+/, "").trim(),
+  }));
+const resourceCount = resources.length;
 const moreInSubject = siblings
   .filter((other) => other.data.kind === "note")
   .sort((a, b) => b.data.updated.getTime() - a.data.updated.getTime())
@@ -88,6 +104,17 @@ const moreInSubject = siblings
           </span>
           <span aria-hidden="true">·</span>
           <span>{readingTime}</span>
+          {resourceCount > 0 && (
+            <>
+              <span aria-hidden="true">·</span>
+              <a class="note-resources-link" href="#note-resources-title">
+                {resourceCount} {resourceCount === 1 ? "resource" : "resources"} used ↓
+              </a>
+            </>
+          )}
+        </div>
+        <div class="article-tools">
+          <ReadingWidthToggle />
         </div>
       </div>
     </header>
@@ -95,6 +122,21 @@ const moreInSubject = siblings
     <div class="article-column">
       <TableOfContents headings={headings} />
     </div>
+
+    {resources.length > 0 && (
+      <aside class="note-resources" aria-labelledby="note-resources-title">
+        <p class="note-resources-title" id="note-resources-title">Resources I used</p>
+        <ul>
+          {resources.map((r) => (
+            <li>
+              <span class="note-resources-kind">{r.kind}</span>
+              <a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a>
+              {r.detail && <span class="note-resources-detail">{r.detail}</span>}
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
 
     <article class="article-content article-content--note">
       <Content />

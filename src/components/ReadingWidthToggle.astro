@@ -1,0 +1,79 @@
+---
+/**
+ * Reading width toggle for articles and notes.
+ *
+ * Switches the reading column between the normal measure and a wide,
+ * near full-width layout with small side margins. The choice is stored in
+ * localStorage ("reading-width") and applied as html[data-reading="wide"]
+ * before the article paints, and carried across View Transitions.
+ * The button only shows on screens wide enough for it to matter.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var KEY = "reading-width";
+    function stored() {
+      try { return localStorage.getItem(KEY) === "wide"; } catch (e) { return false; }
+    }
+    function apply(doc) {
+      if (stored()) doc.documentElement.setAttribute("data-reading", "wide");
+      else doc.documentElement.removeAttribute("data-reading");
+    }
+    apply(document);
+    if (!window.__readingWidthSwap) {
+      window.__readingWidthSwap = true;
+      document.addEventListener("astro:before-swap", function (e) { apply(e.newDocument); });
+    }
+  })();
+</script>
+
+<button
+  type="button"
+  class="reading-width-toggle"
+  data-reading-toggle
+  aria-pressed="false"
+  title="Toggle wide reading view"
+>
+  <svg class="icon-expand" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 7l-5 5 5 5M16 7l5 5-5 5M3 12h18"></path>
+  </svg>
+  <svg class="icon-collapse" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7l5 5-5 5M20 7l-5 5 5 5M9 12h6"></path>
+  </svg>
+  <span class="reading-width-label">Wide view</span>
+</button>
+
+<script>
+  const KEY = "reading-width";
+
+  function sync() {
+    const wide = document.documentElement.getAttribute("data-reading") === "wide";
+    document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(wide));
+      const label = button.querySelector(".reading-width-label");
+      if (label) label.textContent = wide ? "Normal width" : "Wide view";
+    });
+  }
+
+  function setup() {
+    sync();
+    document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
+      if (button.dataset.bound) return;
+      button.dataset.bound = "true";
+      button.addEventListener("click", () => {
+        const wide = document.documentElement.getAttribute("data-reading") !== "wide";
+        if (wide) document.documentElement.setAttribute("data-reading", "wide");
+        else document.documentElement.removeAttribute("data-reading");
+        try {
+          localStorage.setItem(KEY, wide ? "wide" : "normal");
+        } catch {
+          /* storage blocked: the toggle still works for this page */
+        }
+        sync();
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", setup);
+</script>

@@ -28,6 +28,7 @@ import TableOfContents from "../../components/TableOfContents.astro";
 import ScrollToTop from "../../components/ScrollToTop.astro";
 import BackLink from "../../components/BackLink.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
+import ReadingWidthToggle from "../../components/ReadingWidthToggle.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { getReadingTime } from "../../utils/readingTime";
 import "../../styles/article.css";
@@ -146,6 +147,9 @@ function formatDate(date: Date): string {
               </>
             )
           }
+        </div>
+        <div class="article-tools">
+          <ReadingWidthToggle />
         </div>
       </div>
       <ShareButtons

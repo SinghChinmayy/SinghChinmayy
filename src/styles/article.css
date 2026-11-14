@@ -562,3 +562,207 @@
   margin: 1rem 0 1.5rem;
   transform: none;
 }
+
+/* Reading width: html[data-reading="wide"] (ReadingWidthToggle) turns the
+   reading column into a near full-width layout with small side margins. */
+.reading-width-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.reading-width-toggle:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.reading-width-toggle[aria-pressed="true"] {
+  background: var(--color-accent-muted);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.reading-width-toggle .icon-collapse,
+.reading-width-toggle[aria-pressed="true"] .icon-expand {
+  display: none;
+}
+
+.reading-width-toggle[aria-pressed="true"] .icon-collapse {
+  display: inline;
+}
+
+.article-tools {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 1024px) {
+  .reading-width-toggle {
+    display: inline-flex;
+  }
+
+  [data-reading="wide"] .article,
+  [data-reading="wide"] .article--note {
+    --max-width-article: calc(100vw - 6rem);
+    --figure-width: calc(100vw - 6rem);
+    padding-inline: 3rem;
+  }
+
+  [data-reading="wide"] .article-header {
+    max-width: min(1100px, calc(100vw - 6rem));
+  }
+
+  [data-reading="wide"] .article-deck,
+  [data-reading="wide"] .article-byline {
+    max-width: min(1100px, calc(100vw - 6rem));
+  }
+
+  /* Figures already span the column in wide view */
+  [data-reading="wide"] .article-content p:has(> img, > a.zoomable) {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+}
+
+/* Notes: "Resources I used" (books, articles, videos) as a card */
+.note-resources-link {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.note-resources-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-content h2#resources-i-used + ul {
+  list-style: none;
+  margin: 0 0 2.5rem;
+  padding: 0.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: var(--color-bg-elevated);
+}
+
+.article-content h2#resources-i-used + ul > li {
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.article-content h2#resources-i-used + ul > li + li {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.article-content h2#resources-i-used + ul a {
+  font-weight: 600;
+}
+
+/* External links get a small arrow so readers know they leave the site */
+.article-content a[target="_blank"]::after {
+  content: "\2197";
+  display: inline-block;
+  margin-left: 0.15em;
+  font-family: var(--font-sans);
+  font-size: 0.75em;
+  text-decoration: none;
+}
+
+/* Notes: the resources box under the table of contents */
+.note-resources {
+  max-width: var(--max-width-article);
+  margin: 0 auto 2.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: var(--color-bg-elevated);
+  font-family: var(--font-sans);
+}
+
+.note-resources-title {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.note-resources ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-resources li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.note-resources li + li {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.note-resources-kind {
+  flex-shrink: 0;
+  min-width: 4.25rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.note-resources a {
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-underline-offset: 3px;
+}
+
+.note-resources a:hover {
+  color: var(--color-accent);
+}
+
+.note-resources a::after {
+  content: "\2197";
+  margin-left: 0.15em;
+  font-size: 0.8em;
+}
+
+.note-resources-detail {
+  flex-basis: 100%;
+  padding-left: calc(4.25rem + 0.6rem);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .note-resources-detail {
+    padding-left: 0;
+  }
+}

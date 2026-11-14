@@ -275,10 +275,13 @@ const shareUrls = {
 
 <script>
     // Copy to clipboard functionality
-    document.addEventListener("DOMContentLoaded", () => {
-        const copyButtons = document.querySelectorAll(".copy-btn");
+    // astro:page-load also fires after View Transitions navigations, unlike DOMContentLoaded
+    document.addEventListener("astro:page-load", () => {
+        const copyButtons = document.querySelectorAll<HTMLElement>(".copy-btn");
 
         copyButtons.forEach((button) => {
+            if (button.dataset.bound) return;
+            button.dataset.bound = "true";
             button.addEventListener("click", async () => {
                 const url = button.getAttribute("data-url");
 

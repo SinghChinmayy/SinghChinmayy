@@ -89,8 +89,9 @@
 
 <script>
   function initScrollToTop() {
-    const button = document.querySelector('.scroll-to-top');
-    if (!button) return;
+    const button = document.querySelector<HTMLElement>('.scroll-to-top');
+    if (!button || button.dataset.bound) return;
+    button.dataset.bound = 'true';
 
     const SCROLL_THRESHOLD = 300;
 
@@ -110,16 +111,15 @@
       });
     }
 
+    // One scroll listener per page; the previous page's is removed on navigation
     window.addEventListener('scroll', toggleVisibility, { passive: true });
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('scroll', toggleVisibility), { once: true });
     button.addEventListener('click', scrollToTop);
 
     // Initial check
     toggleVisibility();
   }
 
-  // Run on initial load
-  initScrollToTop();
-
-  // Re-run on Astro page transitions
-  document.addEventListener('astro:after-swap', initScrollToTop);
+  // Runs on the first load and after every View Transitions navigation
+  document.addEventListener('astro:page-load', initScrollToTop);
 </script>
