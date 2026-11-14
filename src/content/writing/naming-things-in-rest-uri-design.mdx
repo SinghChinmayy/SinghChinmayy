@@ -1,0 +1,160 @@
+---
+title: "Naming Things in REST: A Practical Guide to URI Design"
+description: >-
+  Designing the URIs for a small library API step by step: modelling resources
+  first, nouns over verbs, hierarchy, query parameters, and the small rules
+  (case, hyphens, extensions) that quietly cause bugs.
+publishDate: 2026-11-14
+tags:
+  - API Design
+  - REST
+  - Backend
+draft: false
+---
+> ## TL;DR
+>
+> A URI names a **thing**, never an action. Model your resources first, use plural nouns for collections, `/` only for real parent-child relationships, query parameters for filtering, and keep everything lowercase and hyphenated. Above all, be consistent.
+
+There's an old joke that the two hardest problems in computer science are cache invalidation and naming things. REST API design is mostly the second one.
+
+This week I studied URI design from the *RESTful Web Services Cookbook* (Recipe 4.1) and the restfulapi.net naming guide. Instead of repeating the rules as a list, I want to design the URIs for a small API and show where each rule earns its place. The full reference version lives in my notes: [URI design and resource naming](/notes/api-design/uri-design).
+
+## The example: a small library API
+
+Members can browse books, borrow copies, and keep reading lists. Before writing a single endpoint, the first job is to answer one question: **what are the things in this system?**
+
+- **Books**: the catalogue.
+- **Copies**: a physical copy of a book that can be borrowed.
+- **Members**: people who borrow.
+- **Loans**: one member borrowing one copy, with a due date.
+- **Reading lists**: lists a member creates and names themselves.
+
+Notice that "borrow" turned into a noun: a **loan**. That small move is most of REST design.
+
+## Step 1: Nouns, not verbs
+
+The tempting first draft looks like this:
+
+```text
+GET  /getBooks
+POST /createLoan
+POST /returnBook?loanId=42
+```
+
+Every one of these puts the action in the path. But HTTP already has verbs: `GET`, `POST`, `PUT`, `PATCH` and `DELETE`. When the path also carries a verb, the method becomes decoration and the API turns into remote procedure calls dressed up as REST.
+
+The resource-first version:
+
+```text
+GET    /books               list books
+GET    /books/{bookId}      one book
+POST   /loans               borrow a copy (create a loan)
+PATCH  /loans/{loanId}      return it (set returnedAt)
+```
+
+==The method says what happens; the URI only says which thing.== Borrowing creates a loan. Returning updates it. No verbs needed.
+
+## Step 2: Collections are plural, items live under them
+
+Two shapes cover almost everything:
+
+| Shape | Example | Meaning |
+|---|---|---|
+| Collection | `/books` | A directory of items. The server decides the new item's id when you `POST`. |
+| Item (document) | `/books/{bookId}` | One item, like a database row. |
+
+Pick plural and stick to it. Mixing `/book/12` with `/books` is the kind of inconsistency that makes every client developer check the docs for every call.
+
+There's a third, less common shape: a **store**, where the *client* chooses the name. Reading lists fit it perfectly, because the member names the list:
+
+```text
+PUT /members/{memberId}/reading-lists/summer-2026
+```
+
+`PUT` to a name the client chose means "create or replace it here".
+
+## Step 3: Use `/` only for real hierarchy
+
+The forward slash is the one character RFC 3986 treats as hierarchy, and humans read it that way. So nesting should mean "belongs to":
+
+```text
+/members/{memberId}/loans          loans of one member
+/books/{bookId}/copies             copies of one book
+```
+
+The trap is nesting too deep:
+
+```text
+/members/{memberId}/loans/{loanId}/copies/{copyId}/books/{bookId}
+```
+
+Every level is something the client must already know just to build the URI. A loan has its own id, so it can stand at the top level: `/loans/{loanId}`. A useful rule of thumb is **collection/item/collection** at most, then start again from a top-level resource.
+
+## Step 4: Filtering, sorting and paging go in the query string
+
+Say the app needs overdue loans, sorted by due date. The wrong move is a new endpoint per view:
+
+```text
+/loans/overdue
+/loans/overdue/by-due-date
+```
+
+Instead, keep one collection and describe the view with query parameters:
+
+```text
+GET /loans?status=overdue&sort=due-date&limit=20
+```
+
+New filters become new parameters, not new endpoints, and every client already knows where to look.
+
+## Step 5: The small rules that quietly cause bugs
+
+These look like style, but each one prevents a real bug.
+
+**Lowercase only.** RFC 3986 makes the scheme and host case-insensitive, but the path is case-sensitive. `/Books` and `/books` are different URIs, yet some servers (Windows serving from a filesystem) treat them as the same. Mixed case means behaviour that changes when you change hosting.
+
+**Hyphens between words.** `/reading-lists`, not `/readinglists` or `/readingLists`. Underscores work too, but they vanish under link underlines in some fonts. Whatever you pick, use it everywhere.
+
+**No file extensions.** `/books.json` or `/report.php` ties the URI to a format or a technology, and the URI has to change when either does. The format belongs in headers: the client sends `Accept: application/json` and the server answers with `Content-Type`.
+
+**No trailing slash.** Frameworks disagree on whether `/books/` and `/books` are the same, and some silently add or strip the slash. Pick the form without it.
+
+**Keep spaces out of paths.** RFC 3986 encodes a space as `%20`, but HTML forms encode it as `+`. A server that decodes a form-made URI with the wrong rule reads `Hadron+Supercollider` instead of `Hadron Supercollider`. Hyphens avoid the whole question.
+
+## When an action really is an action
+
+Some operations don't map cleanly to create, read, update or delete. "Renew this loan" is a good example. There are two clean options:
+
+1. **Model the result as a resource**: `POST /loans/{loanId}/renewals` creates a renewal record. You get a history of renewals for free.
+2. **Update state**: `PATCH /loans/{loanId}` with a new `dueDate`.
+
+Some large APIs, such as Google Cloud's, use a colon for custom methods (`/loans/{loanId}:renew`). It's a known convention, though many people see it as stepping outside REST. Whatever you choose, choose it once for the whole API.
+
+## The final design
+
+```text
+GET    /books?author=allamaraju&sort=title
+GET    /books/{bookId}
+GET    /books/{bookId}/copies
+GET    /members/{memberId}/loans?status=active
+POST   /loans
+PATCH  /loans/{loanId}
+POST   /loans/{loanId}/renewals
+PUT    /members/{memberId}/reading-lists/summer-2026
+```
+
+Every line reads as *method + thing*. Nothing in it would need to change if we moved from Java to Go, or from JSON to something else.
+
+## What I took away
+
+The Cookbook makes a point I keep coming back to: ==don't spend long on URI design; spend it on consistency==. Most of the rules above matter less than applying the same rules everywhere. A slightly odd convention used consistently beats a perfect one used half the time.
+
+And the real work happens before any URI exists: deciding what your resources are. Once "borrow" became "loan", every endpoint almost designed itself.
+
+### Resources I used
+
+- Book: [RESTful Web Services Cookbook](https://openlibrary.org/isbn/9780596801687) by Subbu Allamaraju, Recipe 4.1 "How to Design URIs"
+- Article: [REST API URI Naming Conventions and Best Practices](https://restfulapi.net/resource-naming/) by Lokesh Gupta
+- Article: [Resource modelling: think before you start coding](https://medium.com/abn-amro-developer/resource-modelling-think-before-you-start-coding-a421357e9756) on the ABN AMRO Developer blog
+- Video: [Modeling RESTful API Resources](https://www.youtube.com/watch?v=E7WSBLHEvbI) by Scott Wiersdorf
+- My notes: [URI design and resource naming](/notes/api-design/uri-design)

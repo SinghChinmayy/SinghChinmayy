@@ -1,0 +1,121 @@
+---
+title: "API Versioning: Avoid It as Long as You Can"
+description: >-
+  What counts as a breaking change, the five places a version can live (path,
+  query, header, media type, body), and how to evolve an API so you rarely need
+  a new version at all.
+publishDate: 2026-11-14
+tags:
+  - API Design
+  - REST
+  - Backend
+draft: false
+---
+> ## TL;DR
+>
+> Versioning exists so you can make **breaking** changes without breaking clients. Most changes don't need to break anything: add, don't remove or rename. When you must break, bump a major version, pick one place for it (the URI path is the most common), and publish when the old version goes away.
+
+When I started reading about API versioning, I expected a debate about `/v1/` versus headers. That debate exists, but it turned out to be the least interesting part. The more useful question is: **why do you need a new version at all?**
+
+My reference notes are here: [API versioning](/notes/api-design/versioning). This post is the reasoning behind them.
+
+## An API is a contract you can't take back
+
+Once an API is public, other people build against it: mobile apps, partner systems, scripts someone wrote two years ago. You can't redeploy their code. A mobile app that's already installed will keep sending the same requests for months.
+
+So every change to the API falls into one of two buckets.
+
+**Breaking changes** make a correct, existing client fail or misbehave:
+
+- removing or renaming an endpoint, parameter, header or field;
+- changing a field's type or meaning (a date string becomes a Unix timestamp);
+- adding a new **required** request parameter;
+- changing behaviour clients rely on, or tightening authentication.
+
+**Additive changes** don't:
+
+- a new endpoint;
+- a new optional parameter, with a sensible default;
+- a new field in a response.
+
+That last one works because well-behaved clients ignore fields they don't recognise. ==Additive changes need no new version.== Versioning is only for the first bucket.
+
+## Versions aren't free
+
+Every version you keep alive is code you keep maintaining, testing, documenting and **securing**. An old version nobody patches is an open door. Clients also get confused about which one to use, and every client has to know the exact identifier to reach anything.
+
+That's why the best versioning strategy starts with design that rarely needs it: consistent resource names, standard HTTP methods and status codes, optional features behind query parameters, and a habit of adding instead of changing.
+
+## Where the version can live
+
+When you do need versions, there are five common places to put the identifier:
+
+| Strategy | Example | Good | Not so good |
+|---|---|---|---|
+| URI path | `GET /v1/users` | Visible, easy to route, cache and try in a browser | The same user gets several URIs |
+| Query parameter | `GET /users?v=1` | Simple, easy to default | Mixes with filter parameters |
+| Custom header | `X-API-Version: 1` | URIs stay clean | Invisible; caches must vary on it |
+| Media type | `Accept: application/json;version=1` | Uses HTTP content negotiation as designed | Hardest for clients and docs |
+| Body | `{ "version": 1, ... }` | Explicit and fine-grained | Server must parse the body before routing |
+
+No option wins outright. Public APIs lean towards the **URI path** because it's obvious: you can see the version in logs, in docs and in the browser bar. Header and media-type versioning keep URIs pure, at the cost of being invisible.
+
+The one rule that matters more than which strategy you pick: **use one strategy for the whole API.** Half the endpoints versioned in the path and half in a header is worse than either.
+
+### The caching trap
+
+Header-based versioning has a sharp edge. If `GET /users/7` returns different bodies depending on `X-API-Version`, a shared cache will happily serve the `v1` body to a `v2` client. Unless the response says otherwise, the cache only keys on the URL.
+
+The fix is one response header:
+
+```http
+Vary: X-API-Version
+```
+
+`Vary` tells caches to store a separate copy per value of that header. With media-type versioning, it's `Vary: Accept`. Forget it, and you get bugs that only appear behind a CDN.
+
+## Walking through a change
+
+Take a `users` resource that returns:
+
+```json
+{ "id": 7, "name": "Asha Rao", "email": "asha@example.com" }
+```
+
+**Request 1: add phone number and role.** Purely additive. Add the fields to the existing response. Old clients ignore them. Same version.
+
+**Request 2: split `name` into `firstName` and `lastName`.** Removing `name` breaks every client that reads it. There's a gentle path:
+
+1. **Add first, remove later.** Return `name` *and* the new fields. Nobody breaks.
+2. **Mark `name` deprecated** in the docs, with a removal date.
+3. **Ship the removal only in `v2`**, and keep `v1` running until its announced end date.
+
+Most "breaking" changes can travel this route: alias, deprecate, then remove in the next major version.
+
+## Semantic versioning, applied to APIs
+
+The `MAJOR.MINOR.PATCH` idea maps neatly:
+
+- **MAJOR**: breaking change. This is the number that appears in `/v2/`.
+- **MINOR**: additive change. Clients don't need to do anything.
+- **PATCH**: a fix that keeps behaviour as documented.
+
+Most APIs only expose the major number to clients, and that's the point: clients should only notice versions when something actually breaks.
+
+## The checklist I'm keeping
+
+1. Prefer additive changes; give new inputs defaults.
+2. Rename by aliasing first, removing later.
+3. Bump the major version only for an unavoidable break.
+4. One versioning strategy across the API.
+5. Header or media-type versioning means `Vary` on that header.
+6. Publish a support policy: how long old versions live and how clients hear about it.
+7. Test and secure every live version, not just the newest.
+
+The surprising lesson for me was that good versioning is mostly about **not** versioning: designing and evolving the API so the number rarely has to move.
+
+### Resources I used
+
+- Article: [4 API Versioning Best Practices](https://kodekloud.com/blog/api-versioning-best-practices/) by Barry Ugochukwu (KodeKloud)
+- Video: [Versioning Your API](https://www.youtube.com/watch?v=Np_Jr6AvCOc) by Udacity
+- My notes: [API versioning](/notes/api-design/versioning)

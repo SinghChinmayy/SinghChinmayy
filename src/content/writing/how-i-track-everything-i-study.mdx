@@ -1,0 +1,99 @@
+---
+title: "Every Source, Every Page: How I Track What I Study"
+description: >-
+  A small system that records every book section, article and video I learn
+  from in two places, a private planner and public notes, and uses a script and
+  CI to make sure the two never drift apart.
+publishDate: 2026-11-14
+tags:
+  - Learning
+  - Automation
+  - Developer Tools
+draft: false
+---
+> ## TL;DR
+>
+> Every resource I study gets logged once, with the exact portion used ("Recipe 4.1, pp. 75–79", "whole video"). A script turns those log lines into a per-subject resource list and checks that the matching public note cites the same resource. CI publishes the notes to this site only if every check passes.
+
+A few weeks into a serious study push, I hit a familiar problem. I remembered *that* I'd learned something, but not *where*. Was the bit about URI case-sensitivity from the book or from that article? Which chapter? I'd lost the trail.
+
+So I built a small system around one rule: ==every resource I use gets recorded, with the exact part I used, in a way a script can check.==
+
+## Two repos, one split
+
+The system has two halves, and a strict line between them.
+
+- **Study planner** (private): what I'm *doing*. Weekly plans, daily logs, the status of each topic.
+- **Engineering notes** ([public](https://github.com/SinghChinmayy/Engineering-Notes)): what is *true*. One growing note per topic, with explanations, examples and revision questions. CI publishes them to [/notes](/notes).
+
+Tracking never goes into the notes, and explanations never go into the planner. The one thing that lives in both is the list of resources, because both sides need it: the planner to know what I've covered, and the note so readers can go to the source.
+
+## Logging a resource
+
+Each day's log is a Markdown file. When I study something, it gets an entry, and every resource gets one `used:` line with four fields:
+
+```text
+- [api-design] Studied URI design from the cookbook and restfulapi.net.
+  - used: library:api-design/restful-web-services-cookbook.pdf | RESTful Web Services Cookbook (Subbu Allamaraju) | Recipe 4.1 How to Design URIs, pp. 75-79 | notes:api-design/uri-design
+  - used: url:https://restfulapi.net/resource-naming/ | REST API URI Naming Conventions (Lokesh Gupta, article) | whole page | notes:api-design/uri-design
+```
+
+The fields are:
+
+1. **Where it is**: a URL, or a book in my local library folder.
+2. **What it is**: title, author, and the kind (book, article, video).
+3. **The portion used**: a recipe or chapter with pages, or "whole video".
+4. **Which note it feeds**: a reference to the public note.
+
+The portion is the field I'd skipped before, and it's the one that saves me. "The cookbook" is useless six weeks later; "Recipe 4.1, pp. 75–79" isn't.
+
+## The script that keeps both sides honest
+
+A build script in the planner reads every log and does two things.
+
+**It generates a resource list per subject.** Every `used:` line becomes a row in a table: date, resource, portion, topic. I never edit that file by hand, so it can't go stale.
+
+**It cross-checks the public note.** For each `used:` line that points at a note, the script opens that note and looks under its `## Resources I used` heading for the same URL or title. If it isn't there, it prints a warning:
+
+```text
+warning: log/2026-11-13.md [api-design]: notes:api-design/uri-design does not list https://restfulapi.net/resource-naming/ under Resources I used
+```
+
+So I can't log a resource and forget to credit it, or credit one I never logged.
+
+## The notes side: a fixed format, checked in CI
+
+In the notes, every resource is one bullet in a fixed shape:
+
+```text
+- Book: [RESTful Web Services Cookbook](https://openlibrary.org/isbn/9780596801687) by Subbu Allamaraju, Recipe 4.1 "How to Design URIs" (pp. 75–79): ...
+```
+
+A checker script validates it: a known kind, a real link, and the portion. GitHub Actions runs the same checker on every push and only publishes when it passes. Publishing means copying the notes into this website's repository, building the site, and pushing only if the build succeeds.
+
+On the site, each note now shows a **Resources I used** box near the top, built from that same section. Readers see exactly which book pages and articles a note came from.
+
+## Making it boring on purpose
+
+I use an AI agent for a lot of the bookkeeping: logging, updating topic status, drafting notes from the sources. Agents are good at this, but they're also good at skipping a step when nobody's looking.
+
+So the process is written as **fixed steps** that run in the same order every time, and the scripts check the important ones:
+
+1. Pin down each resource: real title, author, link, and the portion used.
+2. Log it in the planner with a `used:` line.
+3. Read what can be read, and write or extend the note, listing every resource.
+4. Update the topic's status and remove the resource from the "to use" list.
+5. Run both checkers. Warnings fail the step.
+6. Commit. Publishing to the site happens only when I say so.
+
+The point isn't the automation itself. It's that the system is predictable: the same input always produces the same records, and a script tells me when something doesn't match.
+
+## One honest rule
+
+Some resources can't be read by a script: a paywalled article, a video with no transcript available. Those still get logged and listed, but **only as further reading**. The notes never summarise a source that wasn't actually read. It's a small rule, but it's the difference between notes I can trust and notes that only look complete.
+
+## Was it worth it?
+
+It's already paid off. When I wrote my posts on [URI design](/blogs/naming-things-in-rest-uri-design) and [API versioning](/blogs/api-versioning-avoid-it-as-long-as-you-can), the resource lists were already there: I copied them across instead of hunting through browser history.
+
+If you keep study notes, try one thing from this: **record the portion, not just the source.** Future you will know exactly where to look.
