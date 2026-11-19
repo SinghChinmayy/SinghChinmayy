@@ -34,9 +34,9 @@ const currentProject = featuredProjects[0];
 const allPosts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 const posts = allPosts.slice(0, 3);
 const numbers = [
-  { value: String(projects.length), label: 'public case studies' },
-  { value: '221', label: 'tests in my latest build' },
-  { value: String(allPosts.length), label: 'articles on what I learned' },
+  { value: String(projects.length), label: 'documented project case studies' },
+  { value: '221', label: 'automated tests in my latest full-stack build' },
+  { value: String(allPosts.length), label: 'published technical articles' },
 ];
 const githubProfile = siteConfig.social.find(({ platform }) => platform === 'github')?.url ?? 'https://github.com/SinghChinmayy';
 const githubUsername = githubProfile.split('/').filter(Boolean).pop() ?? 'SinghChinmayy';
@@ -128,11 +128,11 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     <div class="hero-shell">
       <section class="hero">
         <div class="hero-left">
-          <p class="eyebrow">Backend engineering · Systems · Infrastructure</p>
-          <h1>Backend systems, built to be understood.</h1>
-          <p class="hero-sub">I build APIs, data flows, and operational tooling that make software more reliable and easier to reason about.</p>
-          <p class="hero-personal">I like writing the failing test first, keeping a record of why each decision was made, and leaving systems easier to change than I found them.</p>
-          <div class="hero-cta"><a href="/projects" class="btn-primary">View selected work <span aria-hidden="true">→</span></a><a class="profile-link btn-secondary" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+          <p class="eyebrow">Software Engineer · Backend &amp; Infrastructure</p>
+          <h1>Reliable backend systems, built test-first.</h1>
+          <p class="hero-sub">I’m Chinmay Singh, a Computer Science (AI) student at Manipal Institute of Technology. I design and build APIs, data pipelines, and infrastructure tooling, treating tests, CI, and documentation as part of the work.</p>
+          <p class="hero-personal">Open to early-career software engineering opportunities in backend, platform, and infrastructure engineering.</p>
+          <div class="hero-cta"><a href="/projects" class="btn-primary">View projects <span aria-hidden="true">→</span></a><a href="/resume" class="btn-secondary">Resume</a><a class="profile-link btn-secondary" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
         <figure class="hero-portrait">
           <Picture
@@ -154,7 +154,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     </div>
 
     {currentProject && <a href={`/projects/${currentProject.id}`} class="now-building">
-      <span class="now-label"><span class="now-dot" aria-hidden="true"></span>Now building</span>
+      <span class="now-label"><span class="now-dot" aria-hidden="true"></span>Currently building</span>
       <span class="now-title">{currentProject.data.title}</span>
       <span class="now-description">{currentProject.data.nowBuilding ?? currentProject.data.outcomeSummary}</span>
       <span class="now-link">Read the case study <span aria-hidden="true">→</span></span>
@@ -164,16 +164,16 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       <div class="section-header"><p class="section-kicker">About</p></div>
       <div class="about-grid">
       <div class="about-copy">
-        <h2 id="about-heading">I learn systems by making their boundaries explicit.</h2>
-        <p>I’m Chinmay, a software engineer focused on backend development, infrastructure, and the practical details that make software dependable. I like working from a clear model of the data, the failure modes, and the evidence a system should leave behind.</p>
-        <p>Most of my work is self-directed and public: small, explainable systems that help me turn concepts into working code and better engineering judgment.</p>
-        <p class="about-exploring"><span>Currently exploring</span> Go services, operational workflows, and reliable data synchronization.</p>
+        <h2 id="about-heading">Backend engineering with a focus on reliability.</h2>
+        <p>I’m a software engineer focused on backend development and infrastructure. I start from a clear model of the data and its failure modes, and I build systems that leave evidence behind: tests, logs, metrics, and a written record of each design decision.</p>
+        <p>My work spans API design and persistence, offline-first data synchronization, fault injection on microservices, and test-driven development with AI coding agents. Every project is documented as a case study covering its constraints, trade-offs, and current state.</p>
+        <p class="about-exploring"><span>Currently exploring</span> Go services, observability with Prometheus and OpenTelemetry, and reliable data synchronization.</p>
       </div>
       </div>
     </section>
 
     <section class="numbers" aria-labelledby="numbers-heading">
-      <div class="section-header"><p class="section-kicker" id="numbers-heading">By the numbers</p></div>
+      <div class="section-header"><p class="section-kicker" id="numbers-heading">At a glance</p></div>
       <ul class="numbers-grid">
         {numbers.map((item) => <li class="number-cell">
           <span class="number-value">{item.value}</span>
@@ -187,7 +187,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
         <p class="section-kicker">Selected work</p>
         <ForwardLink href="/projects" text="View all" variant="muted" />
       </div>
-      <h2 class="section-title" id="selected-projects-heading">Projects</h2>
+      <h2 class="section-title" id="selected-projects-heading">Featured projects</h2>
       <div class="project-home-list">
         {featuredProjects.map((project, index) => <ProjectIndexItem
           number={String(index + 1).padStart(2, '0')}
@@ -203,9 +203,9 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
     <section class="stack-section" aria-labelledby="stack-heading">
       <div class="section-header stack-header">
-        <p class="section-kicker">Tools I use to learn by building</p>
+        <p class="section-kicker">Technical skills</p>
       </div>
-      <h2 class="section-title" id="stack-heading">Tools &amp; practice</h2>
+      <h2 class="section-title" id="stack-heading">Languages &amp; tools</h2>
       <div class="stack-groups">
         {techGroups.map((group) => {
           return <div class="stack-group">
@@ -225,10 +225,10 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
     <section class="certifications-section" aria-labelledby="certifications-heading">
       <div class="section-header">
-        <p class="section-kicker">Selected credentials</p>
+        <p class="section-kicker">Credentials</p>
       </div>
       <h2 class="section-title" id="certifications-heading">Certifications</h2>
-      <p class="certification-subtitle">Selected credentials and technical coursework.</p>
+      <p class="certification-subtitle">Professional certifications and completed technical coursework.</p>
       <div class="certifications-table">
         <div class="certifications-table-header" aria-hidden="true"><span>Certificate</span><span>Issuer</span><span>Year / View</span></div>
         {featuredCertifications.map((certification) => <a class="certification-item" href={certification.certificate} target="_blank" rel="noopener noreferrer">
@@ -257,8 +257,8 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
     </section>
 
     {posts.length > 0 && <section class="recent-writing">
-      <div class="section-header"><p class="section-kicker">Notes from the work</p><ForwardLink href="/blogs" text="View all" variant="muted" /></div>
-      <h2 class="section-title">Recent writing</h2>
+      <div class="section-header"><p class="section-kicker">Writing</p><ForwardLink href="/blogs" text="View all" variant="muted" /></div>
+      <h2 class="section-title">Recent articles</h2>
       <div class="writing-grid">{posts.map((post) => <a href={`/blogs/${post.id}`} class="writing-item">
         <time class="writing-date" datetime={post.data.publishDate.toISOString()}>{post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
         <h3 class="writing-title">{post.data.title}</h3><p class="writing-description">{shorten(post.data.description, 150)}</p>
@@ -267,7 +267,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
 
     <section class="activity-section" aria-labelledby="activity-heading">
       <div class="section-header activity-header">
-        <p class="section-kicker">Building in public</p>
+        <p class="section-kicker">Open source</p>
         <a class="activity-link" href={githubProfile} target="_blank" rel="noopener noreferrer">View profile <span aria-hidden="true">↗</span></a>
       </div>
       <h2 class="section-title" id="activity-heading">GitHub activity</h2>
@@ -276,7 +276,7 @@ const certificationCategories = ['Cloud & DevOps', 'AI & Data', 'Software Develo
       </a>
     </section>
 
-    <section class="cta"><div class="section-header"><p class="section-kicker">Have a thoughtful problem to discuss?</p></div><h2>Let’s connect.</h2><p>Open to early-career software engineering opportunities, collaborations, and conversations about systems.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Say hello</a><a href="/projects" class="btn-secondary">Browse projects</a></div></section>
+    <section class="cta"><div class="section-header"><p class="section-kicker">Contact</p></div><h2>Let’s work together.</h2><p>I’m looking for early-career software engineering roles and collaborations in backend, platform, and infrastructure engineering. I’m happy to discuss opportunities, projects, or system design.</p><div class="cta-buttons"><a href="/contact" class="btn-primary">Get in touch</a><a href="/resume" class="btn-secondary">View resume</a></div></section>
   </div>
 </BaseLayout>
 
