@@ -18,7 +18,7 @@ import BackLink from "../../components/BackLink.astro";
 import ReadingWidthToggle from "../../components/ReadingWidthToggle.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { getReadingTime } from "../../utils/readingTime";
-import { subjectLabel, noteSlug, noteHref, sourceHref, formatNoteDate } from "../../utils/notes";
+import { subjectLabel, noteSlug, noteHref, formatNoteDate } from "../../utils/notes";
 import "../../styles/article.css";
 
 export async function getStaticPaths() {
@@ -170,8 +170,7 @@ const moreInSubject = siblings
       }
 
       <p class="note-source">
-        First written {formatNoteDate(created)}. Source and full history in
-        <a href={sourceHref(entry)}>Engineering-Notes on GitHub</a>.
+        First written {formatNoteDate(created)}.
       </p>
 
       <BackLink href="/notes" text="All notes" />

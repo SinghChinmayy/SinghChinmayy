@@ -151,8 +151,8 @@ const writingCollection = defineCollection({
 /**
  * Engineering Notes Collection
  *
- * Synced by CI from SinghChinmayy/Engineering-Notes into
- * src/content/engineering-notes. Topic notes live in notes/<subject>/ and
+ * Synced by CI from the published/ folder of the private
+ * SinghChinmayy/Engineering-Notes repo into src/content/engineering-notes. Topic notes live in notes/<subject>/ and
  * solved exercises in practice/<subject>/; both share this schema.
  */
 const notesCollection = defineCollection({

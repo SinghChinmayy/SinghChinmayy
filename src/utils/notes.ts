@@ -26,11 +26,6 @@ export function noteHref(entry: CollectionEntry<'notes'>): string {
   return `/notes/${noteSlug(entry)}`;
 }
 
-/** Link to the source file in the Engineering-Notes repository. */
-export function sourceHref(entry: CollectionEntry<'notes'>): string {
-  return `https://github.com/SinghChinmayy/Engineering-Notes/blob/main/${entry.id}.md`;
-}
-
 export function formatNoteDate(date: Date): string {
   return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
 }
