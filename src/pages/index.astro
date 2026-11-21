@@ -29,7 +29,7 @@ import bootDevLinux from '../assets/Certifications/boot.dev/ac713580-a863-4970-9
 import bootDevPython from '../assets/Certifications/boot.dev/bdeedf6a-e1ef-4174-86d4-707cdfd094a6.jpeg';
 
 const projects = await getCollection('projects');
-const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)).slice(0, 2);
+const featuredProjects = projects.filter((project) => project.data.featured).sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)).slice(0, 3);
 const currentProject = featuredProjects[0];
 const allPosts = (await getCollection('writing', ({ data }) => data.draft !== true)).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 const posts = allPosts.slice(0, 3);
