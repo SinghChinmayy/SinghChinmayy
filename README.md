@@ -33,6 +33,12 @@ An offline-first Flutter engineering prototype: every write lands in local SQLit
 
 `Flutter` `Dart` `Drift` `SQLite` `Supabase` `PostgreSQL`
 
+### [Muse](https://github.com/SinghChinmayy/Muse)
+
+A macOS menu bar app that makes the Magic Mouse surface work like a small trackpad: one finger moves the cursor, two fingers scroll, and an optional tap clicks. It reads raw touches through Apple’s private MultitouchSupport framework and filters scroll and pointer events in a CGEventTap, inferring which device sent them from touch timing. Built test-first: 79 unit tests and 100% line coverage of the core logic. Open source; a macOS update could break the private framework it relies on.
+
+`Swift` `AppKit` `SwiftUI` `Core Graphics` `Swift Testing`
+
 ### [Nextpage](https://github.com/SinghChinmayy/ai-journal)
 
 A local-first Markdown journal for macOS that keeps every note as a plain `.md` file in a folder you choose, with atomic autosave and conflict detection when files change outside the app. Stage 1 makes no AI or sync requests; both are planned.
