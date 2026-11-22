@@ -112,6 +112,8 @@ impact:
       value: Not confirmed — two baseline visits still missing at the last probe
     - label: Fault Types
       value: Crash, freeze, network delay, packet loss, CPU starvation, traffic spike
+    - label: Python Unit Tests
+      value: 32 passing (blast radius, dashboard, dependency model, semantic probe)
   qualitative: >-
     The recorded run shows the point of the project: the gateway answered 200
     while the owner's visit data was gone, and the watchdog reverted the fault
@@ -137,6 +139,63 @@ learnings:
   - >-
     A recording that says what it does not prove is more useful than a polished
     demo that hides it
+challenge:
+  title: A correctness check that could not stay correct
+  paragraphs:
+    - >-
+      The owner-data probe compares the gateway's owner-details response with a
+      known set of visits. The first version used owner 6 as that fixture, but
+      the Locust load generator also wrote visits to owner 6, so the baseline
+      grew without bound (360+ visits) and there was nothing stable to compare
+      against. The fix (commit 235772f) stops Locust writing to owner 6 and has
+      every run write a canary visit before the fault, which must survive it.
+    - >-
+      The same commit changed how recovery is judged. The gateway's visits
+      fallback is all-or-nothing, so a partial list means the store lost data
+      rather than the service being degraded. Because PetClinic's databases are
+      in memory, lost visits never come back, and recovery used to wait out its
+      timeout and report "not recovered" even though users had normal service.
+      A service that answers normally with lost data now counts as recovered,
+      and the run reports the loss. The commit message records a verification
+      run: users recovered in 13.1 seconds and 379 of 383 visits, including the
+      canary, were reported lost.
+    - >-
+      A second fix (commit 052785c) corrected how predictions are scored.
+      Requests hanging behind the gateway's 10-second timeout mostly failed
+      after the fault was undone, so correct "unavailable" predictions were
+      marked contradicted from one to three requests. Predictions are now judged
+      from injection until normal service returns, and an action with fewer than
+      three finished requests is left unobserved rather than contradicted.
+evidenceLinks:
+  - label: Read-only resilience dashboard of the recorded run
+    url: https://github.com/SinghChinmayy/chaoslab-petclinic/blob/main/reports/dashboard.html
+  - label: Curated recording of the 2026-10-10 Visits crash
+    url: https://github.com/SinghChinmayy/chaoslab-petclinic/blob/main/demo/visits-failure.json
+  - label: Fixture, canary visit and data-loss reporting (commit 235772f)
+    url: https://github.com/SinghChinmayy/chaoslab-petclinic/commit/235772f
+  - label: Prediction scoring that counts hung requests (commit 052785c)
+    url: https://github.com/SinghChinmayy/chaoslab-petclinic/commit/052785c
+  - label: Change history
+    url: https://github.com/SinghChinmayy/chaoslab-petclinic/blob/main/history.md
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    A two-day local prototype on Docker Compose, not a production fault-injection
+    service; it has not been run against anything outside its own sandbox
+  - >-
+    The committed recording predates the canary-visit check, so it still shows
+    "recovery not confirmed" with two baseline visits missing at the last probe
+  - >-
+    The published dependency map is a snapshot; Zipkin had no recent traces when
+    it was generated, so some routes are inferred or from source code
+  - >-
+    The impact prediction is qualitative and the operator picks the fault; the AI
+    planner and analysis agent described in the repository are not built
+  - >-
+    The 13.1-second recovery and 379 of 383 lost visits come from a later local
+    run recorded in a commit message, not from the published recording
+  - >-
+    The recorded dashboard is a recording of one run, not a statistical result
 featured: true
 status: completed
 order: 0.5

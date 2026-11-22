@@ -53,7 +53,15 @@ const projects = [
     status: "Engineering prototype, not a medical product",
     stack: "Flutter, Dart, drift/SQLite, Supabase, PostgreSQL",
     outcome:
-      "Offline-first vitals logging with a local SQLite source of truth and a registry-driven sync engine (last-write-wins, row-level security); 20+ unit tests.",
+      "Offline-first vitals logging with a local SQLite source of truth and a registry-driven sync engine across seven tables (last-write-wins, row-level security); 156 of 161 tests pass, 5 known failures.",
+  },
+  {
+    name: "Muse",
+    href: "/projects/muse",
+    status: "Open source macOS utility",
+    stack: "Swift, AppKit, SwiftUI, Core Graphics, Swift Testing",
+    outcome:
+      "Menu bar app that makes the Magic Mouse surface work like a small trackpad, inferring the event source from touch timing; built test-first with 79 unit tests and 100% line coverage of its core logic.",
   },
   {
     name: "NLP Search Engine",
@@ -64,12 +72,12 @@ const projects = [
       "Modular ingestion, normalisation, tokenisation and inverted-index pipeline with keyword lookup.",
   },
   {
-    name: "Aegis, Controlled Remediation Platform",
-    href: "/projects/aegis-observability-remediation",
+    name: "OpsLens, AI infrastructure investigator",
+    href: "/projects/opslens",
     status: "Design stage",
     stack: "Go, REST, PostgreSQL, Prometheus, OpenTelemetry",
     outcome:
-      "Designing an auditable workflow to detect failures, propose remediation, require human approval and verify recovery; first backend slice planned.",
+      "Designing an agent harness that explains why a service is failing from cited evidence, using bounded read-only diagnostics and a built-in evaluator; no code yet.",
   },
 ];
 

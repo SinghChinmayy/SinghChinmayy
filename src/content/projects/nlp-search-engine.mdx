@@ -50,8 +50,9 @@ keyDecisions:
   - decision: Regex-based tokenization over simple split
     reasoning: >-
       Python's str.split() fails on edge cases like hyphenated words and
-      contractions. A regex pattern like \b\w+(?:[-']\w+)*\b handles these
-      correctly and provides consistent tokenization behavior.
+      contractions. The regex pattern \b\w+(?:[-']\w+)*\b keeps hyphenated
+      words together and gives consistent tokenization, though the write-up shows
+      that contractions like "don't" still split into two tokens.
     alternatives:
       - str.split() (too simplistic)
       - NLTK tokenizer (external dependency, defeats learning purpose)
@@ -88,10 +89,10 @@ impact:
   metrics:
     - label: Pipeline Stages
       value: '4 isolated modules (loader, normalizer, tokenizer, manager)'
-    - label: Index Coverage
-      value: Full inverted index across all documents in dataset
-    - label: Architecture
-      value: Modular design ready for 13+ planned enhancements
+    - label: Dataset
+      value: A small set of plain-text files in a local folder
+    - label: Planned Work
+      value: 13 future items listed in the Stage 1 checklist
     - label: Query Support
       value: Single keyword lookup with document ID resolution
   qualitative: >-
@@ -99,7 +100,7 @@ impact:
     constructing every component from scratch — text normalization, tokenization,
     inverted indexing — I gained deep insight into how search engines actually
     work. The modular architecture proved its value immediately: adding document
-    ID assignment and the inverted index required zero changes to the processing
+    ID assignment and the inverted index did not require changes to the processing
     pipeline. The system is now a solid foundation for adding TF-IDF ranking,
     boolean queries, and eventually semantic search.
 learnings:
@@ -118,8 +119,42 @@ learnings:
     Simple data structures (sets for inverted index) are often the right choice
     before optimizing
   - >-
-    File iteration order affects reproducibility — sorting paths ensures
-    consistent document IDs across runs
+    File iteration order affects reproducibility — document IDs can change
+    between runs until paths are sorted, which is still on the checklist
+challenge:
+  title: Tokenization decisions that the first stage records but does not settle
+  paragraphs:
+    - >-
+      Everything downstream depends on how text becomes tokens, so Stage 1 spent
+      its care there. The normalizer applies Unicode NFKC, standardizes line
+      endings, lowercases, and strips whitespace, and the tokenizer uses the
+      regex \b\w+(?:[-']\w+)*\b instead of str.split(), aiming to keep
+      hyphenated words and words with apostrophes together.
+    - >-
+      The write-up is candid that this is not solved: its output still turns
+      "don't" into "don" and "t", and "google's" into "google" and "s". It
+      records that as a tokenizer trade-off to revisit, not a bug fixed. The
+      same checklist lists sorted file paths as future work, because document
+      IDs come from file iteration order and can change between runs.
+    - >-
+      This project has no recorded bug to report. The code is private, and I am
+      not claiming test results or measurements that I cannot show.
+evidenceLinks:
+  - label: Stage 1 write-up with code excerpts, outputs, and the checklist
+    url: /blogs/search-engine-stage-1
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    The source code is private, so the only public evidence is the Stage 1
+    write-up; no tests or benchmarks are published
+  - >-
+    Stage 1 only: single-keyword lookup over a small set of text files, with no
+    ranking, boolean queries, stemming, or semantic search
+  - >-
+    Contractions such as "don't" still split into two tokens, and document IDs
+    can change between runs until file paths are sorted
+  - >-
+    Not a production search service; it was built to learn how retrieval works
 featured: true
 status: ongoing
 order: 3

@@ -181,6 +181,61 @@ learnings:
   - >-
     A second agent reviewing the code without seeing the original reasoning
     found problems the first pass had argued itself into
+challenge:
+  title: Twenty buyers, five cars, and a purchase that looked correct
+  paragraphs:
+    - >-
+      The first purchase endpoint was deliberately naive: read the quantity,
+      check it is above zero, then write the quantity minus one. It passed every
+      single-request test. The failing-test commit for the race (63afd66) fires
+      20 threads together from a barrier at a listing with 5 units, each request
+      on its own pooled database session. Against the naive version all 20
+      purchases succeeded in three out of three runs, a classic lost update that
+      sold stock that did not exist.
+    - >-
+      The fix commit (81e8df6) replaced it with one conditional
+      UPDATE ... WHERE quantity > 0 AND deleted_at IS NULL, with the Purchase
+      insert in the same transaction. The row lock makes concurrent buyers
+      queue, and each one re-checks the quantity after the previous one commits.
+      A follow-up read runs only on failure, to tell a sold-out listing (409)
+      from a missing one (404). The same race test then passed in five of five
+      repeated runs, and a later test (18b2d18) checks that concurrent restocks
+      and purchases keep stock consistent.
+    - >-
+      The bug was found by a test written to break the code before it was
+      trusted, not by a production incident. The proof is a repeated-run test on
+      one Postgres container, not a load test.
+evidenceLinks:
+  - label: Failing race test, 20 buyers vs 5 units (commit 63afd66)
+    url: https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/commit/63afd66
+  - label: Atomic decrement that fixes it (commit 81e8df6)
+    url: https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/commit/81e8df6
+  - label: Decision record 0007, one-unit atomic purchases
+    url: https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/blob/main/docs/adr/0007-one-unit-atomic-purchases.md
+  - label: Generated test report with backend coverage
+    url: https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/blob/main/docs/test-report.md
+  - label: CI workflow runs
+    url: https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System/actions/workflows/ci.yml
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    A kata with a public demo, not a real dealership's system: the catalogue is
+    sample data and nobody buys real cars through it
+  - >-
+    The demo administrator login is shared and public, so the catalogue can be
+    edited by anyone until it is reset
+  - >-
+    Listings model stocked offerings, not VIN-tracked cars, and prices are
+    single-currency INR
+  - >-
+    Refresh tokens, rate limiting, email verification, and password reset are
+    deliberately not built
+  - >-
+    The no-overselling guarantee rests on a repeated-run concurrency test on one
+    Postgres container; it has not been load tested on the hosted stack
+  - >-
+    Search uses a sequential scan; a pg_trgm GIN index is a noted follow-up, not
+    built
 featured: true
 status: completed
 order: 2

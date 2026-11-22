@@ -99,6 +99,8 @@ impact:
       value: 79 in 12 suites
     - label: Core Logic Coverage
       value: 100% of lines in MuseCore
+    - label: Test-first History
+      value: 28 failing-test (red) commits among 86
     - label: Network Requests
       value: None
     - label: Platform
@@ -123,6 +125,64 @@ learnings:
   - >-
     Posting synthetic input means thinking about every app that consumes it,
     which is why a held button turns a move into a drag
+challenge:
+  title: Working out which device an event came from
+  paragraphs:
+    - >-
+      macOS does not say which device produced a scroll or pointer event, and
+      Muse has to block the Magic Mouse's one-finger scrolls without touching
+      the trackpad or a scroll wheel. The event tap sees all of them. Muse
+      answers from timing: a continuous scroll is attributed to the Magic Mouse
+      only if that mouse was touched more recently than any other touch device,
+      and a finger is down, momentum is running, or the last touch was under a
+      second ago. Scroll-wheel events are never continuous, so they always pass.
+    - >-
+      Fingers also do not land or lift together, so judging each frame drops
+      scrolls mid-gesture. The scroll gate looks at the whole gesture instead:
+      scrolling is allowed for a quarter of a second after two fingers were last
+      down, and momentum passes only if the gesture that started it used two
+      fingers. These rules live in a small TouchSession and ScrollGate in
+      MuseCore, free of system calls, so each one is a unit test; commit 8b43b6a
+      pins the touch-session and scroll-source behaviour.
+    - >-
+      Two real bugs came from the glue around it. make install could fail with
+      "5: Input/output error" because launchctl bootout returns before the old
+      login item is gone; the fix (487a231) polls for up to five seconds and
+      retries the bootstrap once, checked with three back-to-back installs.
+      Settings written with the defaults command arrive as strings, which the
+      settings loader now accepts (79b9c66).
+evidenceLinks:
+  - label: Touch session and scroll-source logic
+    url: https://github.com/SinghChinmayy/Muse/blob/main/Sources/MuseCore/TouchSession.swift
+  - label: Scroll gate
+    url: https://github.com/SinghChinmayy/Muse/blob/main/Sources/MuseCore/ScrollGate.swift
+  - label: Tests that pin the scroll-source behaviour (commit 8b43b6a)
+    url: https://github.com/SinghChinmayy/Muse/commit/8b43b6a
+  - label: Fix for the make install race (commit 487a231)
+    url: https://github.com/SinghChinmayy/Muse/commit/487a231
+  - label: Muse landing page
+    url: https://muse.chinmaysingh.me
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    It depends on Apple's private MultitouchSupport framework, which a macOS
+    update can break without notice
+  - >-
+    The 100% line coverage covers MuseCore only; the multitouch callback, the
+    event tap, the menu, and the Settings window have no unit tests and are
+    checked by hand, with the --debug mode and make probe
+  - >-
+    The device is inferred from timing, so it can misattribute an event; with the
+    optical sensor turned off, a plain USB or Bluetooth mouse is blocked too
+  - >-
+    It is built and signed locally, not notarised, so the Accessibility
+    permission has to be granted again after each rebuild
+  - >-
+    No automated test runs against a real Magic Mouse, and the repository does
+    not document which Magic Mouse generations and macOS versions were checked
+  - >-
+    Tap to click is optional and off by default, and two-finger sideways swipes
+    can clash with other gesture apps
 featured: true
 status: completed
 order: 0.25

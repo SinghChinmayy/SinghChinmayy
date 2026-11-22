@@ -74,6 +74,7 @@ export default defineConfig({
     '/rss': '/rss.xml',
     '/writing': '/blogs',
     '/agent-skills': '/',
+    '/projects/aegis-observability-remediation': '/projects/opslens',
   },
 
   /**

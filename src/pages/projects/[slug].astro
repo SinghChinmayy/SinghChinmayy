@@ -10,11 +10,13 @@
  * 1. Overview - High-level project summary
  * 2. Problem - Challenge being addressed
  * 3. Constraints - Limitations and boundaries
- * 4. Approach - Solution strategy
+ * 4. Implementation - Solution strategy
  * 5. Key Decisions - Technical choices with reasoning and alternatives
- * 6. Tech Stack - Technologies used
- * 7. Result & Impact - Quantitative metrics and qualitative outcomes
- * 8. Learnings - Insights and takeaways
+ * 6. Engineering Challenge - The hardest problem, from repository evidence (optional)
+ * 7. Evidence - Metrics, qualitative outcome and verifiable source links
+ * 8. Limitations - What is not built or not validated
+ * 9. Learnings - Insights and takeaways
+ * 10. Tech Stack - Technologies used
  * 
  * Features:
  * - Static path generation for all project entries
@@ -89,6 +91,10 @@ const {
   techStack,
   impact,
   learnings,
+  challenge,
+  evidenceLinks,
+  verifiedOn,
+  limitations,
   relatedProjects,
   status,
   repo,
@@ -123,6 +129,8 @@ const allText = [
   ...constraints,
   ...keyDecisions.map(d => `${d.decision} ${d.reasoning} ${d.alternatives?.join(' ') || ''}`),
   impact.qualitative,
+  ...(challenge ? [challenge.title, ...challenge.paragraphs] : []),
+  ...limitations,
   ...learnings,
   project.body || '',
 ].join(' ');
@@ -212,7 +220,7 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
 
       <!-- Approach Section -->
       <section class="case-study-section">
-        <h2>Approach</h2>
+        <h2>Implementation</h2>
         <p>{approach}</p>
       </section>
 
@@ -243,19 +251,20 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
         </ol>
       </section>
 
-      <!-- Tech Stack Section -->
-      <section class="case-study-section">
-        <h2>Tech Stack</h2>
-        <ul class="tech-stack-list">
-          {techStack.map((tech) => (
-            <li class="tag">{tech}</li>
+      <!-- Engineering Challenge Section -->
+      {challenge && (
+        <section class="case-study-section">
+          <h2>Engineering Challenge</h2>
+          <h3 class="challenge-title">{challenge.title}</h3>
+          {challenge.paragraphs.map((paragraph) => (
+            <p class="challenge-paragraph">{paragraph}</p>
           ))}
-        </ul>
-      </section>
+        </section>
+      )}
 
-      <!-- Result/Impact Section -->
+      <!-- Evidence Section -->
       <section class="case-study-section">
-        <h2>Result &amp; Impact</h2>
+        <h2>Evidence</h2>
 
         {/* Display metrics as a newspaper-style data box */}
         {impact.metrics && impact.metrics.length > 0 && (
@@ -263,7 +272,33 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
         )}
 
         <p class="impact-qualitative">{impact.qualitative}</p>
+
+        {(evidenceLinks && evidenceLinks.length > 0) && (
+          <div class="evidence-links">
+            <strong>Check it yourself</strong>
+            <ul class="ruled-list">
+              {evidenceLinks.map((link) => (
+                <li>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}<span aria-hidden="true"> ↗</span></a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {verifiedOn && <p class="evidence-verified">Figures last checked against the source on {verifiedOn}.</p>}
       </section>
+
+      <!-- Limitations Section -->
+      {limitations.length > 0 && (
+        <section class="case-study-section">
+          <h2>Limitations</h2>
+          <ul class="ruled-list limitations-list">
+            {limitations.map((limitation) => (
+              <li>{limitation}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <!-- Learnings Section -->
       <section class="case-study-section">
@@ -273,6 +308,16 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
             <li>{learning}</li>
           ))}
         </ol>
+      </section>
+
+      <!-- Tech Stack Section -->
+      <section class="case-study-section">
+        <h2>Tech Stack</h2>
+        <ul class="tech-stack-list">
+          {techStack.map((tech) => (
+            <li class="tag">{tech}</li>
+          ))}
+        </ul>
       </section>
 
       <!-- Additional MDX Content (if any) -->
@@ -470,6 +515,56 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
       color: var(--color-text);
     }
 
+    /* Engineering challenge: one headline, then short paragraphs */
+    .challenge-title {
+      margin: 0 0 0.75rem;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .case-study-section .challenge-paragraph + .challenge-paragraph {
+      margin-top: 1rem;
+    }
+
+    /* Evidence: verifiable sources under the metrics */
+    .evidence-links {
+      margin-top: 1.5rem;
+    }
+
+    .evidence-links strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .evidence-links .ruled-list > li {
+      padding: 0;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      overflow-wrap: anywhere;
+    }
+
+    /* Touch target of at least 44px tall without fixing line height */
+    .evidence-links a {
+      display: inline-block;
+      padding: 0.75rem 0;
+    }
+
+    .case-study-section .evidence-verified {
+      margin-top: 1rem;
+      font-family: var(--font-sans);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+    }
+
     /* Key decisions: each one under a rule, like a numbered sidebar */
     .decisions-list {
       list-style: none;
@@ -664,7 +759,8 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
         font-size: 1.1875rem;
       }
 
-      .decision-title {
+      .decision-title,
+      .challenge-title {
         font-size: 1.375rem;
       }
     }

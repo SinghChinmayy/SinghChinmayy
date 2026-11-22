@@ -84,11 +84,12 @@ impact:
     - label: Network Requests
       value: None in Stage 1 — no AI or sync
     - label: Test Files
-      value: 18 XCTest files in the repository
+      value: 18 XCTest files, but the test target does not compile at the current head
   qualitative: >-
-    Stage 1 is a dependable local Markdown journal: pick a folder, navigate its
-    files, write, preview, and rely on atomic autosave and outside-edit detection
-    not to lose text. It is a fork with unrelated features removed, so much of the
+    Stage 1 is a local Markdown journal that is built but not yet fully verified:
+    pick a folder, navigate its files, write, preview, with atomic autosave and
+    outside-edit detection designed to protect the text. The test target needs a
+    fix before the suite can run, and the manual smoke test is still open. It is a fork with unrelated features removed, so much of the
     editor pipeline comes from the upstream project and my work is the Stage 1
     scope, storage rules, and the journal-specific direction. AI prompt settings
     are designed in the repository but not implemented, and Git synchronization
@@ -105,6 +106,60 @@ learnings:
     disabled in the app, keeps a fork small enough to reason about
   - >-
     Writing down a definition of done for Stage 1 made it clear what to leave out
+challenge:
+  title: The autosave window where a journal can lose text
+  paragraphs:
+    - >-
+      Saving on every keystroke would be wasteful, so autosave waits 1.5 seconds
+      after the last edit before writing. That wait is exactly where a journal
+      can lose text: quit, close the window, or switch files inside it and the
+      last keystrokes are gone. The save code treats it as a data-loss surface.
+      A flush call cancels the pending timer and writes synchronously, and the
+      app calls it when the app terminates, the window closes, the note switches,
+      and on an explicit save. A write that fails stays marked as unsaved and is
+      retried by the next flush.
+    - >-
+      One subtle case is recorded in the code: if the timer fires at almost the
+      same instant as a flush, the note can be written twice. Because each write
+      is atomic and carries the same content, the cost is one extra write, so the
+      code accepts it rather than adding locking. A test file for the debounce
+      and flush behaviour pins these rules.
+    - >-
+      This save pipeline comes from the upstream MiaoYan editor that Nextpage
+      forks, and the test file cites an upstream fix. My contribution was
+      keeping it intact while trimming the fork, and writing the Stage 1 rule
+      that a divergent outside edit must never be silently overwritten. That
+      outside-edit flow still needs its manual smoke test.
+evidenceLinks:
+  - label: Debounce and flush logic in Note.swift
+    url: https://github.com/SinghChinmayy/ai-journal/blob/main/Business/Note.swift
+  - label: Debounce regression tests
+    url: https://github.com/SinghChinmayy/ai-journal/blob/main/NextpageTests/NoteSaveDebounceTests.swift
+  - label: Stage 1 scope and tech stack
+    url: https://github.com/SinghChinmayy/ai-journal/blob/main/docs/stage-1-tech-stack.md
+  - label: Changelog
+    url: https://github.com/SinghChinmayy/ai-journal/blob/main/CHANGELOG.md
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    The XCTest target does not compile at the current head: running
+    xcodebuild test on 2026-11-23 stopped with "type 'ClipboardManager' has no
+    member 'makeUploadPlaceholder'", because a test still references image upload
+    code that Stage 1 removed, so the suite cannot run until that is fixed
+  - >-
+    The Stage 1 manual smoke test of create, edit, preview, rename, delete,
+    relaunch, and outside-edit flows on a chosen folder is not recorded as done
+  - >-
+    It is a fork of MiaoYan's editor, so much of the editor and file pipeline is
+    upstream work and my contribution is the Stage 1 scope and storage rules
+  - >-
+    The repository history was reset on 2026-10-04, so earlier commits are not
+    available as evidence
+  - >-
+    No AI features and no Git synchronization exist yet; the AI prompt settings
+    are a design document only
+  - >-
+    macOS only, built from source, and shipped outside the Mac App Store
 featured: false
 status: ongoing
 order: 4

@@ -15,45 +15,61 @@ I’m a B.Tech Computer Science & AI student at Manipal Institute of Technology,
 
 ## Selected projects
 
-### [Car Dealership Inventory System](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System) · [live demo](https://car-dealership-inventory-umber.vercel.app)
+Each case study follows the same shape: the problem, how it was built, the hardest engineering challenge (only where the repository shows one), the evidence, and the limitations.
+
+### Car Dealership Inventory System
+
+[Case study](https://chinmaysingh.me/projects/car-dealership-inventory) · [source](https://github.com/SinghChinmayy/Kata-Car-Dealership-Inventory-System) · [live demo](https://car-dealership-inventory-umber.vercel.app)
 
 A full-stack inventory system built test-first with AI coding agents: a FastAPI and PostgreSQL API with atomic purchases (20 concurrent buyers, 5 cars, exactly 5 sales), soft delete, and audited restocks, plus a React SPA. Every merge passes four required CI checks, then CI migrates Neon before deploying to Vercel. A kata with a public demo, not a real dealership’s production system.
 
 `Python` `FastAPI` `PostgreSQL` `React` `TypeScript` `Playwright` `GitHub Actions`
 
-### [ChaosLab](https://github.com/SinghChinmayy/chaoslab-petclinic) · [dependency map](https://singhchinmayy.github.io/chaoslab-petclinic/)
+### ChaosLab
+
+[Case study](https://chinmaysingh.me/projects/chaoslab-petclinic) · [source](https://github.com/SinghChinmayy/chaoslab-petclinic) · [dependency map](https://singhchinmayy.github.io/chaoslab-petclinic/)
 
 Guarded chaos experiments for the Spring PetClinic microservices: it maps service dependencies, predicts the user impact of a failure, injects one bounded fault, and reverts it automatically. In one recorded run, crashing the Visits service left the gateway returning HTTP 200 with the owner’s visits missing; the watchdog reverted the fault after 9.3 seconds. A local prototype.
 
 `Python` `Spring Boot` `Docker Compose` `Prometheus` `Grafana` `Locust` `Zipkin`
 
-### [Kidney Care](https://github.com/SinghChinmayy/kidney-care-health-tracker)
+### Kidney Care
 
-An offline-first Flutter engineering prototype: every write lands in local SQLite first, then a sync engine reconciles it with Supabase/Postgres using last-write-wins and row-level security. This is a learning project, not a production medical system.
+[Case study](https://chinmaysingh.me/projects/kidney-care) · [source](https://github.com/SinghChinmayy/kidney-care-health-tracker)
+
+An offline-first Flutter engineering prototype: every write lands in local SQLite first, then a sync engine reconciles it with Supabase/Postgres using last-write-wins and row-level security. It is a learning project, not a production medical system, and its test suite currently has 5 known failures.
 
 `Flutter` `Dart` `Drift` `SQLite` `Supabase` `PostgreSQL`
 
-### [Muse](https://github.com/SinghChinmayy/Muse) · [website](https://muse.chinmaysingh.me)
+### Muse
+
+[Case study](https://chinmaysingh.me/projects/muse) · [source](https://github.com/SinghChinmayy/Muse) · [website](https://muse.chinmaysingh.me)
 
 A macOS menu bar app that makes the Magic Mouse surface work like a small trackpad: one finger moves the cursor, two fingers scroll, and an optional tap clicks. It reads raw touches through Apple’s private MultitouchSupport framework and filters scroll and pointer events in a CGEventTap, inferring which device sent them from touch timing. Built test-first: 79 unit tests and 100% line coverage of the core logic. Open source; a macOS update could break the private framework it relies on.
 
 `Swift` `AppKit` `SwiftUI` `Core Graphics` `Swift Testing`
 
-### [Nextpage](https://github.com/SinghChinmayy/ai-journal)
+### Nextpage
 
-A local-first Markdown journal for macOS that keeps every note as a plain `.md` file in a folder you choose, with atomic autosave and conflict detection when files change outside the app. Stage 1 makes no AI or sync requests; both are planned.
+[Case study](https://chinmaysingh.me/projects/nextpage-journal) · [source](https://github.com/SinghChinmayy/ai-journal)
+
+A local-first Markdown journal for macOS that keeps every note as a plain `.md` file in a folder you choose, with atomic autosave and conflict detection when files change outside the app. Stage 1 makes no AI or sync requests; both are planned. It is a fork of an open source editor, and its test target currently fails to compile.
 
 `Swift` `macOS` `Markdown`
 
-### [Aegis — Controlled Remediation Platform](https://github.com/SinghChinmayy/Aegis-Observability-Controlled-Remediation-Platform)
+### OpsLens
 
-A Go platform I’m designing for detecting service failures, proposing safe remediation, requiring human approval, and verifying recovery. It’s at the design stage: the architecture and the first backend slice are planned, and implementation is next.
+[Case study](https://chinmaysingh.me/projects/opslens) · [source](https://github.com/SinghChinmayy/OpsLens)
+
+An AI infrastructure investigator I’m designing, formerly named Aegis: a Go agent harness that explains why a service is failing or slow from cited evidence, using bounded, read-only diagnostics, with its own built-in evaluator. It’s at the design stage: the repository has a product direction and a plan, and no application code yet.
 
 `Go` `REST` `PostgreSQL` `Prometheus` `OpenTelemetry`
 
 ### NLP Search Engine
 
-A search engine built from scratch in Python to learn how retrieval works: four isolated stages (loader, normaliser, tokenizer, index manager) producing an inverted index with keyword lookup. Stage 1 only, with no ranking or semantic search yet. The code is private for now; the [write-up](https://chinmaysingh.me/blogs/search-engine-stage-1) walks through the design.
+[Case study](https://chinmaysingh.me/projects/nlp-search-engine) · [write-up](https://chinmaysingh.me/blogs/search-engine-stage-1)
+
+A search engine built from scratch in Python to learn how retrieval works: four isolated stages (loader, normaliser, tokenizer, index manager) producing an inverted index with keyword lookup. Stage 1 only, with no ranking or semantic search yet. The code is private for now, so the write-up is the public evidence.
 
 `Python` `Regex` `Unicode (NFKC)`
 

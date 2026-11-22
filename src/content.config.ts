@@ -19,7 +19,8 @@ import { glob } from 'astro/loaders';
  * Projects (Case Studies) Collection
  * 
  * Structured case studies following a narrative format: Overview → Problem → 
- * Constraints → Approach → Key Decisions → Tech Stack → Impact → Learnings.
+ * Constraints → Implementation → Key Decisions → Engineering Challenge → Evidence →
+ * Limitations → Learnings → Tech Stack.
  * 
  * Features:
  * - Required narrative sections for consistent storytelling
@@ -82,6 +83,30 @@ const projectsCollection = defineCollection({
       /** Qualitative impact description */
       qualitative: z.string(),
     }),
+
+    /**
+     * The hardest engineering problem in the project, told only from evidence in
+     * the repository (commits, tests, docs). Leave it out when there is no honest
+     * story to tell, for example in design-stage projects.
+     */
+    challenge: z.object({
+      /** Short headline for the problem */
+      title: z.string(),
+      /** One to three short paragraphs: what went wrong or was hard, and what changed */
+      paragraphs: z.array(z.string()).min(1),
+    }).optional(),
+
+    /** Verifiable sources behind the evidence section (commits, CI runs, reports) */
+    evidenceLinks: z.array(z.object({
+      label: z.string(),
+      url: z.string(),
+    })).optional(),
+
+    /** When the evidence figures were last checked against the source (free text, e.g. "2026-11-23") */
+    verifiedOn: z.string().optional(),
+
+    /** What is not built, not validated, or not true yet */
+    limitations: z.array(z.string()).default([]),
 
     /** Key learnings and takeaways */
     learnings: z.array(z.string()),

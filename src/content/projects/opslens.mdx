@@ -1,0 +1,190 @@
+---
+title: OpsLens
+role: Solo Developer
+year: 2026
+duration: Ongoing
+teamSize: 1
+outcomeSummary: >-
+  Designing an AI infrastructure investigator: a tool-using agent harness that
+  explains why a service is failing or slow from cited evidence, using only
+  bounded, read-only diagnostics. It is at the design stage: the repository has a
+  product direction and a plan, and no application code yet. Formerly Aegis.
+overview: >-
+  OpsLens is a design for diagnosing failures in small service environments.
+  Given a service and a time window, it should gather evidence from metrics,
+  logs, traces, deployments, and dependencies, let a model propose hypotheses and
+  read-only diagnostic steps, and produce a report that separates observations,
+  hypotheses, conflicting evidence, and unknowns, with every claim citing an
+  evidence ID. The harness, not the model, owns scope, permissions, budgets, and
+  the audit trail. The backend is planned in Go with REST, PostgreSQL, and a
+  worker for investigations. The project started as Aegis, a remediation-first
+  platform, and was redirected to diagnosis first on 2026-11-23.
+problem: >-
+  Operating even a small set of services means piecing together dashboards, logs,
+  and traces to answer what changed, what is affected, and what to check next. A
+  tool that guesses a cause from timing, or declares a fix without checking, can
+  make an incident worse. The design question is how an AI can speed up diagnosis
+  while staying inspectable: every claim traceable to evidence, missing telemetry
+  treated as unknown rather than healthy, and no ability to change the system it
+  is investigating.
+constraints:
+  - >-
+    Design stage only: no application, telemetry integration, AI investigator, or recovery executor has been implemented
+  - >-
+    The first release makes no infrastructure changes and uses read-only diagnostics only
+  - >-
+    Logs, traces, labels, retrieved documents, and model output are untrusted, so the model never grants its own permissions
+  - >-
+    Raw telemetry stays in the monitoring systems; OpsLens stores references and bounded evidence snapshots
+  - >-
+    One local Docker Compose environment and one model provider at first, with the telemetry product, UI framework, and exact model still undecided
+  - >-
+    Solo project, with remediation deliberately deferred until diagnosis is useful and measured
+approach: >-
+  The plan is an investigation lifecycle built around an agent harness. A request
+  selects a service, a question, and a time window and returns a stable ID. A
+  Go worker runs the investigation with tool, time, and token budgets, loading
+  evidence through narrow adapters. A policy gateway validates every tool request
+  against scope, arguments, result size, query duration, and budget before
+  anything executes, with no shell, arbitrary URL, or database access. The first
+  vertical slice uses a recorded evidence bundle and a deterministic baseline
+  that produces a cited report with unknowns, before one live telemetry adapter
+  and then a bounded model loop are added. Evaluation is built into the same
+  repository so quality can be measured instead of assumed.
+keyDecisions:
+  - decision: Diagnosis first, remediation later
+    reasoning: >-
+      The project began as a remediation platform. Useful diagnosis has to exist
+      before any automated change is trustworthy, so the first release has no
+      infrastructure mutation. Human-approved remediation and narrow automatic
+      recovery follow only once diagnosis and execution safety have been
+      demonstrated.
+    alternatives:
+      - Remediation-first, as in the original Aegis plan
+      - Fully automatic healing from the start
+  - decision: The model proposes, the harness decides
+    reasoning: >-
+      The model suggests hypotheses and diagnostic steps, but the harness
+      validates tool requests, enforces permissions and budgets, executes only
+      approved read-only queries, and records evidence. Reports must cite evidence
+      IDs, and confirmation needs an explicit supporting check, not model
+      confidence.
+    alternatives:
+      - Give the model direct access to shell or query tools
+      - Free-text reports with no evidence references
+  - decision: Missing data is unknown, not healthy
+    reasoning: >-
+      Stale or absent telemetry should be visible in the report and should never
+      be read as a clean bill of health, which is also why abstaining is treated
+      as a valid outcome.
+    alternatives:
+      - Treat missing signals as no problem
+  - decision: Build the evaluator inside OpsLens
+    reasoning: >-
+      The evaluator, fixtures, scenario catalogue, and replay runner live in the
+      same repository, kept separate from investigator logic so expected answers
+      never enter model context. It will compare a deterministic runbook selector
+      with the AI on identical evidence. ChaosLab remains a separate project, with
+      no planned integration or dependency.
+    alternatives:
+      - Depend on a separate chaos tool for scenarios
+      - Judge quality by eye on a few demos
+  - decision: Build the backend slice before any UI
+    reasoning: >-
+      The safety rules and API contract should hold without a presentation
+      layer, so a later UI can stay API-facing while the backend owns them.
+    alternatives:
+      - Start with a dashboard and add the backend later
+techStack:
+  - Go
+  - REST / JSON
+  - PostgreSQL
+  - Chi
+  - pgx
+  - Prometheus
+  - OpenTelemetry
+  - Docker Compose
+impact:
+  metrics:
+    - label: Implementation
+      value: No application code or tests yet
+    - label: Milestones planned
+      value: 6, from a persisted replay report to policy-authorized recovery
+    - label: First release
+      value: Read-only diagnostics, no infrastructure changes
+    - label: Evaluation plan
+      value: About 30 labelled cases, to be adjusted to time and cost
+  qualitative: >-
+    So far the work is a direction and a plan that I can defend: what the system
+    should and should not do, where the trust boundaries sit, and how it will be
+    measured. Nothing here has been built or measured, and the example scenarios
+    in the documents are intended results, not outcomes. The value today is in
+    making the boundaries concrete before writing the code.
+evidenceLinks:
+  - label: Product direction, architecture, and milestones
+    url: https://github.com/SinghChinmayy/OpsLens/blob/main/Docs/product-direction.md
+  - label: Repository README
+    url: https://github.com/SinghChinmayy/OpsLens/blob/main/Readme.md
+  - label: Historical API study guide from the Aegis stage
+    url: https://github.com/SinghChinmayy/OpsLens/blob/main/Docs/learnings/api-guide.md
+  - label: Historical week-one exercise
+    url: https://github.com/SinghChinmayy/OpsLens/blob/main/Docs/logs/week1.md
+verifiedOn: '2026-11-23'
+limitations:
+  - >-
+    Design stage only: the repository holds the product direction, a plan, and
+    historical learning notes, with no Go code, tests, or running service
+  - >-
+    The AI investigator, telemetry adapters, evaluator, and every demo scenario
+    are planned; none has produced a result
+  - >-
+    The Go, Chi, pgx, and worker choices are intended, while the telemetry
+    product, UI framework, model, authentication, and sandbox boundary are
+    undecided
+  - >-
+    The planned demo, a Visits failure that returns HTTP 200 with missing data,
+    is a target to diagnose, and it does not mean a recovery executor will exist
+  - >-
+    Zero unsafe actions in a future evaluation would describe those scenarios
+    only, not a guarantee for any other environment
+  - >-
+    The older Aegis documents are kept as learning material, and the new
+    direction replaces their remediation-first order
+learnings:
+  - >-
+    Changing the order of work is a design decision: putting diagnosis before
+    remediation changed what the first release must prove
+  - >-
+    An AI component is easier to trust when the harness, not the model, owns
+    permissions, budgets, and evidence
+  - >-
+    Treating missing telemetry as unknown, and abstention as a valid answer,
+    needs to be designed in from the start
+  - >-
+    Writing down how it will be evaluated before building it keeps the claims
+    honest
+featured: true
+status: ongoing
+order: 1
+repo: https://github.com/SinghChinmayy/OpsLens
+relatedProjects: []
+---
+
+OpsLens was called Aegis until 2026-11-23, when the GitHub repository was
+renamed. The old `/projects/aegis-observability-remediation` address redirects
+to this page.
+
+## Intended flow
+
+The repository describes the investigation experience it is aiming for:
+
+1. Select a service and a time window, or ask a question about an alert.
+2. Inspect recent changes and symptoms.
+3. Follow a timeline as the AI requests bounded, read-only diagnostics.
+4. Read a report that separates observations, hypotheses, conflicting evidence,
+   and unknowns.
+5. Open the cited evidence and choose the next diagnostic or suggested runbook.
+6. Save and replay investigations to evaluate their quality.
+
+This is a design, not an implemented result. I will add an engineering-challenge
+section once there is a real one to report.
